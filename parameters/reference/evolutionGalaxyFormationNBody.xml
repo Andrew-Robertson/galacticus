@@ -32,13 +32,13 @@
   <componentPosition          value="cartesian" active="[mergerTreeConstructor] == read" />
   <componentSatellite         value="preset"   />
   <componentSpheroid          value="standard" >
-    <ratioAngularMomentumScaleRadius value="0.5"   />
+    <ratioAngularMomentumScaleRadius value="0.2"   />
     <efficiencyEnergeticOutflow      value="1.0e-2"/>
     <massDistributionSpheroid value="hernquist">
       <dimensionless value="true"/>
     </massDistributionSpheroid>
   </componentSpheroid>
-  <componentSpin              value="vector" />
+  <componentSpin              value="scalar" />
   
   <!-- Intergalactic background radiation -->
   <radiationFieldIntergalacticBackground value="summation">
@@ -167,6 +167,7 @@
     <!-- DMO evolution -->
     <nodeOperator value="DMOInterpolate"/>
     <!-- Halo concentrations -->
+    <nodeOperator value="darkMatterProfileScaleSet"/>
     <nodeOperator value="darkMatterProfileScaleInterpolate"/>
     <!-- Interpolate halo spins  -->
     <nodeOperator value="haloAngularMomentumRandom">
@@ -201,16 +202,19 @@
 	<stabilityThresholdGaseous value="0.7"/>
 	<stabilityThresholdStellar value="1.1"/>
 	<timescaleMinimum          value="1.0e-3"/>
+  <fractionAngularMomentumRetainedSpheroid value="0.2"/>
+  <fractionAngularMomentumRetainedDisk value="0.8"/>
       </galacticDynamicsBarInstability>
     </nodeOperator>
     <nodeOperator value="nodeFormationTimeMassFraction">
       <fractionMassFormation value="0.5"/>
     </nodeOperator>
     <!-- Position interpolation -->
+    <!-- Required if producing output on a Lightcone
     <nodeOperator value="positionInterpolated" active="[componentPosition] == cartesian">
-      <wrapPeriodic value="false"/>	<!-- Do not wrap interpolated positions back into the box - this is not needed as we replicate the box. -->
+      <wrapPeriodic value="false"/>	
       <lengthBox    value="=[geometryLightcone::lengthReplication]*(([cosmologyParameters::HubbleConstant]/100.0)^[geometryLightcone::lengthHubbleExponent])*([geometryLightcone::lengthUnitsInSI]/3.08567758e+22)"/>
-    </nodeOperator>
+    </nodeOperator> -->
     <!-- Heuristic analysis -->
     <nodeOperator value="assemblyHistoryHeuristics" active="[mergerTreeConstructor] == read">
       <exponentGrowth value="100.0"/>
