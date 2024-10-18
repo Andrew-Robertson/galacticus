@@ -14,6 +14,11 @@
   <xi:include href="../../parameters/reference/darkMatterHalosStructureNBody.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="../../parameters/reference/evolutionGalaxyFormationNBody.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
+  <!-- Satellite Orbits -->
+  <virialOrbit value="isotropic">
+    <virialOrbit value="benson2005"/>
+  </virialOrbit>
+  
   <!-- Set verbosity to standard level. -->
   <verbosityLevel value="standard"/>
 
