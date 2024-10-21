@@ -99,6 +99,9 @@
     <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> <!-- z~0 stellar mass function -->
   </outputAnalysis>
 
+  <!-- Save spin -->
+  <nodePropertyExtractor value="spin"/>
+  
   <!-- Output file -->
   <outputFileName value="romanUNIT.hdf5"/>
 
