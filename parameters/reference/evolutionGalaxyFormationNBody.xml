@@ -170,9 +170,8 @@
     <nodeOperator value="darkMatterProfileScaleSet"/>
     <nodeOperator value="darkMatterProfileScaleInterpolate"/>
     <!-- Interpolate halo spins  -->
-    <nodeOperator value="haloAngularMomentumVitvitska2002">
-      <exponentMass                    value="1.92527794238468"/>
-      <angularMomentumVarianceSpecific value="0.00100000000000"/>
+    <nodeOperator value="haloAngularMomentumRandom">  
+      <factorReset value="2.0"/>
     </nodeOperator>
     <nodeOperator value="haloAngularMomentumInterpolate"/>
     <!-- Star formation -->
