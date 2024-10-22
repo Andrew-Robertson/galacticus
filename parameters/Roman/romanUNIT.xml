@@ -87,7 +87,7 @@
     <mergerTreeOutputter value="standard"/>
   </mergerTreeOutputter>
 
-  <!-- Comparison with obseervational data  -->
+  <!-- Comparison with observational data  -->
   <gravitationalLensing value="null"/> 
   <outputAnalysis value="multi">
     <outputAnalysis value="massFunctionStellarZFOURGE">
@@ -97,6 +97,9 @@
       <redshiftInterval value="4"/> <!-- 6: z=2.0-2.5 -->
     </outputAnalysis>
     <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> <!-- z~0 stellar mass function -->
+    <outputAnalysis value="luminosityFunctionSobral2013HiZELS">
+      <redshiftInterval value="4"/> <!-- 4: z=2.23 -->
+    </outputAnalysis>
   </outputAnalysis>
 
   <!-- Save spin -->
