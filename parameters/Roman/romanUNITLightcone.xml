@@ -83,6 +83,12 @@
     <bufferIsolatedHalos value="true"/>
   </mergerTreeOperator>
 
+  <starFormationHistory value="fixedAges">
+    <ageMinimum value="0.001"/>
+    <countAges value="10"/>
+    <countMetallicities value="5"/>
+  </starFormationHistory>
+
   <!-- Specify output properties -->
   <nodePropertyExtractor value="multi">
     <nodePropertyExtractor value="nodeIndices"/>
