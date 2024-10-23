@@ -58,8 +58,7 @@
     <scaleRadiiFailureIsFatal             value="false"    />
     <!-- Preset the halo positions/velocities. -->
     <presetPositions                      value="true"     />
-    <!-- When to merge orphan galaxies -->
-    <satelliteMergingTimescalesSubresolution value="boylanKolchin2008"/>
+
     <!-- Scale radii need to be defined before setting orbital params from the N-body data -->
     <nodeOperatorTreeInitializor value="darkMatterProfileScaleSet"/>
   </mergerTreeConstructor>
