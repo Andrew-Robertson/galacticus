@@ -72,9 +72,9 @@
     <timeEvolvesAlongLightcone value="true"                                           />
     <angularSize               value="4.0"                                            />
     <origin                    value=" 0.0             0.0             0.0"           />
-    <unitVector1               value="+0.666666666667 +0.333333333333 +0.666666666667"/>
-    <unitVector2               value="+0.000000000000 +0.894427191000 -0.447213595500"/>
-    <unitVector3               value="-0.745355992500 +0.298142397000 +0.596284794000"/>
+    <unitVector1               value="0.95346259 0.28603878 0.09534626"/>
+    <unitVector2               value="0.          0.31622777 -0.9486833"/>
+    <unitVector3               value="-0.30151134  0.90453403  0.30151134"/>
   </geometryLightcone>
 
   <!-- Prune trees which lie outside the lightcone -->
