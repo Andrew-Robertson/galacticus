@@ -32,7 +32,7 @@
   <componentPosition          value="cartesian" active="[mergerTreeConstructor] == read" />
   <componentSatellite         value="preset"   />
   <componentSpheroid          value="standard" >
-    <ratioAngularMomentumScaleRadius value="0.2"   />
+    <ratioAngularMomentumScaleRadius value="0.5"   />
     <efficiencyEnergeticOutflow      value="1.0e-2"/>
     <massDistributionSpheroid value="hernquist">
       <dimensionless value="true"/>
