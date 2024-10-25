@@ -11,8 +11,8 @@
   <xi:include href="../../parameters/reference/powerSpectrumUNIT.xml"       xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="../../parameters/reference/structureFormation.xml"            xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="../../parameters/reference/darkMatterHalosProfile.xml"        xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="../../parameters/reference/darkMatterHalosStructureNBody.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="../../parameters/reference/evolutionGalaxyFormationNBody.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="../../parameters/reference/darkMatterHalosStructure.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="../../parameters/reference/evolutionGalaxyFormation.xml" xpointer="xpointer(parameters/*)" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
   <!-- Satellite Orbits -->
   <virialOrbit value="isotropic">
@@ -27,46 +27,24 @@
     <!-- Evolve merger tree forests. -->
   </task>
 
-  <!-- Merger tree options -->
-  <mergerTreeConstructor value="read">
-    <!-- Specify the merger tree files to read. -->
-    <!-- <fileNames                            value="/carnegie/nobackup/users/abenson/MPAHalo/subvolume0.hdf5"/> -->
-    <fileNames                            value="/carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d1.hdf5"/>
-    <!-- Consistency checks and validation. -->
-    <outputTimeSnapTolerance              value="0.001"    />
-    <missingHostsAreFatal                 value="true     "/>
-    <!-- Specify tree structure options. -->
-    <allowSubhaloPromotions               value="true"     />
-    <allowBranchJumps                     value="true"     />
-    <!-- Ensure that the most massive progenitor is always the one to be promoted, even if it is a subhalo. -->
-    <alwaysPromoteMostMassive             value="true"     />
-    <!-- Preset the indices of subhalos to match those in the merger tree file. -->
-    <presetSubhaloIndices                 value="true"     />
-    <!-- Use merger tree node positions to compute orbits at the virial radius. -->
-    <presetMergerTimes                    value="true"     />
-    <presetMergerNodes                    value="true"     />
-    <presetOrbits                         value="true"     />
-    <presetOrbitsSetAll                   value="true"     />
-    <presetOrbitsAssertAllSet             value="true"     />
-    <presetOrbitsBoundOnly                value="true"     />
-    <!-- Preset structural properties of the halos. -->
-    <presetSubhaloMasses                  value="true"     />
-    <presetScaleRadii                     value="false"     />
-    <presetScaleRadiiConcentrationMinimum value=" 3"       />
-    <presetScaleRadiiConcentrationMaximum value="60"       />
-    <presetAngularMomenta                 value="false"    />
-    <scaleRadiiFailureIsFatal             value="false"    />
-    <!-- Preset the halo positions/velocities. -->
-    <presetPositions                      value="true"     />
-    <!-- When to merge orphan galaxies -->
-    <satelliteMergingTimescalesSubresolution value="boylanKolchin2008"/>
-    <!-- Scale radii need to be defined before setting orbital params from the N-body data -->
-    <nodeOperatorTreeInitializor value="darkMatterProfileScaleSet"/>
-  </mergerTreeConstructor>
-
-  <mergerTreeOperator value="scaleWeight">
-  <scaleFactor value="10000.0"/> <!-- because UNIT was split across 1e4 mergerTree files -->
-  </mergerTreeOperator>
+  <!-- Merger tree building options -->
+  <mergerTreeConstructor value="build"/>
+  <mergerTreeBuilder value="cole2000">
+    <accretionLimit value="0.1"/>
+    <mergeProbability value="0.1"/>
+   </mergerTreeBuilder>
+  <mergerTreeBranchingProbability value="parkinsonColeHelly">
+    <G0 value="+0.57"/>
+    <gamma1 value="+0.38"/>
+    <gamma2 value="-0.01"/>
+    <accuracyFirstOrder value="+0.10"/>
+  </mergerTreeBranchingProbability>
+  <mergerTreeBuildMassDistribution value="powerLaw"/>
+  <mergerTreeBuildMasses value="sampledDistributionUniform">
+    <massTreeMinimum value="1.0e10"/> 
+    <massTreeMaximum value="1.0e13"/> <!-- 1.0e13 -->
+    <treesPerDecade value="10"/> <!-- 200 -->
+  </mergerTreeBuildMasses>
 
   <!-- Output epochs -->
   <outputTimes value="list">
@@ -108,6 +86,6 @@
   <nodePropertyExtractor value="spin"/>
   
   <!-- Output file -->
-  <outputFileName value="romanUNIT.hdf5"/>
+  <outputFileName value="romanEPS.hdf5"/>
 
 </parameters>
