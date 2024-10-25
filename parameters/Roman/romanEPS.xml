@@ -75,11 +75,6 @@
       <redshiftInterval value="4"/> <!-- 6: z=2.0-2.5 -->
     </outputAnalysis>
     <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> <!-- z~0 stellar mass function -->
-    <outputAnalysis value="massFunctionStellarBaldry2012GAMA"/> <!-- z~0 stellar mass function -->
-    <outputAnalysis value="luminosityFunctionStefanonMarchesini2013">
-      <band value="J"/>
-      <redshiftInterval value="1"/>
-    </outputAnalysis>
   </outputAnalysis>
 
   <!-- Save spin -->
