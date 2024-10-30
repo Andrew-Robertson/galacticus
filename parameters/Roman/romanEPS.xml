@@ -39,12 +39,17 @@
     <gamma2 value="-0.01"/>
     <accuracyFirstOrder value="+0.10"/>
   </mergerTreeBranchingProbability>
-  <mergerTreeBuildMassDistribution value="powerLaw"/>
+  <mergerTreeBuildMassDistribution value="haloMassFunction"/>
   <mergerTreeBuildMasses value="sampledDistributionUniform">
-    <massTreeMinimum value="1.0e10"/> 
-    <massTreeMaximum value="1.0e13"/> <!-- 1.0e13 -->
-    <treesPerDecade value="10"/> <!-- 200 -->
+    <massTreeMinimum value="2.0e10"/> 
+    <massTreeMaximum value="1.0e15"/> <!-- 1.0e13 -->
+    <treesPerDecade value="3000"/> <!-- 200 -->
   </mergerTreeBuildMasses>
+  <mergerTreeMassResolution value="scaled">
+    <massResolutionMinimum value="2.0e10"/> <!-- approximate resolution of UNIT halos (1e9 Msun/h particles) -->
+    <massResolutionFractional value="0.001"/> <!-- set resolution to 1/1000th of final halo mass -->
+  </mergerTreeMassResolution>
+
 
   <!-- Output epochs -->
   <outputTimes value="list">
