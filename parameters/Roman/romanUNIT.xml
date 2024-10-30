@@ -100,7 +100,10 @@
   </outputAnalysis>
 
   <!-- Save spin -->
+  <nodePropertyExtractor value="multi">
   <nodePropertyExtractor value="spin"/>
+    <nodePropertyExtractor value="nodeIndices"/>
+  </nodePropertyExtractor>
   
   <!-- Output file -->
   <outputFileName value="romanUNIT.hdf5"/>
