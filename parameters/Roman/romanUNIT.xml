@@ -73,13 +73,26 @@
    <!-- This is the full range of snapshot redshifts in the UNIT simulations -->
     <!-- <redshifts value="13.265335 12.966481 12.661202 12.351135 12.054830 11.771392 11.500000 11.224939 10.961723 10.695906 10.441648 10.185682 9.940919 9.706638 9.471204 9.235415 9.010010 8.794319 8.578544 8.372071 8.165903 7.960574 7.764242 7.576329 7.389262 7.203445 7.025682 6.849294 6.674597 6.507507 6.342144 6.183908 6.022472 5.872852 5.720430 5.574622 5.430868 5.289308 5.150062 5.016847 4.882353 4.753740 4.627462 4.506608 4.385030 4.265930 4.151983 4.037783 3.928536 3.819277 3.714757 3.610419 3.510600 3.411116 3.314064 3.221190 3.127115 3.037142 2.949447 2.862495 2.777862 2.695492 2.614023 2.534818 2.457815 2.381806 2.307972 2.235199 2.164557 2.095017 2.027551 1.961208 1.896033 1.832861 1.770851 1.710027 1.650411 1.592689 1.535497 1.480159 1.425418 1.372479 1.320724 1.269632 1.219756 1.171553 1.123593 1.077275 1.031694 0.987281 0.943635 0.901141 0.859427 0.818843 0.778726 0.740038 0.701838 0.664447 0.628134 0.592357 0.557390 0.523229 0.489869 0.457301 0.425314 0.394117 0.363698 0.333689 0.304461 0.275998 0.247972 0.220703 0.193887 0.167679 0.142204 0.117194 0.092657 0.068719 0.045260 0.022390 0.000000"/> -->
     <!-- A single output time for testing -->
-    <redshifts value="2.5 2.0 0.4 0.0"/>
+    <redshifts value="2.5 2.0 0.4 0.1 0.0"/>
   </outputTimes>
 
     <!-- Photometric output -->
-  <luminosityFilter value="SDSS_u SDSS_r SDSS_i SuprimeCam_B"/>
-  <luminosityType value="observed observed observed observed"/>
-  <luminosityRedshift value="all all all all"/>
+  <luminosityFilter value="SDSS_u SDSS_u SDSS_r SDSS_r SDSS_z SDSS_z SDSS_i SuprimeCam_B 2MASS_J 2MASS_J"/>
+  <luminosityType value="observed observed observed observed observed observed observed observed rest rest"/>
+  <luminosityRedshift value="all all all all all all all all all all"/>
+  <luminosityPostprocessSet value="default recent default recent default recent default default default recent"/>
+
+  <stellarPopulationSpectraPostprocessorBuilder value="lookup">
+    <names value="default recent"/>
+    <stellarPopulationSpectraPostprocessor value="identity"/>
+    <stellarPopulationSpectraPostprocessor value="sequence">
+      <!-- Spectra postprocessing chain to compute light from recently formed populations -->
+      <stellarPopulationSpectraPostprocessor value="identity"/>
+      <stellarPopulationSpectraPostprocessor value="recent">
+  	    <timeLimit value="1.0e-2"/> <!-- t_{BC} of Charlot & Fall (2000; ApJ, 539, 718)-->
+      </stellarPopulationSpectraPostprocessor>
+    </stellarPopulationSpectraPostprocessor>
+  </stellarPopulationSpectraPostprocessorBuilder>
 
   <!-- Analyses -->
   <mergerTreeOutputter value="multi">
@@ -97,14 +110,32 @@
       <redshiftInterval value="4"/> <!-- 6: z=2.0-2.5 -->
     </outputAnalysis>
     <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> <!-- z~0 stellar mass function -->
+    <outputAnalysis value="massFunctionStellarBaldry2012GAMA"/> <!-- z~0 stellar mass function -->
+    <!-- <outputAnalysis value="luminosityFunctionSobral2013HiZELS">
+      <redshiftInterval value="1"/>
+    </outputAnalysis> -->
+
+    <outputAnalysis value="luminosityFunctionMonteroDorta2009SDSS">
+      <band value="z"/>
+    </outputAnalysis>
+    <outputAnalysis value="luminosityFunctionMonteroDorta2009SDSS">
+      <band value="r"/>
+    </outputAnalysis>
+    <outputAnalysis value="luminosityFunctionMonteroDorta2009SDSS">
+      <band value="u"/>
+    </outputAnalysis>
+    <!-- <outputAnalysis value="luminosityFunctionStefanonMarchesini2013">
+      <band value="J"/>
+      <redshiftInterval value="1"/>
+    </outputAnalysis> --> 
   </outputAnalysis>
 
   <!-- Save spin -->
   <nodePropertyExtractor value="multi">
-  <nodePropertyExtractor value="spin"/>
+    <nodePropertyExtractor value="spin"/>
     <nodePropertyExtractor value="nodeIndices"/>
   </nodePropertyExtractor>
-  
+
   <!-- Output file -->
   <outputFileName value="romanUNIT.hdf5"/>
 
