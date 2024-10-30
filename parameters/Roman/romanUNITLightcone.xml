@@ -100,6 +100,49 @@
       <includeObservedRedshift value="true"/>
     </nodePropertyExtractor>
     <nodePropertyExtractor value="spin"/>
+    <!-- SEDs -->
+    <nodePropertyExtractor value="SED">
+      <component value="disk"/>
+      <stellarPopulationSpectraPostprocessor value="identity" />
+      <wavelengthMinimum value="1000.0"/>
+      <wavelengthMaximum value="20000.0"/>
+      <resolution value="20.0"/>
+    </nodePropertyExtractor>
+    <nodePropertyExtractor value="SED">
+      <component value="spheroid"/>
+      <stellarPopulationSpectraPostprocessor value="identity" />
+      <wavelengthMinimum value="1000.0"/>
+      <wavelengthMaximum value="20000.0"/>
+      <resolution value="20.0"/>
+    </nodePropertyExtractor>
+    <nodePropertyExtractor value="SED">
+      <component value="disk"/>
+      <toleranceRelative value="1.0e-2"/>
+      <stellarPopulationSpectraPostprocessor value="birthCloudsLacey2016">
+	      <timescale value="1.0e-3"/>
+      </stellarPopulationSpectraPostprocessor>
+      <wavelengthMinimum value="1000.0"/>
+      <wavelengthMaximum value="20000.0"/>
+      <resolution value="20.0"/>
+    </nodePropertyExtractor>
+    <nodePropertyExtractor value="SED">
+      <component value="spheroid"/>
+      <toleranceRelative value="1.0e-2"/>
+      <stellarPopulationSpectraPostprocessor value="birthCloudsLacey2016">
+	      <timescale value="1.0e-3"/>
+      </stellarPopulationSpectraPostprocessor>
+      <wavelengthMinimum value="1000.0"/>
+      <wavelengthMaximum value="20000.0"/>
+      <resolution value="20.0"/>
+    </nodePropertyExtractor>
+    <!-- SFHs -->
+    <nodePropertyExtractor value="starFormationHistory">
+      <component value="disk"/>
+    </nodePropertyExtractor>
+    <nodePropertyExtractor value="starFormationHistory">
+      <component value="spheroid"/>
+    </nodePropertyExtractor>
+    <nodePropertyExtractor value="time"/>
   </nodePropertyExtractor>
 
   <!-- Output epochs -->
