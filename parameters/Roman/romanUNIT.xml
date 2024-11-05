@@ -109,12 +109,12 @@
     <outputAnalysis value="massFunctionStellarULTRAVISTA">
       <redshiftInterval value="4"/> <!-- 6: z=2.0-2.5 -->
     </outputAnalysis>
-    <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> <!-- z~0 stellar mass function -->
+    <!-- <outputAnalysis value="massFunctionStellarBernardi2013SDSS"/> --> <!-- z~0 stellar mass function -->
     <outputAnalysis value="massFunctionStellarBaldry2012GAMA"/> <!-- z~0 stellar mass function -->
+    <outputAnalysis value="massFunctionStellarSDSS"/>
     <!-- <outputAnalysis value="luminosityFunctionSobral2013HiZELS">
       <redshiftInterval value="1"/>
     </outputAnalysis> -->
-
     <outputAnalysis value="luminosityFunctionMonteroDorta2009SDSS">
       <band value="z"/>
     </outputAnalysis>
@@ -123,7 +123,7 @@
     </outputAnalysis>
     <outputAnalysis value="luminosityFunctionMonteroDorta2009SDSS">
       <band value="u"/>
-    </outputAnalysis>
+    </outputAnalysis> 
     <!-- <outputAnalysis value="luminosityFunctionStefanonMarchesini2013">
       <band value="J"/>
       <redshiftInterval value="1"/>
@@ -135,6 +135,7 @@
     <nodePropertyExtractor value="spin"/>
     <nodePropertyExtractor value="nodeIndices"/>
   </nodePropertyExtractor>
+
 
   <!-- Output file -->
   <outputFileName value="romanUNIT.hdf5"/>
