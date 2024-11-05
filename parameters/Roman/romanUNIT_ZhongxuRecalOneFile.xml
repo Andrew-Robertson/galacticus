@@ -244,12 +244,15 @@
       <luminositiesStellarInactive value="false" />
     </nodeOperator>
     <nodeOperator value="stellarFeedbackDisks">
-      <stellarFeedbackOutflows value="rateLimit">
-        <stellarFeedbackOutflows value="powerLaw">
-          <exponent value="2.0" />
-          <velocityCharacteristic value="250.0" />
-        </stellarFeedbackOutflows>
-        <timescaleOutflowFractionalMinimum value="0.001" />
+      <stellarFeedbackOutflows value="massLoadingLimit">
+        <factorMassLoadingMaximum value="797.0765"/>
+	      <stellarFeedbackOutflows value="rateLimit">
+          <timescaleOutflowFractionalMinimum value="0.01"/>
+          <stellarFeedbackOutflows value="powerLaw">
+            <velocityCharacteristic value="11.13088"/>
+            <exponent               value="2.0395"/>
+          </stellarFeedbackOutflows>
+	      </stellarFeedbackOutflows>
       </stellarFeedbackOutflows>
     </nodeOperator>
     <nodeOperator value="stellarFeedbackSpheroids">
