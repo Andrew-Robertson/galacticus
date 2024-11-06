@@ -256,12 +256,15 @@
       </stellarFeedbackOutflows>
     </nodeOperator>
     <nodeOperator value="stellarFeedbackSpheroids">
-      <stellarFeedbackOutflows value="rateLimit">
-        <stellarFeedbackOutflows value="powerLaw">
-          <exponent value="2.0" />
-          <velocityCharacteristic value="100.0" />
-        </stellarFeedbackOutflows>
-        <timescaleOutflowFractionalMinimum value="0.001" />
+      <stellarFeedbackOutflows value="massLoadingLimit">
+        <factorMassLoadingMaximum value="125.1699"/>
+	      <stellarFeedbackOutflows value="rateLimit">
+          <timescaleOutflowFractionalMinimum value="0.01"/>
+          <stellarFeedbackOutflows value="powerLaw">
+            <velocityCharacteristic value="14.17114"/>
+            <exponent               value="3.6415"/>
+          </stellarFeedbackOutflows>
+	      </stellarFeedbackOutflows>
       </stellarFeedbackOutflows>
     </nodeOperator>
     <nodeOperator value="barInstability">
