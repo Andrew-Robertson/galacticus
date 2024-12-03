@@ -269,8 +269,8 @@
     </nodeOperator>
     <nodeOperator value="barInstability">
       <galacticDynamicsBarInstability value="efstathiou1982">
-        <fractionAngularMomentumRetainedDisk value="0.8" />
-        <fractionAngularMomentumRetainedSpheroid value="0.2" />
+        <fractionAngularMomentumRetainedDisk value="1.0" />
+        <fractionAngularMomentumRetainedSpheroid value="1.0" />
         <stabilityThresholdGaseous value="0.7" />
         <stabilityThresholdStellar value="1.1" />
         <timescaleMinimum value="0.001" />
