@@ -372,6 +372,32 @@
       <sizeSourceLensing value="0.002" />
       <systematicErrorPolynomialCoefficient value="0.0" />
     </outputAnalysis>
+    <outputAnalysis value="morphologicalFractionGAMAMoffett2016"/>
+    <!-- <outputAnalysis value="starFormationRateFunctionRobotham2011"/> Doesn't seem to have any target data?? -->
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="1"/>
+    </outputAnalysis>
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="2"/>
+    </outputAnalysis>
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="17"/>
+    </outputAnalysis>
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="18"/>
+    </outputAnalysis>
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="10"/>
+    </outputAnalysis>
+    <outputAnalysis value="galaxySizesSDSS">
+      <distributionNumber value="34"/>
+    </outputAnalysis>
+    <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012">
+      <redshiftInterval value="1"/>
+    </outputAnalysis>
+    <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012">
+      <redshiftInterval value="2"/>
+    </outputAnalysis>
   </outputAnalysis>
   <outputTimes value="list">
     <redshifts value="2.5 2.0 0.4 0.1 0.0" />
