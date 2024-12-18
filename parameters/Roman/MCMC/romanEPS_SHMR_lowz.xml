@@ -446,68 +446,14 @@
     </nodeOperator>
   </nodeOperator>
   <nodePropertyExtractor value="spin" />
-  <outputAnalysis value="multi">
-    <outputAnalysis value="massFunctionStellarZFOURGE">
-      <covarianceBinomialBinsPerDecade value="10" />
-      <covarianceBinomialMassHaloMaximum value="1e+16" />
-      <covarianceBinomialMassHaloMinimum value="100000000.0" />
-      <randomErrorMaximum value="0.1" />
-      <randomErrorMinimum value="0.1" />
-      <randomErrorPolynomialCoefficient value="0.1" />
-      <redshiftInterval value="6" />
-      <sizeSourceLensing value="0.002" />
-      <systematicErrorPolynomialCoefficient value="0.0" />
-    </outputAnalysis>
-    <outputAnalysis value="massFunctionStellarULTRAVISTA">
-      <covarianceBinomialBinsPerDecade value="10" />
-      <covarianceBinomialMassHaloMaximum value="1e+16" />
-      <covarianceBinomialMassHaloMinimum value="100000000.0" />
-      <randomErrorMaximum value="0.1" />
-      <randomErrorMinimum value="0.1" />
-      <randomErrorPolynomialCoefficient value="0.1" />
-      <redshiftInterval value="4" />
-      <sizeSourceLensing value="0.002" />
-      <systematicErrorPolynomialCoefficient value="0.0" />
-    </outputAnalysis>
-    <outputAnalysis value="massFunctionStellarBernardi2013SDSS">
-      <covarianceBinomialBinsPerDecade value="10" />
-      <covarianceBinomialMassHaloMaximum value="1e+16" />
-      <covarianceBinomialMassHaloMinimum value="100000000.0" />
-      <randomErrorMaximum value="0.07" />
-      <randomErrorMinimum value="0.07" />
-      <randomErrorPolynomialCoefficient value="0.07" />
-      <sizeSourceLensing value="0.002" />
-      <systematicErrorPolynomialCoefficient value="0.0" />
-    </outputAnalysis>
-    <outputAnalysis value="massFunctionStellarBaldry2012GAMA">
-      <covarianceBinomialBinsPerDecade value="10" />
-      <covarianceBinomialMassHaloMaximum value="1e+16" />
-      <covarianceBinomialMassHaloMinimum value="100000000.0" />
-      <randomErrorMaximum value="0.07" />
-      <randomErrorMinimum value="0.07" />
-      <randomErrorPolynomialCoefficient value="0.07" />
-      <sizeSourceLensing value="0.002" />
-      <systematicErrorPolynomialCoefficient value="0.0" />
-    </outputAnalysis>
-    <outputAnalysis value="massFunctionStellarSDSS">
-      <covarianceBinomialBinsPerDecade value="10" />
-      <covarianceBinomialMassHaloMaximum value="1e+16" />
-      <covarianceBinomialMassHaloMinimum value="100000000.0" />
-      <randomErrorMaximum value="0.07" />
-      <randomErrorMinimum value="0.07" />
-      <randomErrorPolynomialCoefficient value="0.07" />
-      <sizeSourceLensing value="0.002" />
-      <systematicErrorPolynomialCoefficient value="0.0" />
-    </outputAnalysis>
+   <!-- Analyses -->
+  <outputAnalysis value="heatedLikelihood" >
+    <temperature value="3" />
     <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012" >
       <redshiftInterval                     value="1"      />
       <computeScatter                       value="false"  />
       <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
-    </outputAnalysis>
-    <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012" >
-      <redshiftInterval                     value="3"      />
-      <computeScatter                       value="false"  />
-      <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
+      <likelihoodBins                        value="5 9 13"     />
     </outputAnalysis>
   </outputAnalysis>
   <outputTimes          value="list"     >
