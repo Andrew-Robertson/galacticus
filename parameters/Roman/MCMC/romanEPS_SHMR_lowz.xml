@@ -295,10 +295,11 @@
     <modifier1 value="0.0" />
     <modifier2 value="0.0" />
   </mergerTreeBuildMassDistribution>
-  <mergerTreeBuildMasses value="sampledDistributionUniform">
-    <massTreeMaximum value="1e14" />
-    <massTreeMinimum value="1e11" />
-    <treesPerDecade value="100.0" />
+  <mergerTreeBuildMasses value="replicate">
+    <replicationCount value="9"/>
+    <mergerTreeBuildMasses           value="readXML"                  >
+      <fileName          value="/home/arobertson/Galacticus/forked_galacticus/galacticus/parameters/Roman/MCMC/treeMasses_lowz.xml"/>
+    </mergerTreeBuildMasses>
   </mergerTreeBuildMasses>
   <mergerTreeBuilder value="cole2000">
     <accretionLimit value="0.1" />
@@ -312,7 +313,7 @@
   </mergerTreeBuilder>
   <mergerTreeConstructor value="build">
     <processDescending value="true" />
-    <redshiftBase value="0.0" />
+    <redshiftBase value="0.32" />
     <timeSnapTolerance value="1e-06" />
     <treeBeginAt value="0" />
   </mergerTreeConstructor>
@@ -344,7 +345,7 @@
   </mergerTreeEvolver>
   <mergerTreeInitializor />
   <mergerTreeMassResolution>
-    <massResolution value="5e9" />
+    <massResolution value="1e10" />
   </mergerTreeMassResolution>
   <mergerTreeNodeEvolver value="standard">
     <odeAlgorithm value="rungeKuttaCashKarp" />
