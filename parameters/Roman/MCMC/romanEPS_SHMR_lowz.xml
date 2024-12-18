@@ -369,6 +369,24 @@
     </mergerTreeOutputter>
   </mergerTreeOutputter>
   <nodeOperator value="multi">
+    <nodeOperator value="stellarFeedbackDisks">
+      <stellarFeedbackOutflows value="rateLimit">
+        <stellarFeedbackOutflows value="powerLaw">
+          <exponent value="3.51" />
+          <velocityCharacteristic value="368.7" />
+        </stellarFeedbackOutflows>
+        <timescaleOutflowFractionalMinimum value="0.001" />
+      </stellarFeedbackOutflows>
+    </nodeOperator>
+    <nodeOperator value="stellarFeedbackSpheroids">
+      <stellarFeedbackOutflows value="rateLimit">
+        <stellarFeedbackOutflows value="powerLaw">
+          <exponent value="2.99" />
+          <velocityCharacteristic value="158.0" />
+        </stellarFeedbackOutflows>
+        <timescaleOutflowFractionalMinimum value="0.001" />
+      </stellarFeedbackOutflows>
+    </nodeOperator>
     <nodeOperator value="cosmicTime" />
     <nodeOperator value="DMOInterpolate" />
     <nodeOperator value="darkMatterProfileScaleSet">
@@ -411,24 +429,6 @@
     </nodeOperator>
     <nodeOperator value="starFormationSpheroids">
       <luminositiesStellarInactive value="false" />
-    </nodeOperator>
-    <nodeOperator value="stellarFeedbackDisks">
-      <stellarFeedbackOutflows value="rateLimit">
-        <stellarFeedbackOutflows value="powerLaw">
-          <exponent value="3.51" />
-          <velocityCharacteristic value="368.7" />
-        </stellarFeedbackOutflows>
-        <timescaleOutflowFractionalMinimum value="0.001" />
-      </stellarFeedbackOutflows>
-    </nodeOperator>
-    <nodeOperator value="stellarFeedbackSpheroids">
-      <stellarFeedbackOutflows value="rateLimit">
-        <stellarFeedbackOutflows value="powerLaw">
-          <exponent value="2.99" />
-          <velocityCharacteristic value="158.0" />
-        </stellarFeedbackOutflows>
-        <timescaleOutflowFractionalMinimum value="0.001" />
-      </stellarFeedbackOutflows>
     </nodeOperator>
     <nodeOperator value="barInstability">
       <galacticDynamicsBarInstability value="efstathiou1982">
