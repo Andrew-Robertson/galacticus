@@ -298,7 +298,7 @@
   <mergerTreeBuildMasses value="replicate">
     <replicationCount value="9"/>
     <mergerTreeBuildMasses           value="readXML"                  >
-      <fileName          value="/home/arobertson/Galacticus/forked_galacticus/galacticus/parameters/Roman/MCMC/treeMasses_lowz.xml"/>
+      <fileName          value="/home/arobertson/Galacticus/forked_galacticus/galacticus/parameters/Roman/MCMC/treeMasses_highz.xml"/>
     </mergerTreeBuildMasses>
   </mergerTreeBuildMasses>
   <mergerTreeBuilder value="cole2000">
@@ -313,7 +313,7 @@
   </mergerTreeBuilder>
   <mergerTreeConstructor value="build">
     <processDescending value="true" />
-    <redshiftBase value="0.32" />
+    <redshiftBase value="0.88" />
     <timeSnapTolerance value="1e-06" />
     <treeBeginAt value="0" />
   </mergerTreeConstructor>
@@ -450,14 +450,14 @@
   <outputAnalysis value="heatedLikelihood" >
     <temperature value="3" />
     <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012" >
-      <redshiftInterval                     value="1"      />
+      <redshiftInterval                     value="3"      />
       <computeScatter                       value="false"  />
       <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
-      <likelihoodBins                        value="5 9 13"     />
+      <likelihoodBins                        value="1 5 9"     />
     </outputAnalysis>
   </outputAnalysis>
   <outputTimes          value="list"     >
-    <redshifts value="0.32"/>
+    <redshifts value="0.88"/>
   </outputTimes>
   <powerSpectrumPrimordial value="powerLaw">
     <index value="0.9667" />
