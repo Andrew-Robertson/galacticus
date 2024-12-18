@@ -510,8 +510,8 @@
       <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
     </outputAnalysis>
   </outputAnalysis>
-  <outputTimes value="list">
-    <redshifts value="2.5 2.0 0.88 0.4 0.32 0.0" />
+  <outputTimes          value="list"     >
+    <redshifts value="0.32"/>
   </outputTimes>
   <powerSpectrumPrimordial value="powerLaw">
     <index value="0.9667" />
