@@ -345,7 +345,7 @@
   </mergerTreeEvolver>
   <mergerTreeInitializor />
   <mergerTreeMassResolution>
-    <massResolution value="1e10" />
+    <massResolution value="2e10" />
   </mergerTreeMassResolution>
   <mergerTreeNodeEvolver value="standard">
     <odeAlgorithm value="rungeKuttaCashKarp" />
@@ -360,7 +360,11 @@
     <reuseODEStepSize value="false" />
   </mergerTreeNodeEvolver>
   <mergerTreeNodeMerger />
-  <mergerTreeOperator />
+  <mergerTreeOperator value="regridTimes">
+    <outputTimes value="simulationSnapshots">
+      <fileName value="/home/arobertson/Galacticus/datasets/static/simulations/UNIT.xml"/>
+    </outputTimes>
+  </mergerTreeOperator>
   <mergerTreeOutputter value="multi">
     <mergerTreeOutputter value="analyzer" />
     <mergerTreeOutputter value="standard">
@@ -595,7 +599,7 @@
   <luminosityOutputOption value="present" />
   <luminosityRedshift value="all all all all" />
   <luminosityType value="observed observed observed observed" />
-  <outputFileName value="romanEPS_callibrated.hdf5" />
+  <outputFileName value="romanEPS_SHMR_lowz.hdf5" />
   <stateFileRoot value="none" />
   <stateRetrieveFileRoot value="none" />
   <verbosityLevel value="standard" />
