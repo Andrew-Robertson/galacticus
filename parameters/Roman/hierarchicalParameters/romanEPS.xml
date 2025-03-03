@@ -327,6 +327,8 @@
     <!-- Bar instability in galactic disks -->
     <nodeOperator value="barInstability">
       <galacticDynamicsBarInstability value="efstathiou1982">
+        <fractionAngularMomentumRetainedSpheroid value="0.5" />
+        <fractionAngularMomentumRetainedDisk value="=1.0-[.::fractionAngularMomentumRetainedSpheroid]"/>
 	<stabilityThresholdGaseous value="0.7"/>
 	<stabilityThresholdStellar value="1.1"/>
       </galacticDynamicsBarInstability>
