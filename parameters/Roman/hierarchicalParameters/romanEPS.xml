@@ -117,7 +117,7 @@
     <massDistributionSpheroid value="hernquist">
       <dimensionless value="true"/>
     </massDistributionSpheroid>
-<postStepZeroNegativeMasses value="false"/>
+    <postStepZeroNegativeMasses value="false"/>
   </componentSpheroid>
   <componentSpin              value="vector" />
   
@@ -327,8 +327,8 @@
       <galacticDynamicsBarInstability value="efstathiou1982">
         <fractionAngularMomentumRetainedSpheroid value="0.5" />
         <fractionAngularMomentumRetainedDisk value="=1.0-[.::fractionAngularMomentumRetainedSpheroid]"/>
-	<stabilityThresholdGaseous value="0.7"/>
-	<stabilityThresholdStellar value="1.1"/>
+        <stabilityThresholdGaseous value="0.7"/>
+        <stabilityThresholdStellar value="1.1"/>
       </galacticDynamicsBarInstability>
     </nodeOperator>
     <nodeOperator value="nodeFormationTimeMassFraction">
