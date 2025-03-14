@@ -9,7 +9,7 @@
 
   <!-- UNIT simulation -->
   <cosmologyFunctions  value="matterLambda"/>
-  <cosmologyParameters value="simple">
+  <cosmologyParameters value="simple" id="cosmoUNIT">  
     <HubbleConstant  value="67.74000"/>
     <OmegaMatter     value=" 0.30890"/>
     <OmegaDarkEnergy value=" 0.69110"/>
@@ -32,13 +32,7 @@
     <redshift value="100.0"/>
     <!-- Include cosmological model explicitly here so that baryons are included in the transfer function even for dark matter-only models. -->
     <cosmologyFunctions  value="matterLambda"/>
-    <cosmologyParameters value="simple">
-      <HubbleConstant  value="67.74000"/>
-      <OmegaMatter     value=" 0.30890"/>
-      <OmegaDarkEnergy value=" 0.69110"/>
-      <OmegaBaryon     value=" 0.04620"/>
-      <temperatureCMB  value=" 2.72548"/>
-    </cosmologyParameters>
+    <cosmologyParameters idRef="cosmoUNIT"/>  
   </transferFunction>
   <powerSpectrumPrimordial            value="powerLaw" >
     <index               value="0.9667"/>
