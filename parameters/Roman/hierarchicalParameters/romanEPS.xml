@@ -100,6 +100,7 @@
     <massDistributionDisk value="exponentialDisk">
       <dimensionless value="true"/>
     </massDistributionDisk>
+    <ratioAngularMomentumSolverRadius value="0.5"/>
     <postStepZeroNegativeMasses value="false"/>
   </componentDisk>
   <componentHotHalo           value="standard" >
@@ -197,8 +198,9 @@
   
   <!-- Star formation rate options -->
   <starFormationRateDisks               value="intgrtdSurfaceDensity"/>
-  <starFormationRateSurfaceDensityDisks value="blitz2006"             >
-    <useTabulation value="true"/>
+  <starFormationRateSurfaceDensityDisks value="blitz2006">
+    <starFormationFrequencyNormalization value="1.432e-9" />
+    <useTabulation value="true" />
   </starFormationRateSurfaceDensityDisks>
   <starFormationRateSpheroids value="timescale">
     <starFormationTimescale value="dynamicalTime">
