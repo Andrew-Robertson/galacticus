@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements an N-body data operator which computes mass functions.
+  Implements an N-body data operator which computes mass functions.
   !!}
   
   use            :: Cosmology_Parameters, only : cosmologyParametersClass
@@ -47,7 +47,7 @@
 
   interface nbodyOperatorSpinDistributionFunction
      !!{
-     Constructors for the ``spinDistributionFunction'' N-body operator class.
+     Constructors for the {\normalfont \ttfamily spinDistributionFunction} N-body operator class.
      !!}
      module procedure spinDistributionFunctionConstructorParameters
      module procedure spinDistributionFunctionConstructorInternal
@@ -57,7 +57,7 @@ contains
 
   function spinDistributionFunctionConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``spinDistributionFunction'' N-body operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily spinDistributionFunction} N-body operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -123,7 +123,7 @@ contains
 
   function spinDistributionFunctionConstructorInternal(massMinimum,massMaximum,spinMinimum,spinMaximum,spinCountPerDecade,description,simulationReference,simulationURL,cosmologyParameters_) result (self)
     !!{
-    Internal constructor for the ``spinDistributionFunction'' N-body operator class.
+    Internal constructor for the {\normalfont \ttfamily spinDistributionFunction} N-body operator class.
     !!}
     implicit none
     type            (nbodyOperatorSpinDistributionFunction)                        :: self
@@ -142,7 +142,7 @@ contains
   
   subroutine spinDistributionFunctionDestructor(self)
     !!{
-    Destructor for the ``spinDistributionFunction'' N-body operator class.
+    Destructor for the {\normalfont \ttfamily spinDistributionFunction} N-body operator class.
     !!}
     implicit none
     type(nbodyOperatorSpinDistributionFunction), intent(inout) :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -249,38 +249,36 @@ module Mass_Distributions
     <argument>double precision, intent(in   ), optional :: mass, massFractional</argument>
     <modules>Root_Finder</modules>
     <code>
-      type            (rootFinder), save      :: finder
-      logical                     , save      :: finderConstructed=.false.
-      !$omp threadprivate(finder,finderConstructed)
+      type            (rootFinder)            :: finder
       double precision            , parameter :: toleranceAbsolute=0.0d0  , toleranceRelative=1.0d-6
+      double precision                        :: massTarget
 
       if      (present(mass          )) then
        massTarget=     mass
       else if (present(massFractional)) then
        massTarget=self%massTotal()*massFractional
       else
+       massTarget=0.0d0
        call Error_Report('either "mass" or "massFractional" must be provided'//{introspection:location})
       end if
-      if (massTarget &lt;= 0.0d0) then
+      if (massTarget &lt;= 0.0d0 .or. self%massEnclosedBySphere(0.0d0) &gt;= massTarget) then
        massDistributionRadiusEnclosingMassNumerical=0.0d0
        return
       end if
-      if (.not.finderConstructed) then
-       finder           =rootFinder(                                                             &amp;
-            &amp;                   rootFunction                 =massEnclosedRoot             , &amp;
-            &amp;                   toleranceAbsolute            =toleranceAbsolute            , &amp;
-            &amp;                   toleranceRelative            =toleranceRelative            , &amp;
-            &amp;                   solverType                   =GSL_Root_fSolver_Brent       , &amp;
-            &amp;                   rangeExpandUpward            =2.0d0                        , &amp;
-            &amp;                   rangeExpandDownward          =0.5d0                        , &amp;
-            &amp;                   rangeExpandType              =rangeExpandMultiplicative    , &amp;
-            &amp;                   rangeExpandDownwardSignExpect=rangeExpandSignExpectNegative, &amp;
-            &amp;                   rangeExpandUpwardSignExpect  =rangeExpandSignExpectPositive  &amp;
-            &amp;                  )
-       finderConstructed=.true.
-    end if
-    self_                                        =&gt; self
-    massDistributionRadiusEnclosingMassNumerical =     finder%find(rootGuess=1.0d0)
+      finder      =rootFinder(                                                             &amp;
+            &amp;             rootFunction                 =massEnclosedRoot             , &amp;
+            &amp;             toleranceAbsolute            =toleranceAbsolute            , &amp;
+            &amp;             toleranceRelative            =toleranceRelative            , &amp;
+            &amp;             solverType                   =GSL_Root_fSolver_Brent       , &amp;
+            &amp;             rangeExpandUpward            =2.0d0                        , &amp;
+            &amp;             rangeExpandDownward          =0.5d0                        , &amp;
+            &amp;             rangeExpandType              =rangeExpandMultiplicative    , &amp;
+            &amp;             rangeExpandDownwardSignExpect=rangeExpandSignExpectNegative, &amp;
+            &amp;             rangeExpandUpwardSignExpect  =rangeExpandSignExpectPositive  &amp;
+            &amp;            )
+      call self%solverSet  (massTarget=massTarget)
+      massDistributionRadiusEnclosingMassNumerical=finder%find(rootGuess=1.0d0)
+      call self%solverUnset(                     )
     </code>
    </method>
    <method name="radiusEnclosingDensity" >
@@ -303,31 +301,26 @@ module Mass_Distributions
     <argument>double precision, intent(in   ), optional :: radiusGuess</argument>
     <modules>Root_Finder</modules>
     <code>
-      type            (rootFinder), save      :: finder
-      logical                     , save      :: finderConstructed=.false.
-      !$omp threadprivate(finder,finderConstructed)
+      type            (rootFinder)            :: finder
       double precision            , parameter :: toleranceAbsolute=0.0d0  , toleranceRelative=1.0d-3
       double precision                        :: radiusGuess_
 
-      if (.not.finderConstructed) then
-       finder           =rootFinder(                                                             &amp;
-            &amp;                   rootFunction                 =densityEnclosedRoot          , &amp;
-            &amp;                   toleranceAbsolute            =toleranceAbsolute            , &amp;
-            &amp;                   toleranceRelative            =toleranceRelative            , &amp;
-            &amp;                   solverType                   =GSL_Root_fSolver_Brent       , &amp;
-            &amp;                   rangeExpandUpward            =2.0d0                        , &amp;
-            &amp;                   rangeExpandDownward          =0.5d0                        , &amp;
-            &amp;                   rangeExpandType              =rangeExpandMultiplicative    , &amp;
-            &amp;                   rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive, &amp;
-            &amp;                   rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative  &amp;
-            &amp;                  )
-       finderConstructed=.true.
-      end if
-      self_                                           =&gt; self
-      densityTarget                                   =     density
+      finder    =rootFinder(                                                             &amp;
+           &amp;            rootFunction                 =densityEnclosedRoot          , &amp;
+           &amp;            toleranceAbsolute            =toleranceAbsolute            , &amp;
+           &amp;            toleranceRelative            =toleranceRelative            , &amp;
+           &amp;            solverType                   =GSL_Root_fSolver_Brent       , &amp;
+           &amp;            rangeExpandUpward            =2.0d0                        , &amp;
+           &amp;            rangeExpandDownward          =0.5d0                        , &amp;
+           &amp;            rangeExpandType              =rangeExpandMultiplicative    , &amp;
+           &amp;            rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive, &amp;
+           &amp;            rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative  &amp;
+           &amp;           )
       radiusGuess_                                    =     self%radiusEnclosingDensityPrevious__
       if (present(radiusGuess)) radiusGuess_=radiusGuess
+      call self%solverSet  (densityTarget=density)
       massDistributionRadiusEnclosingDensityNumerical =     finder%find(rootGuess=radiusGuess_)
+      call self%solverUnset(                     )
       self%radiusEnclosingDensityPrevious__           =     massDistributionRadiusEnclosingDensityNumerical
     </code>
    </method>
@@ -351,32 +344,27 @@ module Mass_Distributions
     <argument>double precision, intent(in   ), optional :: radiusGuess   </argument>
     <modules>Root_Finder</modules>
     <code>
-      type            (rootFinder), save      :: finder
-      logical                     , save      :: finderConstructed=.false.
-      !$omp threadprivate(finder,finderConstructed)
+      type            (rootFinder)            :: finder
       double precision            , parameter :: toleranceAbsolute=0.0d0  , toleranceRelative=1.0d-3
       double precision                        :: radiusGuess_
 
-      if (.not.finderConstructed) then
-       finder           =rootFinder(                                                             &amp;
-            &amp;                   rootFunction                 =densitySurfaceEnclosedRoot   , &amp;
-            &amp;                   toleranceAbsolute            =toleranceAbsolute            , &amp;
-            &amp;                   toleranceRelative            =toleranceRelative            , &amp;
-            &amp;                   solverType                   =GSL_Root_fSolver_Brent       , &amp;
-            &amp;                   rangeExpandUpward            =2.0d0                        , &amp;
-            &amp;                   rangeExpandDownward          =0.5d0                        , &amp;
-            &amp;                   rangeExpandType              =rangeExpandMultiplicative    , &amp;
-            &amp;                   rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive, &amp;
-            &amp;                   rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative  &amp;
-            &amp;                  )
-       finderConstructed=.true.
-      end if
-      self_                                           =&gt; self
-      densitySurfaceTarget                            =     densitySurface
-      radiusGuess_                                    =     self%radiusEnclosingDensitySurfacePrevious__
+      finder     =rootFinder(                                                             &amp;
+           &amp;             rootFunction                 =densitySurfaceEnclosedRoot   , &amp;
+           &amp;             toleranceAbsolute            =toleranceAbsolute            , &amp;
+           &amp;             toleranceRelative            =toleranceRelative            , &amp;
+           &amp;             solverType                   =GSL_Root_fSolver_Brent       , &amp;
+           &amp;             rangeExpandUpward            =2.0d0                        , &amp;
+           &amp;             rangeExpandDownward          =0.5d0                        , &amp;
+           &amp;             rangeExpandType              =rangeExpandMultiplicative    , &amp;
+           &amp;             rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive, &amp;
+           &amp;             rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative  &amp;
+           &amp;            )
+      radiusGuess_=self%radiusEnclosingDensitySurfacePrevious__
       if (present(radiusGuess)) radiusGuess_=radiusGuess
-      massDistributionRadiusEnclosingSurfaceDensityNumerical =     finder%find(rootGuess=radiusGuess_)
-      self%radiusEnclosingDensitySurfacePrevious__           =     massDistributionRadiusEnclosingSurfaceDensityNumerical
+      call self%solverSet  (densitySurfaceTarget=densitySurface)
+      massDistributionRadiusEnclosingSurfaceDensityNumerical=finder%find(rootGuess=radiusGuess_)
+      call self%solverUnset(                                   )
+      self%radiusEnclosingDensitySurfacePrevious__          =massDistributionRadiusEnclosingSurfaceDensityNumerical
     </code>
    </method>
    <method name="radiusFromSpecificAngularMomentum" >
@@ -397,31 +385,26 @@ module Mass_Distributions
     <argument>double precision, intent(in   ) :: angularMomentumSpecific</argument>
     <modules>Root_Finder</modules>
     <code>
-      type            (rootFinder), save      :: finder
-      logical                     , save      :: finderConstructed=.false.
-      !$omp threadprivate(finder,finderConstructed)
+      type            (rootFinder)            :: finder
       double precision            , parameter :: toleranceAbsolute=0.0d0  , toleranceRelative=1.0d-6
 
       if (angularMomentumSpecific &lt;= 0.0d0) then
          massDistributionRadiusFromSpecificAngularMomentumNumerical=+0.0d0
       else         
-         if (.not.finderConstructed) then
-            finder           =rootFinder(                                                             &amp;
-                 &amp;                   rootFunction                 =specificAngularMomentumRoot  , &amp;
-                 &amp;                   toleranceAbsolute            =toleranceAbsolute            , &amp;
-                 &amp;                   toleranceRelative            =toleranceRelative            , &amp;
-                 &amp;                   solverType                   =GSL_Root_fSolver_Brent       , &amp;
-                 &amp;                   rangeExpandUpward            =2.0d0                        , &amp;
-                 &amp;                   rangeExpandDownward          =0.5d0                        , &amp;
-                 &amp;                   rangeExpandType              =rangeExpandMultiplicative    , &amp;
-                 &amp;                   rangeExpandDownwardSignExpect=rangeExpandSignExpectNegative, &amp;
-                 &amp;                   rangeExpandUpwardSignExpect  =rangeExpandSignExpectPositive  &amp;
-                 &amp;                  )
-            finderConstructed=.true.
-         end if
-         self_                                                      =&gt; self
-         angularMomentumSpecificTarget                              =     angularMomentumSpecific
+         finder     =rootFinder(                                                             &amp;
+              &amp;             rootFunction                 =specificAngularMomentumRoot  , &amp;
+              &amp;             toleranceAbsolute            =toleranceAbsolute            , &amp;
+              &amp;             toleranceRelative            =toleranceRelative            , &amp;
+              &amp;             solverType                   =GSL_Root_fSolver_Brent       , &amp;
+              &amp;             rangeExpandUpward            =2.0d0                        , &amp;
+              &amp;             rangeExpandDownward          =0.5d0                        , &amp;
+              &amp;             rangeExpandType              =rangeExpandMultiplicative    , &amp;
+              &amp;             rangeExpandDownwardSignExpect=rangeExpandSignExpectNegative, &amp;
+              &amp;             rangeExpandUpwardSignExpect  =rangeExpandSignExpectPositive  &amp;
+              &amp;            )
+         call self%solverSet  (angularMomentumSpecificTarget=angularMomentumSpecific)
          massDistributionRadiusFromSpecificAngularMomentumNumerical =     finder%find(rootGuess=1.0d0)
+         call self%solverUnSet(                                                     )
       end if
     </code>
    </method>
@@ -462,31 +445,27 @@ module Mass_Distributions
     <selfTarget>yes</selfTarget>
     <modules>Root_Finder Error</modules>
     <code>
-      type            (rootFinder), save      :: finder
-      logical                     , save      :: finderConstructed=.false.
-      !$omp threadprivate(finder,finderConstructed)
+      type            (rootFinder)            :: finder
       double precision            , parameter :: toleranceAbsolute=0.0d0  , toleranceRelative=1.0d-06, &amp;
          &amp;                                   radiusTiny       =1.0d-9 , radiusHuge       =1.0d+30
       integer                                 :: status
       
-      if (.not.finderConstructed) then
-       finder           =rootFinder(                                                              &amp;
-            &amp;                   rootFunction                 =rotationCurveMaximumRoot      , &amp;
-            &amp;                   toleranceAbsolute            =toleranceAbsolute             , &amp;
-            &amp;                   toleranceRelative            =toleranceRelative             , &amp;
-            &amp;                   solverType                   =GSL_Root_fSolver_Brent        , &amp;
-            &amp;                   rangeExpandUpward            =2.0d0                         , &amp;
-            &amp;                   rangeExpandDownward          =0.5d0                         , &amp;
-            &amp;                   rangeExpandType              =rangeExpandMultiplicative     , &amp;
-            &amp;                   rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive , &amp;
-            &amp;                   rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative , &amp;
-            &amp;                   rangeDownwardLimit           =radiusTiny                    , &amp;
-            &amp;                   rangeUpwardLimit             =radiusHuge                      &amp;
-            &amp;                  )
-       finderConstructed=.true.
-      end if
-      self_                                               =&gt; self
+      finder     =rootFinder(                                                              &amp;
+           &amp;             rootFunction                 =rotationCurveMaximumRoot      , &amp;
+           &amp;             toleranceAbsolute            =toleranceAbsolute             , &amp;
+           &amp;             toleranceRelative            =toleranceRelative             , &amp;
+           &amp;             solverType                   =GSL_Root_fSolver_Brent        , &amp;
+           &amp;             rangeExpandUpward            =2.0d0                         , &amp;
+           &amp;             rangeExpandDownward          =0.5d0                         , &amp;
+           &amp;             rangeExpandType              =rangeExpandMultiplicative     , &amp;
+           &amp;             rangeExpandDownwardSignExpect=rangeExpandSignExpectPositive , &amp;
+           &amp;             rangeExpandUpwardSignExpect  =rangeExpandSignExpectNegative , &amp;
+           &amp;             rangeDownwardLimit           =radiusTiny                    , &amp;
+           &amp;             rangeUpwardLimit             =radiusHuge                      &amp;
+           &amp;            )
+      call self%solverSet  ()
       massDistributionRadiusRotationCurveMaximumNumerical =     finder%find(rootGuess=1.0d0,status=status)
+      call self%solverUnset()
       if (status /= errorStatusSuccess .and. .not.self%tolerateVelocityMaximumFailure) &amp;
             &amp; call Error_Report('failed to find radius of maximum circular velocity'//{introspection:location})
     </code>
@@ -565,8 +544,8 @@ module Mass_Distributions
     <type>void</type>
     <pass>yes</pass>
     <selfTarget>yes</selfTarget>
-    <argument>double precision, intent(in   ), dimension(3) :: position1, position2, vectorUnit</argument>
-    <argument>double precision, intent(in   )               :: separation                      </argument>
+    <argument>double precision, intent(in   ), dimension(3), optional :: position1 , position2    , vectorUnit                                                     </argument>
+    <argument>double precision, intent(in   )              , optional :: massTarget, densityTarget, angularMomentumSpecificTarget, densitySurfaceTarget, separation</argument>
     <code>
       integer                                        :: i
       type   (massSolver), allocatable, dimension(:) :: solvers_
@@ -584,11 +563,15 @@ module Mass_Distributions
          allocate(massSolvers(massSolversIncrement))
       end if
       massSolversCount=massSolversCount+1
-      massSolvers(massSolversCount)%self       => self
-      massSolvers(massSolversCount)%separation =  separation
-      massSolvers(massSolversCount)%position1  =  position1
-      massSolvers(massSolversCount)%position2  =  position2
-      massSolvers(massSolversCount)%vectorUnit =  vectorUnit
+                                                  massSolvers(massSolversCount)%self                          => self
+      if (present(separation                   )) massSolvers(massSolversCount)%separation                    =  separation
+      if (present(position1                    )) massSolvers(massSolversCount)%position1                     =  position1
+      if (present(position2                    )) massSolvers(massSolversCount)%position2                     =  position2
+      if (present(vectorUnit                   )) massSolvers(massSolversCount)%vectorUnit                    =  vectorUnit
+      if (present(massTarget                   )) massSolvers(massSolversCount)%massTarget                    =  massTarget
+      if (present(densityTarget                )) massSolvers(massSolversCount)%densityTarget                 =  densityTarget
+      if (present(angularMomentumSpecificTarget)) massSolvers(massSolversCount)%angularMomentumSpecificTarget =  angularMomentumSpecificTarget
+      if (present(densitySurfaceTarget         )) massSolvers(massSolversCount)%densitySurfaceTarget          =  densitySurfaceTarget
     </code>
    </method>
    <method name="solverUnset" >
@@ -656,22 +639,20 @@ module Mass_Distributions
     <description>Return the 1D velocity dispersion at the given coordinate.</description>
     <type>double precision</type>
     <pass>yes</pass>
-    <selfTarget>yes</selfTarget>
-    <argument>class(coordinate           ), intent(in   ) :: coordinates              </argument>
-    <argument>class(massDistributionClass), intent(inout) :: massDistributionEmbedding</argument>
+    <argument>class(coordinate           ), intent(in   )         :: coordinates                                 </argument>
+    <argument>class(massDistributionClass), intent(inout), target :: massDistribution_, massDistributionEmbedding</argument>
     <code>
-      !$GLC attributes unused :: self, coordinates, massDistributionEmbedding
-      kinematicsDistributionVelocityDispersion1D=0.0d0
+      kinematicsDistributionVelocityDispersion1D=self%velocityDispersion1DNumerical(coordinates,massDistribution_,massDistributionEmbedding)
     </code>
    </method>
    <method name="velocityDispersion1DNumerical" >
     <description>Return the 1D velocity dispersion at the given coordinate by numerically solving the Jeans equation.</description>
     <type>double precision</type>
     <pass>yes</pass>
-    <argument>class(coordinate           ), intent(in   ) :: coordinates              </argument>
-    <argument>class(massDistributionClass), intent(inout) :: massDistributionEmbedding</argument>
+    <argument>class(coordinate           ), intent(in   )         :: coordinates                                 </argument>
+    <argument>class(massDistributionClass), intent(inout), target :: massDistribution_, massDistributionEmbedding</argument>
     <code>
-      call jeansEquationSolver(self,coordinates%rSpherical(),massDistributionEmbedding)
+      call jeansEquationSolver(self,coordinates%rSpherical(),massDistribution_,massDistributionEmbedding)
       kinematicsDistributionVelocityDispersion1DNumerical=self%velocityDispersion1D__%interpolate(log(coordinates%rSpherical()))
     </code>
    </method>
@@ -690,16 +671,16 @@ module Mass_Distributions
     <description>Integrand for Jeans equation.</description>
     <type>double precision</type>
     <pass>yes</pass>
-    <argument>double precision                       , intent(in   ) :: radius                   </argument>
-    <argument>class           (massDistributionClass), intent(inout) :: massDistributionEmbedding</argument>
+    <argument>double precision                       , intent(in   ) :: radius                                      </argument>
+    <argument>class           (massDistributionClass), intent(inout) :: massDistribution_, massDistributionEmbedding</argument>
     <modules>Numerical_Constants_Astronomical Coordinates</modules>
     <code>
       type(coordinateSpherical) :: coordinates
       if (radius > 0.0d0) then
         coordinates                                 = [radius,0.0d0,0.0d0]
-        kinematicsDistributionJeansEquationIntegrand=+gravitationalConstantGalacticus                                &amp;
+        kinematicsDistributionJeansEquationIntegrand=+gravitationalConstant_internal                                 &amp;
              &amp;                                   *massDistributionEmbedding%massEnclosedBySphere(radius     )    &amp;
-             &amp;                                   *massDistributionEmbedding%density             (coordinates)    &amp;
+             &amp;                                   *massDistribution_        %density             (coordinates)    &amp;
              &amp;                                   /                                               radius      **2
       else
         kinematicsDistributionJeansEquationIntegrand=+0.0d0
@@ -711,7 +692,7 @@ module Mass_Distributions
     <type>void</type>
     <pass>yes</pass>
     <selfTarget>yes</selfTarget>
-    <argument>class           (massDistributionClass), intent(in   ), target :: massDistributionEmbedding</argument>
+    <argument>class           (massDistributionClass), intent(in   ), target :: massDistribution_, massDistributionEmbedding</argument>
     <code>
       integer                                              :: i
       type   (kinematicsSolver), allocatable, dimension(:) :: solvers_
@@ -722,6 +703,7 @@ module Mass_Distributions
             solvers(1:size(solvers_))=solvers_
             do i=1,size(solvers_)
                nullify(solvers_(i)%self                     )
+               nullify(solvers_(i)%massDistribution_        )
                nullify(solvers_(i)%massDistributionEmbedding)
             end do
             deallocate(solvers_)
@@ -731,6 +713,7 @@ module Mass_Distributions
       end if
       solversCount=solversCount+1
       solvers(solversCount)%self                      => self
+      solvers(solversCount)%massDistribution_         => massDistribution_
       solvers(solversCount)%massDistributionEmbedding => massDistributionEmbedding
     </code>
    </method>
@@ -741,16 +724,17 @@ module Mass_Distributions
     <code>
       !$GLC attributes unused :: self
       solvers(solversCount)%self                      => null()
+      solvers(solversCount)%massDistribution_         => null()
       solvers(solversCount)%massDistributionEmbedding => null()
       solversCount=solversCount-1
     </code>
    </method>
-   <data>type            (interpolator), allocatable               :: velocityDispersion1D__                                                                                               </data>
-   <data>double precision              , allocatable, dimension(:) :: velocityDispersionRadialVelocity__                             , velocityDispersionRadialRadius__                    </data>
-   <data>double precision                                          :: velocityDispersionRadialRadiusMinimum__           =+huge(0.0d0), velocityDispersionRadialRadiusMaximum__=-huge(0.0d0)</data>
-   <data>double precision                                          :: velocityDispersionRadialRadiusOuter__                                                                                </data>   
-   <data>double precision                                          :: toleranceRelativeVelocityDispersion       =1.0d-6                                                                    </data>
-   <data>double precision                                          :: toleranceRelativeVelocityDispersionMaximum=1.0d-3                                                                    </data>
+   <data>type            (interpolator), allocatable               :: velocityDispersion1D__                                                                                       </data>
+   <data>double precision              , allocatable, dimension(:) :: velocityDispersionRadialVelocity__                     , velocityDispersionRadialRadius__                    </data>
+   <data>double precision                                          :: velocityDispersionRadialRadiusMinimum__   =+huge(0.0d0), velocityDispersionRadialRadiusMaximum__=-huge(0.0d0)</data>
+   <data>double precision                                          :: velocityDispersionRadialRadiusOuter__                                                                        </data>
+   <data>double precision                                          :: toleranceRelativeVelocityDispersion       =1.0d-6                                                            </data>
+   <data>double precision                                          :: toleranceRelativeVelocityDispersionMaximum=1.0d-3                                                            </data>
   </functionClass>
   !!]
 
@@ -806,28 +790,24 @@ module Mass_Distributions
   </enumeration>
   !!]
 
-  ! Module-scope variables used in root finding.
-  class           (massDistributionClass), pointer :: self_
-  double precision                                 :: massTarget                   , densityTarget       , &
-       &                                              angularMomentumSpecificTarget, densitySurfaceTarget
-  !$omp threadprivate(self_,massTarget,densityTarget,angularMomentumSpecificTarget,densitySurfaceTarget)
-
   ! Module-scope pointers used in integrand functions and root finding.
   type :: kinematicsSolver
-     class(kinematicsDistributionClass), pointer :: self                      => null()
-     class(massDistributionClass      ), pointer :: massDistributionEmbedding => null()
+     class(kinematicsDistributionClass), pointer :: self              => null()
+     class(massDistributionClass      ), pointer :: massDistribution_ => null(), massDistributionEmbedding => null()
   end type kinematicsSolver
   type   (kinematicsSolver), allocatable, dimension(:) :: solvers
   integer                  , parameter                 :: solversIncrement=10
   integer                                              :: solversCount    = 0
   !$omp threadprivate(solvers,solversCount)
   
-  ! Module-scope pointers used in integrand functions.
+  ! Module-scope pointers used in integrand functions and root finding.
   type :: massSolver
-     class           (massDistributionClass), pointer      :: self       => null()
-     double precision                       , dimension(3) :: position1           , position2, &
+     class           (massDistributionClass), pointer      :: self                          => null()
+     double precision                       , dimension(3) :: position1                               , position2           , &
           &                                                   vectorUnit
-     double precision                                      :: separation
+     double precision                                      :: massTarget                              , densityTarget       , &
+          &                                                   angularMomentumSpecificTarget           , densitySurfaceTarget, &
+          &                                                   separation
   end type massSolver
   type   (massSolver), allocatable, dimension(:) :: massSolvers
   integer            , parameter                 :: massSolversIncrement=10
@@ -953,8 +933,8 @@ contains
     implicit none
     double precision, intent(in   ) :: radius
 
-    massEnclosedRoot=+self_%massEnclosedBySphere(radius) &
-         &           -      massTarget
+    massEnclosedRoot=+massSolvers(massSolversCount)%self%massEnclosedBySphere(radius) &
+         &           -massSolvers(massSolversCount)     %massTarget
     return
   end function massEnclosedRoot
   
@@ -966,12 +946,12 @@ contains
     implicit none
     double precision, intent(in   ) :: radius
 
-    densityEnclosedRoot=+3.0d0                                 &
-         &              /4.0d0                                 &
-         &              /Pi                                    &
-         &              *self_%massEnclosedBySphere(radius)    &
-         &              /                           radius **3 &
-         &              -      densityTarget
+    densityEnclosedRoot=+3.0d0                                                              &
+         &              /4.0d0                                                              &
+         &              /Pi                                                                 &
+         &              *massSolvers(massSolversCount)%self%massEnclosedBySphere(radius)    &
+         &              /                                   radius                      **3 &
+         &              -massSolvers(massSolversCount)%     densityTarget
     return
   end function densityEnclosedRoot
   
@@ -985,8 +965,8 @@ contains
     type            (coordinateCylindrical)                :: coordinates
 
     coordinates               =[radius,0.0d0,0.0d0]
-    densitySurfaceEnclosedRoot=+self_%surfaceDensity      (coordinates) &
-         &                     -      densitySurfaceTarget
+    densitySurfaceEnclosedRoot=+massSolvers(massSolversCount)%self%surfaceDensity      (coordinates) &
+         &                     -massSolvers(massSolversCount)     %densitySurfaceTarget
     return
   end function densitySurfaceEnclosedRoot
   
@@ -997,9 +977,9 @@ contains
     implicit none
     double precision, intent(in   ) :: radius
 
-    specificAngularMomentumRoot=+self_%rotationCurve                (radius) &
-         &                      *      radius                                &
-         &                      -      angularMomentumSpecificTarget
+    specificAngularMomentumRoot=+massSolvers(massSolversCount)%self%rotationCurve                (radius) &
+         &                      *                                   radius                                &
+         &                      -massSolvers(massSolversCount)     %angularMomentumSpecificTarget
     return
   end function specificAngularMomentumRoot
   
@@ -1010,7 +990,7 @@ contains
     implicit none
     double precision, intent(in   ) :: radius
 
-    rotationCurveMaximumRoot=self_%rotationCurveGradient(radius)
+    rotationCurveMaximumRoot=massSolvers(massSolversCount)%self%rotationCurveGradient(radius)
     return
   end function rotationCurveMaximumRoot
 
@@ -1025,14 +1005,13 @@ contains
     use :: Error                     , only : Error_Report             , errorStatusSuccess
     implicit none
     class           (massDistributionClass            ), intent(inout), target   :: self
-    class           (coordinate                       ), intent(in   )           :: coordinates1         , coordinates2
+    class           (coordinate                       ), intent(in   )           :: coordinates1 , coordinates2
     type            (enumerationStructureErrorCodeType), intent(  out), optional :: status
-    type            (coordinateCartesian              )                          :: coordinates1_        , coordinates2_
-    double precision                                   , dimension(3)            :: position1            , position2    , &
+    type            (coordinateCartesian              )                          :: coordinates1_, coordinates2_
+    double precision                                   , dimension(3)            :: position1    , position2    , &
          &                                                                          vectorUnit
     double precision                                                             :: separation
-    type            (integrator                       ), save                    :: integrator_
-    logical                                            , save                    :: initialized  =.false.
+    type            (integrator                       )                          :: integrator_
     integer                                                                      :: status_
     
     if (present(status)) status=structureErrorCodeSuccess
@@ -1049,12 +1028,8 @@ contains
             &          -position2  &
             &         )            &
             &        /  separation
-       ! Initialize integrator if necessary.
-       if (.not.initialized) then
-          integrator_=integrator(potentialDifferenceIntegrand,toleranceRelative=1.0d-3)
-          initialized=.true.
-       end if
-       call self%solverSet  (position1,position2,vectorUnit,separation)
+       integrator_=integrator(potentialDifferenceIntegrand,toleranceRelative=1.0d-3)
+       call self%solverSet  (position1=position1,position2=position2,vectorUnit=vectorUnit,separation=separation)
        potentialDifference=integrator_%integrate(0.0d0,separation,status=status_)
        call self%solverUnset(                                         )
        if (status_ /= errorStatusSuccess) then
@@ -1072,8 +1047,8 @@ contains
     !!{
     Integrand used in computing potential differences.
     !!}
-    use :: Coordinates                     , only : coordinateCartesian    , assignment(=)
-    use :: Numerical_Constants_Astronomical, only : Mpc_per_km_per_s_To_Gyr
+    use :: Coordinates                     , only : coordinateCartesian, assignment(=)
+    use :: Numerical_Constants_Astronomical, only : MpcPerKmPerSToGyr
     implicit none
     double precision                     , intent(in   ) :: distance
     double precision                     , dimension(3)  :: position   , acceleration
@@ -1085,11 +1060,11 @@ contains
     coordinates                 =                                   position
     acceleration                =massSolvers(massSolversCount)%self%acceleration(coordinates)
     potentialDifferenceIntegrand=-Dot_Product(acceleration,massSolvers(massSolversCount)%vectorUnit) &
-         &                       *Mpc_per_km_per_s_To_Gyr
+         &                       *MpcPerKmPerSToGyr
     return
   end function potentialDifferenceIntegrand
   
-  subroutine jeansEquationSolver(self,radius,massDistributionEmbedding)
+  subroutine jeansEquationSolver(self,radius,massDistribution_,massDistributionEmbedding)
     !!{
     Solve the Jeans equation numerically to find the 1D velocity dispersion.
     !!}
@@ -1103,26 +1078,24 @@ contains
     implicit none
     class           (kinematicsDistributionClass), intent(inout)              :: self
     double precision                             , intent(in   )              :: radius
-    class           (massDistributionClass      ), intent(inout)              :: massDistributionEmbedding
-    double precision                                            , parameter   :: radiusTinyFactor         =1.0d-9 , factorDensityLarge       =1.0d+5
-    double precision                                            , parameter   :: countPointsPerOctave     =2.0d0
-    double precision                                            , parameter   :: toleranceFactor          =2.0d0
-    double precision                             , dimension(:) , allocatable :: velocityDispersions              , radii
-    double precision                                                          :: radiusMinimum                    , radiusMaximum                   , &
-         &                                                                       toleranceRelative                , density                         , &
-         &                                                                       jeansIntegral                    , radiusOuter_                    , &
-         &                                                                       radiusLower                      , radiusUpper                     , &
-         &                                                                       radiusLowerJeansEquation         , radiusUpperJeansEquation        , &
-         &                                                                       densityMaximum                   , densityOuter_                   , &
+    class           (massDistributionClass      ), intent(inout), target      :: massDistribution_               , massDistributionEmbedding
+    double precision                                            , parameter   :: radiusTinyFactor        =1.0d-9 , factorDensityLarge       =1.0d+5
+    double precision                                            , parameter   :: countPointsPerOctave    =2.0d0
+    double precision                                            , parameter   :: toleranceFactor         =2.0d0
+    double precision                             , dimension(:) , allocatable :: velocityDispersions             , radii
+    double precision                                                          :: radiusMinimum                   , radiusMaximum                   , &
+         &                                                                       toleranceRelative               , density                         , &
+         &                                                                       jeansIntegral                   , radiusOuter_                    , &
+         &                                                                       radiusLower                     , radiusUpper                     , &
+         &                                                                       radiusLowerJeansEquation        , radiusUpperJeansEquation        , &
+         &                                                                       densityMaximum                  , densityOuter_                   , &
          &                                                                       jeansIntegralPrevious
-    integer         (c_size_t                   )                             :: countRadii                       , iMinimum                        , &
-         &                                                                       iMaximum                         , i
+    integer         (c_size_t                   )                             :: countRadii                      , iMinimum                        , &
+         &                                                                       iMaximum                        , i
     integer                                                                   :: status
     type            (coordinateSpherical        )                             :: coordinates
-    type            (integrator                 ), save                       :: integrator_
-    logical                                      , save                       :: initialized              =.false.
+    type            (integrator                 )                             :: integrator_
     logical                                                                   :: remakeTable
-    !$omp threadprivate(integrator_,initialized)
 
     ! Determine if the table must be rebuilt.
     remakeTable=.false.
@@ -1134,13 +1107,9 @@ contains
             &       radius > self%velocityDispersionRadialRadiusMaximum__
     end if
     if (remakeTable) then
-       ! Initialize integrator if necessary.
-       if (.not.initialized) then
-          integrator_=integrator(jeansEquationIntegrand_,toleranceRelative=self%toleranceRelativeVelocityDispersion)
-          initialized=.true.
-       end if
+       integrator_=integrator(jeansEquationIntegrand_,toleranceRelative=self%toleranceRelativeVelocityDispersion)
        ! Find the range of radii at which to compute the velocity dispersion, and construct the arrays.
-       call self%solverSet(massDistributionEmbedding)
+       call self%solverSet(massDistribution_,massDistributionEmbedding)
        !! Set an initial range of radii that brackets the requested radius.
        radiusMinimum=0.5d0*radius
        radiusMaximum=2.0d0*radius
@@ -1157,13 +1126,13 @@ contains
        !! negligible.
        !!! Start at the maximum radius and gradually increase the outer radius until the density is sufficiently small.
        coordinates    =[radiusMaximum,0.0d0,0.0d0]
-       densityMaximum=massDistributionEmbedding%density(coordinates)
+       densityMaximum=massDistribution_%density(coordinates)
        radiusOuter_  =radiusMaximum
        densityOuter_ =densityMaximum
        do while (densityOuter_ > densityMaximum/factorDensityLarge)
           radiusOuter_ =radiusOuter_*2.0d0
           coordinates  =[radiusOuter_,0.0d0,0.0d0]
-          densityOuter_=massDistributionEmbedding%density(coordinates)
+          densityOuter_=massDistribution_%density(coordinates)
        end do
        !! Construct arrays.
        countRadii=nint(log(radiusMaximum/radiusMinimum)/log(2.0d0)*countPointsPerOctave+1.0d0)
@@ -1199,8 +1168,8 @@ contains
           ! Reset the accumulated Jeans integral if necessary.
           if (i == iMinimum-1) then
              coordinates          = [radii(iMinimum),0.0d0,0.0d0]
-             jeansIntegralPrevious=+                          velocityDispersions(iMinimum   )**2 &
-                  &                *massDistributionEmbedding%density            (coordinates)
+             jeansIntegralPrevious=+                  velocityDispersions(iMinimum   )**2 &
+                  &                *massDistribution_%density            (coordinates)
           end if
           ! If the interval is wholly outside of the outer radius, the integral is zero.
           if (radiusLower > radiusOuter_) then
@@ -1209,10 +1178,10 @@ contains
           else
              ! Evaluate the integral.
              coordinates             =[radiusLower,0.0d0,0.0d0]
-             density                 =massDistributionEmbedding%density            (coordinates                                                                )
-             radiusLowerJeansEquation=self                     %jeansEquationRadius(radiusLower                                      ,massDistributionEmbedding)
-             radiusUpperJeansEquation=self                     %jeansEquationRadius(radiusUpper                                      ,massDistributionEmbedding)
-             jeansIntegral           =integrator_              %integrate          (radiusLowerJeansEquation,radiusUpperJeansEquation,status                   )
+             density                 =massDistribution_%density            (coordinates                                                                )
+             radiusLowerJeansEquation=self             %jeansEquationRadius(radiusLower                                      ,massDistributionEmbedding)
+             radiusUpperJeansEquation=self             %jeansEquationRadius(radiusUpper                                      ,massDistributionEmbedding)
+             jeansIntegral           =integrator_      %integrate          (radiusLowerJeansEquation,radiusUpperJeansEquation,status                   )
              if (status /= errorStatusSuccess) then
                 ! Integration failed.
                 toleranceRelative=+     toleranceFactor                     &
@@ -1275,7 +1244,7 @@ contains
     implicit none
     double precision, intent(in   ) :: radius
 
-    jeansEquationIntegrand_=solvers(solversCount)%self%jeansEquationIntegrand(radius,solvers(solversCount)%massDistributionEmbedding)
+    jeansEquationIntegrand_=solvers(solversCount)%self%jeansEquationIntegrand(radius,solvers(solversCount)%massDistribution_,solvers(solversCount)%massDistributionEmbedding)
     return
   end function jeansEquationIntegrand_
   

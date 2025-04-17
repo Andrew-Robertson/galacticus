@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a property extractor class for the SED of a component.
+  Implements a property extractor class for the SED of a component.
   !!}
   use :: Cosmology_Functions                   , only : cosmologyFunctionsClass
   use :: Galactic_Structure_Options            , only : enumerationComponentTypeType
@@ -90,7 +90,7 @@
   
   interface nodePropertyExtractorSED
      !!{
-     Constructors for the ``sed'' output analysis class.
+     Constructors for the {\normalfont \ttfamily sed} output analysis class.
      !!}
      module procedure sedConstructorParameters
      module procedure sedConstructorInternal
@@ -176,7 +176,7 @@ contains
     Internal constructor for the {\normalfont \ttfamily sed} property extractor class.
     !!}
     use :: Atomic_Data                     , only : Abundance_Pattern_Lookup
-    use :: Galactic_Structure_Options      , only : componentTypeDisk       , componentTypeSpheroid
+    use :: Galactic_Structure_Options      , only : componentTypeDisk       , componentTypeSpheroid, componentTypeNuclearStarCluster
     use :: Error                           , only : Error_Report
     use :: Numerical_Constants_Astronomical, only : metallicitySolar
     implicit none
@@ -196,11 +196,13 @@ contains
     <constructorAssign variables="component, frame, wavelengthMinimum, wavelengthMaximum, resolution, toleranceRelative, *stellarPopulationSpectra_, *stellarPopulationSpectraPostprocessor_, *starFormationHistory_, *outputTimes_, *cosmologyFunctions_"/>
     !!]
     
-    if     (                                                                                                               &
-         &   component /= componentTypeDisk                                                                                &
-         &  .and.                                                                                                          &
-         &   component /= componentTypeSpheroid                                                                            &
-         & ) call Error_Report("only 'disk' and 'spheroid' components are supported"//{introspection:location})
+    if     (                                                                                                                          &
+         &   component /= componentTypeDisk                                                                                           &
+         &  .and.                                                                                                                     &
+         &   component /= componentTypeSpheroid                                                                                       &
+         &  .and.                                                                                                                     &
+         &   component /= componentTypeNuclearStarCluster                                                                             &
+         & ) call Error_Report("only 'disk', 'spheroid' and 'nuclearStarCluster' components are supported"//{introspection:location})
     call self%stellarPopulationSpectra_%wavelengths(self%countWavelengths                   ,self%wavelengths_              )
     call self%stellarPopulationSpectra_%tabulation (     agesCount       ,metallicitiesCount,     ages        ,metallicities)    
     self%metallicityBoundaries       =self%starFormationHistory_%metallicityBoundaries()
@@ -324,8 +326,8 @@ contains
     !!{
     Implement a {\normalfont \ttfamily sed} property extractor.
     !!}
-    use :: Galacticus_Nodes          , only : nodeComponentDisk, nodeComponentSpheroid
-    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid
+    use :: Galacticus_Nodes          , only : nodeComponentDisk, nodeComponentSpheroid, nodeComponentNSC
+    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid, componentTypeNuclearStarCluster
     use :: Histories                 , only : history
     implicit none
     double precision                          , dimension(:,:  )          , allocatable :: sedExtract
@@ -335,6 +337,7 @@ contains
     type            (multiCounter            ), intent(inout)   , optional              :: instance
     class           (nodeComponentDisk       )                  , pointer               :: disk
     class           (nodeComponentSpheroid   )                  , pointer               :: spheroid
+    class           (nodeComponentNSC        )                  , pointer               :: nuclearStarCluster
     double precision                          , dimension(:,:,:), pointer               :: sedTemplate_
     double precision                          , dimension(:,:,:), target  , allocatable :: sedTemplate
     double precision                          , dimension(  :,:)          , allocatable :: masses
@@ -347,12 +350,15 @@ contains
     sedExtract=0.0d0
     ! Get the relevant star formation history.
     select case (self%component%ID)
-    case (componentTypeDisk    %ID)
-       disk                 => node    %disk                ()
-       starFormationHistory =  disk    %starFormationHistory()
-    case (componentTypeSpheroid%ID)
-       spheroid             => node    %spheroid            ()
-       starFormationHistory =  spheroid%starFormationHistory()
+    case (componentTypeDisk               %ID)
+       disk                 => node              %disk                ()
+       starFormationHistory =  disk              %starFormationHistory()
+    case (componentTypeSpheroid           %ID)
+       spheroid             => node              %spheroid            ()
+       starFormationHistory =  spheroid          %starFormationHistory()
+     case (componentTypeNuclearStarCluster%ID)
+       nuclearStarCluster   => node              %NSC                 ()
+       starFormationHistory =  nuclearStarCluster%starFormationHistory()
     end select
     if (.not.starFormationHistory%exists()) return
     ! Get the index of the template to use.
@@ -460,7 +466,7 @@ contains
     !!{
     Return column descriptions of the {\normalfont \ttfamily sed} property.
     !!}
-    use :: Numerical_Constants_Units, only : angstromsPerMeter
+    use :: Numerical_Constants_Units, only : metersToAngstroms
     implicit none
     class           (nodePropertyExtractorSED), intent(inout)                            :: self
     double precision                          , intent(in   ), optional                  :: time
@@ -479,7 +485,7 @@ contains
        descriptions(i)=trim(label)
     end do
     valuesDescription=var_str('Wavelengths at which the SED is tabulated [in units of Å].')
-    valuesUnitsInSI  =1.0d0/angstromsPerMeter
+    valuesUnitsInSI  =1.0d0/metersToAngstroms
     return
   end subroutine sedColumnDescriptions
 

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -29,6 +29,7 @@ module Tensors
   !!}
   use, intrinsic :: ISO_C_Binding, only : c_size_t
   use            :: FoX_DOM      , only : node
+  use            :: Display      , only : enumerationVerbosityLevelType
   implicit none
   private
   public :: tensorRank2Dimension3Symmetric, assignment(=), operator(*), max
@@ -165,11 +166,12 @@ module Tensors
        class(tensorRank2Dimension3Symmetric), intent(inout)              :: self
        type (node                          ), intent(in   ), pointer     :: tensorDefinition
      end subroutine Tensor_R2_D3_Sym_Builder
-     module subroutine Tensor_R2_D3_Sym_Dump(self)
+     module subroutine Tensor_R2_D3_Sym_Dump(self,verbosityLevel)
        !!{
        Reset a {\normalfont \ttfamily tensorRank2Dimension3Symmetric} symmetric object.
        !!}
        class(tensorRank2Dimension3Symmetric), intent(in   ) :: self
+       type (enumerationVerbosityLevelType ), intent(in   ) :: verbosityLevel
      end subroutine Tensor_R2_D3_Sym_Dump
      module subroutine Tensor_R2_D3_Sym_Dump_Raw(self,fileHandle)
        !!{

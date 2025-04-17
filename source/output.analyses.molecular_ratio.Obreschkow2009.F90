@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a molecular ratio class that assumes the model of \cite{obreschkow_simulation_2009}.
+Implements a molecular ratio class that assumes the model of \cite{obreschkow_simulation_2009}.
 !!}
 
   !![
@@ -69,7 +69,7 @@ Contains a module which implements a molecular ratio class that assumes the mode
 
   interface outputAnalysisMolecularRatioObreschkow2009
      !!{
-     Constructors for the ``obreschkow2009'' output analysis class.
+     Constructors for the {\normalfont \ttfamily obreschkow2009} output analysis class.
      !!}
      module procedure obreschkow2009ConstructorParameters
      module procedure obreschkow2009ConstructorInternal
@@ -79,7 +79,7 @@ contains
 
   function obreschkow2009ConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``obreschkow2009'' output analysis property operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily obreschkow2009} output analysis property operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -160,7 +160,7 @@ contains
 
   function obreschkow2009ConstructorInternal(K,fSigma,A1,A2,alpha1,alpha2,beta,scatter) result (self)
     !!{
-    Internal constructor for the ``obreschkow2009'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily obreschkow2009} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisMolecularRatioObreschkow2009)                :: self

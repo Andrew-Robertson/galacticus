@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a generic 1D scatter function (i.e. the scatter of some property weighted by number density of
+  Implements a generic 1D scatter function (i.e. the scatter of some property weighted by number density of
   objects binned by some property) output analysis class.
   !!}
 
@@ -66,16 +66,24 @@
      logical                                                                                     :: finalized                                      , likelihoodNormalize                             , &
           &                                                                                         xAxisIsLog                                     , yAxisIsLog
    contains
-     final     ::                  scatterFunction1DDestructor
-     procedure :: analyze       => scatterFunction1DAnalyze
-     procedure :: finalize      => scatterFunction1DFinalize
-     procedure :: reduce        => scatterFunction1DReduce
-     procedure :: logLikelihood => scatterFunction1DLogLikelihood
+     !![
+     <methods>
+       <method description="Return the results of the scatter function operator." method="results"         />
+       <method description="Finalize analysis of the scatter function operator."  method="finalizeAnalysis"/>
+     </methods>
+     !!]
+     final     ::                     scatterFunction1DDestructor
+     procedure :: analyze          => scatterFunction1DAnalyze
+     procedure :: finalize         => scatterFunction1DFinalize
+     procedure :: finalizeAnalysis => scatterFunction1DFinalizeAnalysis
+     procedure :: reduce           => scatterFunction1DReduce
+     procedure :: results          => scatterFunction1DResults
+     procedure :: logLikelihood    => scatterFunction1DLogLikelihood
   end type outputAnalysisScatterFunction1D
 
   interface outputAnalysisScatterFunction1D
      !!{
-     Constructors for the ``scatterFunction1D'' output analysis class.
+     Constructors for the {\normalfont \ttfamily scatterFunction1D} output analysis class.
      !!}
      module procedure scatterFunction1DConstructorParameters
      module procedure scatterFunction1DConstructorInternal
@@ -85,7 +93,7 @@ contains
 
   function scatterFunction1DConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``scatterFunction1D'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily scatterFunction1D} output analysis class which takes a parameter set as input.
     !!}
     use :: Error                  , only : Error_Report
     use :: Input_Parameters       , only : inputParameter                                , inputParameters
@@ -359,7 +367,7 @@ contains
 
   function scatterFunction1DConstructorInternal(label,comment,propertyLabel,propertyComment,propertyUnits,propertyUnitsInSI,scatterLabel,scatterComment,scatterUnits,scatterUnitsInSI,binCenter,bufferCount,outputWeight,nodePropertyExtractor_,outputAnalysisWeightPropertyExtractor_,outputAnalysisPropertyOperator_,outputAnalysisWeightPropertyOperator_,outputAnalysisPropertyUnoperator_,outputAnalysisWeightOperator_,outputAnalysisDistributionOperator_,galacticFilter_,outputTimes_,covarianceModel,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum,likelihoodNormalize,xAxisLabel,yAxisLabel,xAxisIsLog,yAxisIsLog,targetLabel,scatterValueTarget,scatterCovarianceTarget) result (self)
     !!{
-    Constructor for the ``scatterFunction1D'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily scatterFunction1D} output analysis class for internal use.
     !!}
     use :: Output_Analysis_Property_Operators, only : outputAnalysisPropertyOperatorClass         , outputAnalysisPropertyOperatorSequence, outputAnalysisPropertyOperatorSquare, propertyOperatorList
     use :: Output_Analysis_Weight_Operators  , only : outputAnalysisWeightOperatorClass           , weightOperatorList
@@ -609,7 +617,7 @@ contains
     type (hdf5Object                     )                          :: analysisGroup, dataset
 
     ! Finalize the analysis.
-    call scatterFunction1DFinalizeAnalysis(self)
+    call self%finalizeAnalysis()
     ! Output the resulting scatter function.
     !$ call hdf5Access%set()
     analysesGroup =  outputFile   %openGroup('analyses'     )
@@ -665,6 +673,36 @@ contains
     return
   end subroutine scatterFunction1DFinalize
 
+  subroutine scatterFunction1DResults(self,binCenter,scatterValue,scatterCovariance)
+    !!{
+    Implement a scatterFunction1D output analysis finalization.
+    !!}
+    implicit none
+    class           (outputAnalysisScatterFunction1D)                             , intent(inout)           :: self
+    double precision                                 , allocatable, dimension(:  ), intent(inout), optional :: binCenter     , scatterValue
+    double precision                                 , allocatable, dimension(:,:), intent(inout), optional :: scatterCovariance
+
+    ! Finalize analysis.
+    call self%finalizeAnalysis()
+    ! Return results.
+    if (present(binCenter        )) then
+       if (allocated(binCenter        )) deallocate(binCenter        )
+       allocate(binCenter(size(self%binCenter)))
+       binCenter         =self%binCenter
+    end if
+    if (present(scatterValue     )) then
+       if (allocated(scatterValue     )) deallocate(scatterValue     )
+       allocate(scatterValue(size(self%scatterValue)))
+       scatterValue     =self%scatterValue
+    end if
+    if (present(scatterCovariance)) then
+       if (allocated(scatterCovariance)) deallocate(scatterCovariance)
+       allocate(scatterCovariance(size(self%scatterCovariance,dim=1),size(self%scatterCovariance,dim=2)))
+       scatterCovariance=self%scatterCovariance
+    end if
+    return
+  end subroutine scatterFunction1DResults
+
   double precision function scatterFunction1DLogLikelihood(self)
     !!{
     Return the log-likelihood of a scatterFunction1D output analysis.
@@ -685,7 +723,7 @@ contains
     ! Check for existence of a target distribution.
     if (allocated(self%scatterValueTarget)) then
        ! Finalize analysis.
-       call scatterFunction1DFinalizeAnalysis(self)
+       call self%finalizeAnalysis()
        ! Allocate workspaces.
        allocate(scatterCovarianceCombined(size(self%binCenter),size(self%binCenter)))
        allocate(scatterValueDifference   (size(self%binCenter)                     ))
@@ -701,7 +739,7 @@ contains
        if (status == GSL_Success) then
           if (self%likelihoodNormalize)                                                         &
                & scatterFunction1DLogLikelihood=+scatterFunction1DLogLikelihood                 &
-               &                                -0.5d0*covariance%determinant()                 &
+               &                                -0.5d0*covariance%logarithmicDeterminant()      &
                &                                -0.5d0*dble(size(self%binCenter))*log(2.0d0*Pi)
        else
           scatterFunction1DLogLikelihood       =+logImprobable

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -40,7 +40,7 @@
 
   interface nodePropertyExtractorMassBoundMaximum
      !!{
-     Constructors for the ``massBoundMaximum'' output extractor class.
+     Constructors for the {\normalfont \ttfamily massBoundMaximum} output extractor class.
      !!}
      module procedure massBoundMaximumConstructorParameters
      module procedure massBoundMaximumConstructorInternal
@@ -50,7 +50,7 @@ contains
 
   function massBoundMaximumConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``massBoundMaximum'' property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily massBoundMaximum} property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -66,7 +66,7 @@ contains
 
   function massBoundMaximumConstructorInternal() result(self)
     !!{
-    Internal constructor for the ``massBoundMaximum'' output extractor property extractor class.
+    Internal constructor for the {\normalfont \ttfamily massBoundMaximum} output extractor property extractor class.
     !!}
     implicit none
     type(nodePropertyExtractorMassBoundMaximum) :: self

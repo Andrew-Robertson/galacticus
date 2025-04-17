@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -161,19 +161,21 @@ module Node_Component_Disk_Standard
   double precision                            :: toleranceAbsoluteMass                              , radiusStructureSolver               , &
        &                                         toleranceRelativeMetallicity
   logical                                     :: diskNegativeAngularMomentumAllowed                 , structureSolverUseCole2000Method    , &
-       &                                         inactiveLuminositiesStellar
+       &                                         inactiveLuminositiesStellar                        , postStepZeroNegativeMasses
 
   ! History of trial radii used to check for oscillations in the solution when solving for the structure of the disk.
   integer                                     :: radiusSolverIteration
   double precision, dimension(2)              :: radiusHistory
   !$omp threadprivate(radiusHistory,radiusSolverIteration)
-  ! The largest and smallest angular momentum, in units of that of a circular orbit at the virial radius, considered to be physically plausible for a disk.
+
+  ! The largest and smallest angular momentum, in units of that of a circular orbit at the virial radius, considered to be
+  ! physically plausible for a disk.
   double precision, parameter                 :: angularMomentumMaximum                    =1.0d+1
   double precision, parameter                 :: angularMomentumMinimum                    =1.0d-6
 
   ! Disk structural parameters.
-  double precision                            :: diskStructureSolverSpecificAngularMomentum        , diskRadiusSolverFlatVsSphericalFactor
-  !$omp threadprivate(diskStructureSolverSpecificAngularMomentum,diskRadiusSolverFlatVsSphericalFactor)
+  double precision                            :: ratioAngularMomentumSolverRadius        , diskRadiusSolverFlatVsSphericalFactor
+  !$omp threadprivate(ratioAngularMomentumSolverRadius,diskRadiusSolverFlatVsSphericalFactor)
 
   ! Pipe attachment status.
   logical                                     :: pipesAttached                             =.false.
@@ -235,7 +237,7 @@ contains
        <inputParameter>
          <name>structureSolverUseCole2000Method</name>
          <defaultValue>.false.</defaultValue>
-         <description></description>
+         <description>If true, use the method described in \cite{cole_hierarchical_2000} to correct for difference between thin disk and spherical mass distributions when solving for disk radii.</description>
          <source>subParameters</source>
        </inputParameter>
        <inputParameter>
@@ -248,6 +250,12 @@ contains
          <name>inactiveLuminositiesStellar</name>
          <defaultValue>.false.</defaultValue>
          <description>Specifies whether or not disk stellar luminosities are inactive properties (i.e. do not appear in any ODE being solved).</description>
+         <source>subParameters</source>
+       </inputParameter>
+       <inputParameter>
+         <name>postStepZeroNegativeMasses</name>
+         <defaultValue>.true.</defaultValue>
+         <description>If true, negative masses will be zeroed after each ODE step. Note that this can lead to non-conservation of mass.</description>
          <source>subParameters</source>
        </inputParameter>
        !!]
@@ -275,8 +283,9 @@ contains
     implicit none
     type            (inputParameters), intent(inout) :: parameters
     type            (dependencyRegEx), dimension(2)  :: dependencies
-    double precision                                 :: massDistributionDiskDensityMoment1, massDistributionDiskDensityMoment2
-    logical                                          :: surfaceDensityMoment1IsInfinite   , surfaceDensityMoment2IsInfinite
+    double precision                                 :: massDistributionDiskDensityMoment1     , massDistributionDiskDensityMoment2, &
+         &                                              ratioAngularMomentumSolverRadiusDefault
+    logical                                          :: surfaceDensityMoment1IsInfinite        , surfaceDensityMoment2IsInfinite
     type            (inputParameters)                :: subParameters
 
     ! Check if this implementation is selected. If so, initialize the mass distribution.
@@ -334,15 +343,25 @@ contains
        massDistributionDiskDensityMoment2=massDistributionStellar_%surfaceDensityRadialMoment(2.0d0,isInfinite=surfaceDensityMoment2IsInfinite)
        if (surfaceDensityMoment1IsInfinite.or.surfaceDensityMoment2IsInfinite) then
           ! One or both of the moments are infinite. Simply assume a value of 0.5 as a default.
-          diskStructureSolverSpecificAngularMomentum=0.5d0
+          ratioAngularMomentumSolverRadiusDefault=+0.5d0
        else
-          diskStructureSolverSpecificAngularMomentum=  &
-               & +radiusStructureSolver                &
-               & /(                                    &
-               &   +massDistributionDiskDensityMoment2 &
-               &   /massDistributionDiskDensityMoment1 &
-               &  )
+          ratioAngularMomentumSolverRadiusDefault=+radiusStructureSolver                &
+               &                                  /(                                    &
+               &                                    +massDistributionDiskDensityMoment2 &
+               &                                    /massDistributionDiskDensityMoment1 &
+               &                                   )
        end if
+       !$omp critical (diskStandardInitializeAngularMomentum)
+       !![
+       <inputParameter>
+         <name>ratioAngularMomentumSolverRadius</name>
+         <defaultSource>($I_1/I_2$ where $I_n=\int_0^\infty \Sigma(R) R^n \mathrm{d}R$, where $\Sigma(R)$ is the disk surface density profile, unless either $I_1$ or $I_2$ is infinite, in which case a default of $1/2$ is used instead.)</defaultSource>
+         <defaultValue>ratioAngularMomentumSolverRadiusDefault</defaultValue>
+         <description>The assumed ratio of the specific angular momentum at the structure solver radius to the mean specific angular momentum of the standard disk component.</description>
+         <source>subParameters</source>
+       </inputParameter>
+       !!]
+       !$omp end critical (diskStandardInitializeAngularMomentum)
        ! If necessary, compute the specific angular momentum correction factor to account for the difference between rotation
        ! curves for thin disk and a spherical mass distribution.
        if (structureSolverUseCole2000Method) then
@@ -478,8 +497,8 @@ contains
     type            (history            ), save                   :: historyStellar
     !$omp threadprivate(historyStellar)
     
-    ! Return immediately if this class is not in use.
-    if (.not.defaultDiskComponent%standardIsActive()) return
+    ! Return immediately if this class is not in use or if masses are not to be zeroed.
+    if (.not.defaultDiskComponent%standardIsActive().or..not.postStepZeroNegativeMasses) return
     ! Get the disk component.
     disk => node%disk()
     ! Check if an standard disk component exists.
@@ -1104,8 +1123,8 @@ contains
     !!{
     Interface for the size solver algorithm.
     !!}
-    use :: Galacticus_Nodes                , only : nodeComponentDisk              , nodeComponentDiskStandard, treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Galacticus_Nodes                , only : nodeComponentDisk             , nodeComponentDiskStandard, treeNode
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     type            (treeNode                                     ), intent(inout)          :: node
     logical                                                        , intent(  out)          :: componentActive
@@ -1118,9 +1137,9 @@ contains
          &                                                                                     specificAngularMomentumMean
 
     ! Determine if node has an active disk component supported by this module.
-    componentActive        =  .false.
-    specificAngularMomentum=  0.0d0
-    disk      => node%disk()
+    componentActive         =  .false.
+    specificAngularMomentum =  0.0d0
+    disk                    => node%disk()
     select type (disk)
        class is (nodeComponentDiskStandard)
        componentActive=.true.
@@ -1136,33 +1155,29 @@ contains
              else
                 specificAngularMomentumMean=0.0d0
              end if
-             specificAngularMomentum=specificAngularMomentumMean*diskStructureSolverSpecificAngularMomentum
+             specificAngularMomentum=specificAngularMomentumMean*ratioAngularMomentumSolverRadius
              ! If using the Cole et al. (2000) method for disk radii, adjust the specific angular momentum to account for the
              ! difference between rotation curves for thin disk and a spherical mass distribution. Trap instances where this leads to
              ! imaginary specific angular momentum - this can happen as the radius solver explores the allowed range of radii when
              ! seeking a solution.
-             if (structureSolverUseCole2000Method)                                                       &
+             if (structureSolverUseCole2000Method)                                                     &
                   & specificAngularMomentum=sqrt(                                                      &
                   &                               max(                                                 &
                   &                                    0.0d0,                                          &
                   &                                    specificAngularMomentum**2                      &
                   &                                   -diskRadiusSolverFlatVsSphericalFactor           &
-                  &                                   *gravitationalConstantGalacticus                 &
+                  &                                   *gravitationalConstant_internal                  &
                   &                                   *massDisk                                        &
                   &                                   *Node_Component_Disk_Standard_Radius_Solve(node) &
                   &                                  )                                                 &
                   )
           end if
-          ! Associate the pointers with the appropriate property routines.
-          Radius_Get   => Node_Component_Disk_Standard_Radius_Solve
-          Radius_Set   => Node_Component_Disk_Standard_Radius_Solve_Set
-          Velocity_Get => Node_Component_Disk_Standard_Velocity
-          Velocity_Set => Node_Component_Disk_Standard_Velocity_Set
-       else
-          call Node_Component_Disk_Standard_Radius_Solve_Set(node,0.0d0)
-          call Node_Component_Disk_Standard_Velocity_Set    (node,0.0d0)
-          componentActive=.false.
        end if
+       ! Associate the pointers with the appropriate property routines.
+       Radius_Get   => Node_Component_Disk_Standard_Radius_Solve
+       Radius_Set   => Node_Component_Disk_Standard_Radius_Solve_Set
+       Velocity_Get => Node_Component_Disk_Standard_Velocity
+       Velocity_Set => Node_Component_Disk_Standard_Velocity_Set
     end select
     return
   end subroutine Node_Component_Disk_Standard_Radius_Solver
@@ -1223,7 +1238,7 @@ contains
     !![
     <stateStore variables="massDistributionStellar_ massDistributionGas_ kinematicDistribution_ darkMatterHaloScale_ stellarPopulationProperties_ starFormationHistory_ mergerMassMovements_"/>
     !!]
-    write (stateFile) diskStructureSolverSpecificAngularMomentum,diskRadiusSolverFlatVsSphericalFactor
+    write (stateFile) ratioAngularMomentumSolverRadius,diskRadiusSolverFlatVsSphericalFactor
     return
   end subroutine Node_Component_Disk_Standard_State_Store
 
@@ -1248,7 +1263,7 @@ contains
     !![
     <stateRestore variables="massDistributionStellar_ massDistributionGas_ kinematicDistribution_ darkMatterHaloScale_ stellarPopulationProperties_ starFormationHistory_ mergerMassMovements_"/>
     !!]
-    read (stateFile) diskStructureSolverSpecificAngularMomentum,diskRadiusSolverFlatVsSphericalFactor
+    read (stateFile) ratioAngularMomentumSolverRadius,diskRadiusSolverFlatVsSphericalFactor
     return
   end subroutine Node_Component_Disk_Standard_State_Retrieve
   

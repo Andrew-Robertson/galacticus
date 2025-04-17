@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a stellar luminosity output analysis property extractor class which applies the dust model of \cite{charlot_simple_2000}.
+Implements a stellar luminosity output analysis property extractor class which applies the dust model of \cite{charlot_simple_2000}.
 !!}
 
   use :: ISO_Varying_String, only : varying_string
@@ -52,7 +52,7 @@ Contains a module which implements a stellar luminosity output analysis property
 
   interface nodePropertyExtractorLmnstyStllrCF2000
      !!{
-     Constructors for the ``lmnstyStllrChrltFll2000'' output analysis class.
+     Constructors for the {\normalfont \ttfamily lmnstyStllrChrltFll2000} output analysis class.
      !!}
      module procedure lmnstyStllrChrltFll2000ConstructorParameters
      module procedure lmnstyStllrChrltFll2000ConstructorInternal
@@ -62,7 +62,7 @@ contains
 
   function lmnstyStllrChrltFll2000ConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``lmnstyStllrChrltFll2000'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily lmnstyStllrChrltFll2000} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -131,7 +131,7 @@ contains
 
   function lmnstyStllrChrltFll2000ConstructorInternal(filterName,filterType,depthOpticalISMCoefficient,depthOpticalCloudsCoefficient,wavelengthExponent,outputTimes_,redshiftBand,outputMask) result(self)
     !!{
-    Internal constructor for the ``lmnstyStllrChrltFll2000'' output analysis property extractor class.
+    Internal constructor for the {\normalfont \ttfamily lmnstyStllrChrltFll2000} output analysis property extractor class.
     !!}
     use, intrinsic :: ISO_C_Binding                 , only : c_size_t
     use            :: Instruments_Filters           , only : Filter_Get_Index       , Filter_Wavelength_Effective

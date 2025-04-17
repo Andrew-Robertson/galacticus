@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -53,7 +53,7 @@
 
   interface posteriorSampleLikelihoodIndpndntLklhdsSqntl
      !!{
-     Constructors for the {\normalfont \ttfamily independentLikelihoods} posterior sampling convergence class.
+     Constructors for the {\normalfont \ttfamily indpndntLklhdsSqntl} posterior sampling convergence class.
      !!}
      module procedure independentLikelihoodsSequentialConstructorParameters
      module procedure independentLikelihoodsSequentialConstructorInternal
@@ -65,7 +65,7 @@ contains
 
   function independentLikelihoodsSequentialConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the {\normalfont \ttfamily independentLikelihoods} posterior sampling convergence class which builds the object from a
+    Constructor for the {\normalfont \ttfamily indpndntLklhdsSqntl} posterior sampling convergence class which builds the object from a
     parameter set.
     !!}
     use :: Error           , only : Error_Report
@@ -122,7 +122,7 @@ contains
 
   function independentLikelihoodsSequentialConstructorInternal(modelLikelihoods,finalLikelihoodFullEvaluation,restoreLevels,likelihoodMultiplier,likelihoodAccept) result(self)
     !!{
-    Constructor for ``independentLikelihoods'' posterior sampling likelihood class.
+    Constructor for {\normalfont \ttfamily indpndntLklhdsSqntl} posterior sampling likelihood class.
     !!}
     implicit none
     type            (posteriorSampleLikelihoodIndpndntLklhdsSqntl)                              :: self
@@ -152,7 +152,7 @@ contains
     use :: Models_Likelihoods_Constants, only : logImpossible , logImprobable
     use :: String_Handling             , only : operator(//)
     implicit none
-    class           (posteriorSampleLikelihoodIndpndntLklhdsSqntl), intent(inout)               :: self
+    class           (posteriorSampleLikelihoodIndpndntLklhdsSqntl), intent(inout), target       :: self
     class           (posteriorSampleStateClass                   ), intent(inout)               :: simulationState
     type            (modelParameterList                          ), intent(inout), dimension(:) :: modelParametersActive_, modelParametersInactive_
     class           (posteriorSampleConvergenceClass             ), intent(inout)               :: simulationConvergence
@@ -262,6 +262,7 @@ contains
        end forall
        call modelLikelihood_%simulationState%update       (stateVectorMapped(1:size(modelLikelihood_%parameterMap)),logState=.false.,isConverged=.false.)
        call modelLikelihood_%simulationState%chainIndexSet(simulationState%chainIndex())
+       call modelLikelihood_%simulationState%countSet     (simulationState%count     ())
        ! Evaluate this likelihood
        timeEvaluate_=-1.0
        logLikelihood                                             =+modelLikelihood_%modelLikelihood_%evaluate(                                           &

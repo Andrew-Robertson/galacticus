@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -205,11 +205,10 @@ contains
     !!{
     Return the specific angular momentum of cooling gas in the constantRotation model.
     !!}
-    use :: Error                           , only : Error_Report
-    use :: Galacticus_Nodes                , only : nodeComponentBasic             , nodeComponentHotHalo, nodeComponentSpin, treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
-    use :: Mass_Distributions              , only : massDistributionClass
-    use :: Galactic_Structure_Options      , only : componentTypeHotHalo           , massTypeGaseous
+    use :: Error                     , only : Error_Report
+    use :: Galacticus_Nodes          , only : nodeComponentBasic   , nodeComponentHotHalo, nodeComponentSpin, treeNode
+    use :: Mass_Distributions        , only : massDistributionClass
+    use :: Galactic_Structure_Options, only : componentTypeHotHalo , massTypeGaseous
     implicit none
     class           (coolingSpecificAngularMomentumConstantRotation), intent(inout) :: self
     type            (treeNode                                      ), intent(inout) :: node
@@ -273,21 +272,21 @@ contains
        ! Return the computed value.
        if (self%useInteriorMean) then
           ! Find the specific angular momentum interior to the specified radius.
-          massDistribution_                       =>  node             %massDistribution               (componentType=componentTypeHotHalo,massType=massTypeGaseous)
-          constantRotationAngularMomentumSpecific =  +self             %angularMomentumSpecificPrevious               &
-               &                                     *massDistribution_%densityRadialMoment            (3.0d0,radius) &
-               &                                     /massDistribution_%densityRadialMoment            (2.0d0,radius)
+          massDistribution_                       =>  node             %massDistribution               (componentType=componentTypeHotHalo,massType     =massTypeGaseous)
+          constantRotationAngularMomentumSpecific =  +self             %angularMomentumSpecificPrevious                                                                   &
+               &                                     *massDistribution_%densityRadialMoment            (moment       =3.0d0               ,radiusMaximum=radius         ) &
+               &                                     /massDistribution_%densityRadialMoment            (moment       =2.0d0               ,radiusMaximum=radius         )
           !![
 	  <objectDestructor name="massDistribution_"/>
           !!]          
        else
           ! Find the specific angular momentum at the specified radius.
-          constantRotationAngularMomentumSpecific =  +self             %angularMomentumSpecificPrevious               &
-               &                                     *                                                        radius
+          constantRotationAngularMomentumSpecific =  +self             %angularMomentumSpecificPrevious                                                                   &
+               &                                     *                                                                                                   radius
        end if
     else
        ! Radius is non-positive - return zero.
-       constantRotationAngularMomentumSpecific=0.0d0
+       constantRotationAngularMomentumSpecific    =  +0.0d0
     end if
     return
   end function constantRotationAngularMomentumSpecific

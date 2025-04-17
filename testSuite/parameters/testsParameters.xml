@@ -3,7 +3,7 @@
 <!-- 30-October-2011                          -->
 <parameters>
   <formatVersion>2</formatVersion>
-  <lastModified revision="165490f4968c699f7e5bb73ef60bcb7e626f51e6"/>
+  <lastModified revision="e9236b11f17f9c96b0cdac005d7945ac0febe7d5"/>
   <!-- Cosmological parameters and options -->
   <cosmologyParameters value="simple">
     <HubbleConstant value="70.2"/>
@@ -11,11 +11,10 @@
     <OmegaDarkEnergy value="0.7275"/>
     <OmegaBaryon value="0.0455"/>
     <temperatureCMB value="2.72548"/>
+    <cosmologicalMassVariance value="filteredPower" id="myCMV">
+      <sigma_8 value="0.912"/>
+    </cosmologicalMassVariance>
   </cosmologyParameters>
-
-  <cosmologicalMassVariance value="filteredPower" id="myCMV">
-    <sigma_8 value="0.912"/>
-  </cosmologicalMassVariance>
 
   <cosmologicalMassVariance idRef="myCMV"/>
 
@@ -63,6 +62,7 @@
   </wrapper1>
   <derivedValue6 value="=min(1.0,2.0)"/>
   <derivedValue7 value="=max(1.0,2.0)"/>
+  <derivedValue8 value="=[nonExistantParameter|1234.5]"/>
   <integerValue1 value="6"/>
   <derivedText1 value="=mouse_[%s|cosmologicalMassVariance]_[%4.2f|derivedValue6]_[%12.6e|derivedValue7]_[%4.4d|integerValue1]"/>
   <active1 value="0.1" active="[cosmologicalMassVariance:sigma_8] != 0.912"/>

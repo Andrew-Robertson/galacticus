@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galactic high-pass filter for stellar mass-weighted morphology (i.e. spheroid-to-total ratio).
+Implements a galactic high-pass filter for stellar mass-weighted morphology (i.e. spheroid-to-total ratio).
 !!}
 
   !![
@@ -42,7 +42,7 @@ Contains a module which implements a galactic high-pass filter for stellar mass-
 
   interface galacticFilterStellarMassMorphology
      !!{
-     Constructors for the ``stellarMassMorphology'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily stellarMassMorphology} galactic filter class.
      !!}
      module procedure stellarMassMorphologyConstructorParameters
      module procedure stellarMassMorphologyConstructorInternal
@@ -52,7 +52,7 @@ contains
 
   function stellarMassMorphologyConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``stellarMassMorphology'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily stellarMassMorphology} galactic filter class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none

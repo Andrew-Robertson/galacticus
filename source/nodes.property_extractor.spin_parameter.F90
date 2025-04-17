@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a spin parameter output analysis property extractor class.
+Implements a spin parameter output analysis property extractor class.
 !!}
   
   use :: Dark_Matter_Halo_Scales, only : darkMatterHaloScaleClass
@@ -44,7 +44,7 @@ Contains a module which implements a spin parameter output analysis property ext
 
   interface nodePropertyExtractorSpin
      !!{
-     Constructors for the ``spin'' output property extractor class.
+     Constructors for the {\normalfont \ttfamily spin} output property extractor class.
      !!}
      module procedure spinConstructorParameters
      module procedure spinConstructorInternal
@@ -54,7 +54,7 @@ contains
 
   function spinConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``spin'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily spin} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none

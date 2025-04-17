@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -47,7 +47,7 @@
 
   interface outputAnalysisBlackHoleVelocityDispersionRelation
      !!{
-     Constructors for the ``blackHoleVelocityDispersionRelation'' output analysis class.
+     Constructors for the {\normalfont \ttfamily blackHoleVelocityDispersionRelation} output analysis class.
      !!}
      module procedure blackHoleVelocityDispersionRelationConstructorParameters
      module procedure blackHoleVelocityDispersionRelationConstructorInternal
@@ -57,7 +57,7 @@ contains
 
   function blackHoleVelocityDispersionRelationConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``blackHoleVelocityDispersionRelation'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily blackHoleVelocityDispersionRelation} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none
@@ -118,7 +118,7 @@ contains
 
   function blackHoleVelocityDispersionRelationConstructorInternal(systematicErrorPolynomialCoefficient,randomErrorPolynomialCoefficient,randomErrorMinimum,randomErrorMaximum,cosmologyFunctions_,outputTimes_,toleranceRelative,darkMatterHaloScale_) result (self)
     !!{
-    Constructor for the ``blackHoleVelocityDispersionRelation'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily blackHoleVelocityDispersionRelation} output analysis class for internal use.
     !!}
     use :: Cosmology_Functions                   , only : cosmologyFunctionsMatterLambda
     use :: Cosmology_Parameters                  , only : cosmologyParametersSimple

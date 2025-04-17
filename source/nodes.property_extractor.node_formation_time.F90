@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -39,7 +39,7 @@
 
   interface nodePropertyExtractorNodeFormationTime
      !!{
-     Constructors for the ``nodeFormationTime'' output extractor class.
+     Constructors for the {\normalfont \ttfamily nodeFormationTime} output extractor class.
      !!}
      module procedure nodeFormationTimeConstructorParameters
      module procedure nodeFormationTimeConstructorInternal
@@ -49,7 +49,7 @@ contains
 
   function nodeFormationTimeConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``nodeFormationTime'' property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily nodeFormationTime} property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -65,7 +65,7 @@ contains
 
   function nodeFormationTimeConstructorInternal() result(self)
     !!{
-    Internal constructor for the ``nodeFormationTime'' output extractor property extractor class.
+    Internal constructor for the {\normalfont \ttfamily nodeFormationTime} output extractor property extractor class.
     !!}
     implicit none
     type(nodePropertyExtractorNodeFormationTime) :: self

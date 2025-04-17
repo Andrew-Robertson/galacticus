@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -116,7 +116,7 @@ module Intergalactic_Medium_State
           &amp;                          /sqrt(                                                     &amp;
           &amp;                                +4.0d0                                               &amp;
           &amp;                                *Pi                                                  &amp;
-          &amp;                                *gravitationalConstantGalacticus                     &amp;
+          &amp;                                *gravitationalConstant_internal                      &amp;
           &amp;                                *self%cosmologyFunctions_%matterDensityEpochal(time) &amp;
           &amp;                               )                                                     &amp;
           &amp;                         )**3

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements an ICM X-ray luminosity-temperature relation output analysis class.
+  Implements an ICM X-ray luminosity-temperature relation output analysis class.
   !!}
 
   !![
@@ -42,7 +42,7 @@
 
   interface outputAnalysisICMXrayLuminosityTemperature
      !!{
-     Constructors for the ``icmXrayLuminosityTemperature'' output analysis class.
+     Constructors for the {\normalfont \ttfamily icmXrayLuminosityTemperature} output analysis class.
      !!}
      module procedure icmXrayLuminosityTemperatureConstructorParameters
      module procedure icmXrayLuminosityTemperatureConstructorInternal
@@ -52,7 +52,7 @@ contains
 
   function icmXrayLuminosityTemperatureConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``icmXrayLuminosityTemperature'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily icmXrayLuminosityTemperature} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters       , only : inputParameter          , inputParameters
     use :: Cooling_Functions      , only : coolingFunctionClass
@@ -119,7 +119,7 @@ contains
 
   function icmXrayLuminosityTemperatureConstructorInternal(systematicErrorPolynomialCoefficient,randomErrorPolynomialCoefficient,randomErrorMinimum,randomErrorMaximum,outputTimes_,cosmologyFunctions_,darkMatterHaloScale_,coolingFunction_) result (self)
     !!{
-    Constructor for the ``icmXrayLuminosityTemperature'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily icmXrayLuminosityTemperature} output analysis class for internal use.
     !!}
     use :: Galactic_Filters                      , only : filterList                                         , galacticFilterAll                      , galacticFilterBasicMass               , galacticFilterHaloIsolated
     use :: Error                                 , only : Error_Report
@@ -310,7 +310,7 @@ contains
 
   subroutine icmXrayLuminosityTemperatureDestructor(self)
     !!{
-    Destructor for the ``icmXrayLuminosityTemperature'' output analysis class.
+    Destructor for the {\normalfont \ttfamily icmXrayLuminosityTemperature} output analysis class.
     !!}
     implicit none
     type(outputAnalysisICMXrayLuminosityTemperature), intent(inout) :: self

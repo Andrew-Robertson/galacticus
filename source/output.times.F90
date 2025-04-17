@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -66,10 +66,11 @@ module Output_Times
     <argument>integer         (c_size_t), intent(  out), optional :: indexOutput</argument>
    </method>
    <method name="timePrevious" >
-    <description>Given a {\normalfont \ttfamily time}, return the time of the previous output.</description>
+    <description>Given a {\normalfont \ttfamily time}, return the time of the previous output, and (optionally) the index of that output.</description>
     <type>double precision</type>
     <pass>yes</pass>
-    <argument>double precision, intent(in   ) :: timeCurrent</argument>
+    <argument>double precision          , intent(in   )           :: timeCurrent</argument>
+    <argument>integer         (c_size_t), intent(  out), optional :: indexOutput</argument>
    </method>
   </functionClass>
   !!]

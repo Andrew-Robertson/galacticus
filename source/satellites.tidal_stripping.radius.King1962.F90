@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -170,10 +170,10 @@ contains
     !!}
     use :: Coordinates                     , only : assignment(=)            , coordinateCartesian
     use :: Galactic_Structure_Options      , only : massTypeDark
-    use :: Galacticus_Nodes                , only : nodeComponentSatellite   , nodeComponentBasic             , treeNode
-    use :: Linear_Algebra                  , only : assignment(=)            , matrix                         , vector
+    use :: Galacticus_Nodes                , only : nodeComponentSatellite   , nodeComponentBasic            , treeNode
+    use :: Linear_Algebra                  , only : assignment(=)            , matrix                        , vector
     use :: Mass_Distributions              , only : massDistributionClass
-    use :: Numerical_Constants_Astronomical, only : gigaYear                 , gravitationalConstantGalacticus, megaParsec
+    use :: Numerical_Constants_Astronomical, only : gigaYear                 , gravitationalConstant_internal, megaParsec
     use :: Numerical_Constants_Math        , only : Pi
     use :: Numerical_Constants_Prefixes    , only : kilo
     use :: Tensors                         , only : assignment(=)            , tensorRank2Dimension3Symmetric
@@ -286,15 +286,15 @@ contains
          &   massDistribution_%massEnclosedBySphere(radiusZero) >= 0.0d0 &
          & ) then
        ! Find the tidal density.
-       densityTidal=+tidalPull                          &
-            &       /(kilo*gigaYear/megaParsec)     **2 &
-            &       /gravitationalConstantGalacticus    &
-            &       *3.0d0                              &
-            &       /4.0d0                              &
+       densityTidal=+tidalPull                         &
+            &       /(kilo*gigaYear/megaParsec)    **2 &
+            &       /gravitationalConstant_internal    &
+            &       *3.0d0                             &
+            &       /4.0d0                             &
             &       /Pi
        ! Solve for the radius enclosing this density.
        radiusGuess       =  +sqrt(                                              &
-               &                  +gravitationalConstantGalacticus              &
+               &                  +gravitationalConstant_internal               &
                &                  *massSatellite                                &
                &                  /self%darkMatterHaloScale_%radiusVirial(node) &
                &                  /tidalPull                                    &

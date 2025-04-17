@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -98,7 +98,7 @@ contains
   
   function constantDensityCloudConstructorInternal(mass,radius,componentType,massType) result(self)
     !!{
-    Constructor for ``constantDensityCloud'' convergence class.
+    Constructor for {\normalfont \ttfamily constantDensityCloud} convergence class.
     !!}
     use :: Numerical_Constants_Math, only : Pi
     implicit none
@@ -185,7 +185,7 @@ contains
     Return the potential at the specified {\normalfont \ttfamily coordinates} in a constant density cloud.
     !!}
     use :: Galactic_Structure_Options      , only : structureErrorCodeSuccess
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionConstantDensityCloud), intent(inout), target   :: self
     class           (coordinate                          ), intent(in   )           :: coordinates
@@ -195,20 +195,20 @@ contains
     if (present(status)) status=structureErrorCodeSuccess
     radius=coordinates%rSpherical()
     if (radius > self%radius) then
-       constantDensityCloudPotential=-gravitationalConstantGalacticus &
-            &                        *self%mass                       &
+       constantDensityCloudPotential=-gravitationalConstant_internal &
+            &                        *self%mass                      &
             &                        /radius
     else
-       constantDensityCloudPotential=-gravitationalConstantGalacticus &
-            &                        *self%mass                       &
-            &                        /self%radius                     &
-            &                        /2.0d0                           &
-            &                        *(                               &
-            &                          +1.0d0                         &
-            &                          +(                             &
-            &                            +     radius                 &
-            &                            /self%radius                 &
-            &                           )**2                          &
+       constantDensityCloudPotential=-gravitationalConstant_internal &
+            &                        *self%mass                      &
+            &                        /self%radius                    &
+            &                        /2.0d0                          &
+            &                        *(                              &
+            &                          +1.0d0                        &
+            &                          +(                            &
+            &                            +     radius                &
+            &                            /self%radius                &
+            &                           )**2                         &
             &                         )
     end if
     return

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -872,7 +872,7 @@ contains
     Return the time of the next lightcone crossing for this node.
     !!}
     use :: Galacticus_Nodes                , only : nodeComponentBasic                      , nodeComponentPosition
-    use :: Numerical_Constants_Astronomical, only : Mpc_per_km_per_s_To_Gyr                 , gigaYear             , megaParsec
+    use :: Numerical_Constants_Astronomical, only : MpcPerKmPerSToGyr                       , gigaYear             , megaParsec
     use :: Numerical_Constants_Physical    , only : speedLight
     use :: Vectors                         , only : Vector_Magnitude
     use :: Root_Finder                     , only : rootFinder
@@ -911,7 +911,7 @@ contains
          &                           -timeStart_            &
          &                          )                       &
          &                         *speedMaximum            &
-         &                         /Mpc_per_km_per_s_To_Gyr
+         &                         /MpcPerKmPerSToGyr
     ! Find the range of replicants in which this node might cross the lightcone.
     periodicRange=self%periodicRange(distanceMinimum,distanceMaximum,radiusBuffer)
     ! Iterate over replicants of interest.

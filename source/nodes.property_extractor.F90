@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which provieds a class that implements on-the-fly analyses.
+Contains a module which provides a class that implements extraction of properties from nodes.
 !!}
 
 module Node_Property_Extractors
@@ -75,9 +75,10 @@ module Node_Property_Extractors
    <description>Specifies the galactic component for various node property extractors.</description>
    <visibility>public</visibility>
    <encodeFunction>yes</encodeFunction>
-   <entry label="disk"    />
-   <entry label="spheroid"/>
-   <entry label="total"   />
+   <entry label="disk"              />
+   <entry label="spheroid"          />
+   <entry label="nuclearStarCluster"/>
+   <entry label="total"             />
   </enumeration>
   !!]
 

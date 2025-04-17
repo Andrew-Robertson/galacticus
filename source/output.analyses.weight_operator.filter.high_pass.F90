@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a high-pass filter analysis weight operator class.
+Implements a high-pass filter analysis weight operator class.
 !!}
 
   !![
@@ -38,7 +38,7 @@ Contains a module which implements a high-pass filter analysis weight operator c
 
   interface outputAnalysisWeightOperatorFilterHighPass
      !!{
-     Constructors for the ``filterHighPass'' output analysis class.
+     Constructors for the {\normalfont \ttfamily filterHighPass} output analysis class.
      !!}
      module procedure filterHighPassConstructorParameters
      module procedure filterHighPassConstructorInternal
@@ -48,7 +48,7 @@ contains
 
   function filterHighPassConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``filterHighPass'' output analysis weight operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily filterHighPass} output analysis weight operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -80,7 +80,7 @@ contains
 
   function filterHighPassConstructorInternal(filterThreshold,filterWidth) result (self)
     !!{
-    Internal constructor for the ``filterHighPass'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily filterHighPass} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisWeightOperatorFilterHighPass)                          :: self

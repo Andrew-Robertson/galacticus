@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -515,23 +515,24 @@ contains
     return
   end subroutine Chemicals_Builder
 
-  subroutine Chemicals_Dump(chemicals)
+  subroutine Chemicals_Dump(chemicals,verbosityLevel)
     !!{
     Dump all chemical values.
     !!}
-    use :: Display           , only : displayMessage
+    use :: Display           , only : displayMessage, enumerationVerbosityLevelType
     use :: ISO_Varying_String, only : len           , operator(//)
     implicit none
-    class    (chemicalAbundances), intent(in   ) :: chemicals
-    integer                                      :: i
-    character(len=22            )                :: label
-    type     (varying_string    )                :: message
+    class    (chemicalAbundances           ), intent(in   ) :: chemicals
+    type     (enumerationVerbosityLevelType), intent(in   ) :: verbosityLevel
+    integer                                                 :: i
+    character(len=22                       )                :: label
+    type     (varying_string               )                :: message
 
     if (allocated(chemicals%chemicalValue)) then
        do i=1,chemicalsCount
           write (label,'(e22.16)') chemicals%chemicalValue(i)
           message=chemicalsToTrack(i)//': '//repeat(" ",chemicalNameLengthMaximum-len(chemicalsToTrack(i)))//label
-          call displayMessage(message)
+          call displayMessage(message,verbosityLevel)
        end do
     end if
     return

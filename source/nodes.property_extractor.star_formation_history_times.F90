@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a property extractor class for the star formation history of a component.
+  Implements a property extractor class for the star formation history of a component.
   !!}
   
   use :: Galactic_Structure_Options, only : enumerationComponentTypeType
@@ -47,7 +47,7 @@
   
   interface nodePropertyExtractorStarFormationHistoryTimes
      !!{
-     Constructors for the ``starFormationHistoryTimes'' output analysis class.
+     Constructors for the {\normalfont \ttfamily starFormationHistoryTimes} output analysis class.
      !!}
      module procedure starFormationHistoryTimesConstructorParameters
      module procedure starFormationHistoryTimesConstructorInternal
@@ -87,7 +87,7 @@ contains
     !!{
     Internal constructor for the {\normalfont \ttfamily starFormationHistoryTimes} property extractor class.
     !!}
-    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid
+    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid, componentTypeNuclearStarCluster
     use :: Error                     , only : Error_Report
     implicit none
     type (nodePropertyExtractorStarFormationHistoryTimes)                        :: self
@@ -97,11 +97,13 @@ contains
     <constructorAssign variables="component, *starFormationHistory_"/>
     !!]
     
-    if     (                                                                                                    &
-         &   component /= componentTypeDisk                                                                     &
-         &  .and.                                                                                               &
-         &   component /= componentTypeSpheroid                                                                 &
-         & ) call Error_Report("only 'disk' and 'spheroid' components are supported"//{introspection:location})    
+    if     (                                                                                                                          &
+         &   component /= componentTypeDisk                                                                                           &
+         &  .and.                                                                                                                     &
+         &   component /= componentTypeSpheroid                                                                                       &
+         &  .and.                                                                                                                     &
+         &   component /= componentTypeNuclearStarCluster                                                                             &
+         & ) call Error_Report("only 'disk', 'spheroid' and 'nuclearStarCluster' components are supported"//{introspection:location})    
     return
   end function starFormationHistoryTimesConstructorInternal
 
@@ -133,8 +135,8 @@ contains
     !!{
     Implement a {\normalfont \ttfamily starFormationHistoryTimes} property extractor.
     !!}
-    use :: Galacticus_Nodes          , only : nodeComponentDisk, nodeComponentSpheroid
-    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid
+    use :: Galacticus_Nodes          , only : nodeComponentDisk, nodeComponentSpheroid, nodeComponentNSC
+    use :: Galactic_Structure_Options, only : componentTypeDisk, componentTypeSpheroid, componentTypeNuclearStarCluster
     use :: Histories                 , only : history
     implicit none
     double precision                                                , dimension(:,:), allocatable :: starFormationHistoryTimesExtract
@@ -143,18 +145,22 @@ contains
     type            (multiCounter                                  ), intent(inout) , optional    :: instance
     class           (nodeComponentDisk                             )                , pointer     :: disk
     class           (nodeComponentSpheroid                         )                , pointer     :: spheroid
+    class           (nodeComponentNSC                              )                , pointer     :: nuclearStarCluster
     type            (history                                       )                              :: starFormationHistory
     double precision                                                , dimension(:  ), allocatable :: times 
     !$GLC attributes unused :: instance
 
     ! Get the relevant star formation history.
     select case (self%component%ID)
-    case (componentTypeDisk    %ID)
-       disk                 => node    %disk                ()
-       starFormationHistory =  disk    %starFormationHistory()
-    case (componentTypeSpheroid%ID)
-       spheroid             => node    %spheroid            ()
-       starFormationHistory =  spheroid%starFormationHistory()
+    case (componentTypeDisk              %ID)
+       disk                 => node              %disk                ()
+       starFormationHistory =  disk              %starFormationHistory()
+    case (componentTypeSpheroid          %ID)
+       spheroid             => node              %spheroid            ()
+       starFormationHistory =  spheroid          %starFormationHistory()
+    case (componentTypeNuclearStarCluster%ID)
+       nuclearStarCluster   => node              %NSC                 ()
+       starFormationHistory =  nuclearStarCluster%starFormationHistory()
     end select
     if (starFormationHistory%exists()) then
        times=self%starFormationHistory_%times(node=node,starFormationHistory=starFormationHistory,allowTruncation=.true.)

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a cold dark matter particle class.
+Implements a cold dark matter particle class.
 !!}
 
 
@@ -38,7 +38,7 @@ Contains a module which implements a cold dark matter particle class.
 
   interface darkMatterParticleCDM
      !!{
-     Constructors for the ``{\normalfont \ttfamily CDM}'' dark matter particle class.
+     Constructors for the {\normalfont \ttfamily CDM} dark matter particle class.
      !!}
      module procedure CDMConstructorParameters
   end interface darkMatterParticleCDM
@@ -47,7 +47,7 @@ contains
 
   function CDMConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``{\normalfont \ttfamily CDM}'' dark matter particle class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily CDM} dark matter particle class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -149,7 +149,7 @@
 
   interface powerSpectrumPrimordialTransferredFile
      !!{
-     Constructors for the ``file'' transferred primordial power spectrum class.
+     Constructors for the {\normalfont \ttfamily file} transferred primordial power spectrum class.
      !!}
      module procedure fileConstructorParameters
      module procedure fileConstructorInternal
@@ -162,7 +162,7 @@ contains
 
   function fileConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``file'' transferred primordial power spectrum class which takes a
+    Constructor for the {\normalfont \ttfamily file} transferred primordial power spectrum class which takes a
     parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
@@ -191,7 +191,7 @@ contains
 
   function fileConstructorInternal(fileName,cosmologyParameters_,cosmologyFunctions_) result(self)
     !!{
-    Internal constructor for the ``file'' transferred primordial power spectrum class.
+    Internal constructor for the {\normalfont \ttfamily file} transferred primordial power spectrum class.
     !!}
     implicit none
     type (powerSpectrumPrimordialTransferredFile)                        :: self

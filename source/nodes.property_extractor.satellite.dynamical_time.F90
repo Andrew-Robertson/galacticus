@@ -1,6 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -55,7 +54,7 @@ Provides a class that implements a satellite dynamical time extractor.
 
   interface nodePropertyExtractorSatelliteDynamicalTime
      !!{
-     Constructors for the ``satelliteDynamicalTime'' output analysis class.
+     Constructors for the {\normalfont \ttfamily satelliteDynamicalTime} output analysis class.
      !!}
      module procedure dynamicalTimeConstructorParameters
      module procedure dynamicalTimeConstructorInternal
@@ -117,7 +116,7 @@ contains
     !!}
     use :: Mass_Distributions              , only : massDistributionClass
     use :: Numerical_Constants_Math        , only : Pi
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus, Mpc_per_km_per_s_To_Gyr
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal, MpcPerKmPerSToGyr
     implicit none
     class           (nodePropertyExtractorSatelliteDynamicalTime), intent(inout), target   :: self
     type            (treeNode                                   ), intent(inout), target   :: node
@@ -135,13 +134,13 @@ contains
     <objectDestructor name="massDistribution_"/>
     !!]
     if (massTidal <= 0.0d0) return
-    dynamicalTimeExtract  =+sqrt(                                    &  
-         &                       +Pi                             **2 &
-         &                       /4.0d0                              &
-         &                       *radiusTidal**3                     &
-         &                       /gravitationalConstantGalacticus    &
-         &                       /massTidal                          &
-         &                       *Mpc_per_km_per_s_To_Gyr        **2 &
+    dynamicalTimeExtract  =+sqrt(                                   &  
+         &                       +Pi                            **2 &
+         &                       /4.0d0                             &
+         &                       *radiusTidal**3                    &
+         &                       /gravitationalConstant_internal    &
+         &                       /massTidal                         &
+         &                       *MpcPerKmPerSToGyr             **2 &
          &                      )
     return
   end function dynamicalTimeExtract

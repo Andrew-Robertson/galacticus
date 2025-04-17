@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -67,7 +67,7 @@ contains
     component}, assuming that the entire ISM is active.
     !!}
     use :: Error           , only : Error_Report
-    use :: Galacticus_Nodes, only : nodeComponentDisk, nodeComponentSpheroid
+    use :: Galacticus_Nodes, only : nodeComponentDisk, nodeComponentSpheroid, nodeComponentNSC
     implicit none
     class(starFormationActiveMassTotalISM), intent(inout) :: self
     class(nodeComponent                  ), intent(inout) :: component
@@ -76,6 +76,8 @@ contains
     class is (nodeComponentDisk    )
        totalISMMassActive=component%massGas()
     class is (nodeComponentSpheroid)
+       totalISMMassActive=component%massGas()
+    class is (nodeComponentNSC     )
        totalISMMassActive=component%massGas()
     class default
        totalISMMassActive=0.0d0

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -64,7 +64,7 @@
 
   interface powerSpectrumPrimordialPiecewisePowerLaw
      !!{
-     Constructors for the ``piecewise power-law'' primordial power spectrum class.
+     Constructors for the {\normalfont \ttfamily piecewisePowerLaw} primordial power spectrum class.
      !!}
      module procedure piecewisePowerLawConstructorParameters
      module procedure piecewisePowerLawConstructorInternal
@@ -74,7 +74,7 @@ contains
 
   function piecewisePowerLawConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``piecewise power-law'' primordial power spectrum class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily piecewisePowerLaw} primordial power spectrum class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -140,7 +140,7 @@ contains
 
   function piecewisePowerLawConstructorInternal(index_,running,runningRunning,wavenumberReference) result(self)
     !!{
-    Internal constructor for the ``power-law'' primordial power spectrum class.
+    Internal constructor for the {\normalfont \ttfamily piecewisePowerLaw} primordial power spectrum class.
     !!}
     use :: Error, only : Error_Report
     implicit none

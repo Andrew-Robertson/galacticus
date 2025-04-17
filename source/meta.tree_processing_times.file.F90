@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a merger tree processing time estimator using a polynomial relation read from file.
+Implements a merger tree processing time estimator using a polynomial relation read from file.
 !!}
 
   !![
@@ -57,7 +57,7 @@ Contains a module which implements a merger tree processing time estimator using
 
   interface metaTreeProcessingTimeFile
      !!{
-     Constructors for the ``file'' merger tree processing time estimator.
+     Constructors for the {\normalfont \ttfamily file} merger tree processing time estimator.
      !!}
      module procedure fileConstructorParameters
      module procedure fileConstructorInternal
@@ -67,7 +67,7 @@ contains
 
   function fileConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``file'' merger tree processing time estimator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily file} merger tree processing time estimator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -91,7 +91,7 @@ contains
 
   function fileConstructorInternal(fileName) result(self)
     !!{
-    Internal constructor for the ``file'' merger tree processing time estimator class.
+    Internal constructor for the {\normalfont \ttfamily file} merger tree processing time estimator class.
     !!}
     use :: FoX_DOM           , only : node                 , parseFile
     use :: Error             , only : Error_Report

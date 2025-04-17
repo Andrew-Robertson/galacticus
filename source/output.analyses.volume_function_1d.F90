@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a generic 1D volume function (i.e. number density of objects binned by some property, e.g. a
+Implements a generic 1D volume function (i.e. number density of objects binned by some property, e.g. a
 mass function) output analysis class.
 !!}
 
@@ -139,7 +139,7 @@ mass function) output analysis class.
 
   interface outputAnalysisVolumeFunction1D
      !!{
-     Constructors for the ``volumeFunction1D'' output analysis class.
+     Constructors for the {\normalfont \ttfamily volumeFunction1D} output analysis class.
      !!}
      module procedure volumeFunction1DConstructorParameters
      module procedure volumeFunction1DConstructorInternal
@@ -149,7 +149,7 @@ contains
 
   function volumeFunction1DConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``volumeFunction1D'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily volumeFunction1D} output analysis class which takes a parameter set as input.
     !!}
     use :: Error                  , only : Error_Report
     use :: Input_Parameters       , only : inputParameter                                , inputParameters
@@ -433,7 +433,7 @@ contains
 
   function volumeFunction1DConstructorInternal(label,comment,propertyLabel,propertyComment,propertyUnits,propertyUnitsInSI,distributionLabel,distributionComment,distributionUnits,distributionUnitsInSI,binCenter,bufferCount,outputWeight,nodePropertyExtractor_,outputAnalysisPropertyOperator_,outputAnalysisPropertyUnoperator_,outputAnalysisWeightOperator_,outputAnalysisDistributionOperator_,outputAnalysisDistributionNormalizer_,galacticFilter_,outputTimes_,covarianceModel,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum,likelihoodNormalize,xAxisLabel,yAxisLabel,xAxisIsLog,yAxisIsLog,targetLabel,functionValueTarget,functionCovarianceTarget,binWidth) result (self)
     !!{
-    Constructor for the ``volumeFunction1D'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily volumeFunction1D} output analysis class for internal use.
     !!}
     use    :: Error                   , only : Error_Report
     use    :: Node_Property_Extractors, only : nodePropertyExtractorClass           , nodePropertyExtractorScalar
@@ -542,7 +542,7 @@ contains
 
   subroutine volumeFunction1DDestructor(self)
     !!{
-    Destructor for  the ``volumeFunction1D'' output analysis class.
+    Destructor for  the {\normalfont \ttfamily volumeFunction1D} output analysis class.
     !!}
     !$ use :: OMP_Lib, only : OMP_Destroy_Lock
     implicit none
@@ -883,10 +883,10 @@ contains
           ! Compute the log-likelihood.
           volumeFunction1DLogLikelihood          =-0.5d0*covariance%covarianceProduct(residual,status)
           if (status == GSL_Success) then
-             if (self%likelihoodNormalize)                                                      &
-                  & volumeFunction1DLogLikelihood=+volumeFunction1DLogLikelihood                &
-                  &                               -0.5d0*covariance%determinant      (        ) &
-                  &                               -0.5d0*dble(self%binCount)                    &
+             if (self%likelihoodNormalize)                                                   &
+                  & volumeFunction1DLogLikelihood=+volumeFunction1DLogLikelihood             &
+                  &                               -0.5d0*covariance%logarithmicDeterminant() &
+                  &                               -0.5d0*dble(self%binCount)                 &
                   &                               *log(2.0d0*Pi)
           else
              volumeFunction1DLogLikelihood       =+logImprobable

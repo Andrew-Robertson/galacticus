@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a random error output analysis distribution operator class with an error magnitude that is
+  Implements a random error output analysis distribution operator class with an error magnitude that is
   a polynomial function of the property value.
   !!}
 
@@ -42,7 +42,7 @@
 
   interface outputAnalysisDistributionOperatorRandomErrorPlynml
      !!{
-     Constructors for the ``randomErrorPolynomial'' output analysis distribution operator class.
+     Constructors for the {\normalfont \ttfamily randomErrorPolynomial} output analysis distribution operator class.
      !!}
      module procedure randomErrorPolynomialConstructorParameters
      module procedure randomErrorPolynomialConstructorInternal
@@ -52,7 +52,7 @@ contains
 
   function randomErrorPolynomialConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``randomErrorPolynomial'' output analysis distribution operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily randomErrorPolynomial} output analysis distribution operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -100,7 +100,7 @@ contains
 
   function randomErrorPolynomialConstructorInternal(errorMinimum,errorMaximum,zeroPoint,coefficient) result(self)
     !!{
-    Internal constructor for the ``randomErrorPolynomial'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily randomErrorPolynomial} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisDistributionOperatorRandomErrorPlynml)                              :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an intracluster medium cooling power in band property extractor class.
+Implements an intracluster medium cooling power in band property extractor class.
 !!}
 
   use :: Cooling_Functions      , only : coolingFunction    , coolingFunctionClass
@@ -50,7 +50,7 @@ Contains a module which implements an intracluster medium cooling power in band 
 
   interface nodePropertyExtractorICMCoolingPowerInBand
      !!{
-     Constructors for the ``icmCoolingPowerInBand'' output analysis class.
+     Constructors for the {\normalfont \ttfamily icmCoolingPowerInBand} output analysis class.
      !!}
      module procedure icmCoolingPowerInBandConstructorParameters
      module procedure icmCoolingPowerInBandConstructorInternal

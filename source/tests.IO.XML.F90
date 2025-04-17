@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -79,9 +79,12 @@ program Tests_IO_XML
   xmlElement => XML_Get_First_Element_By_Tag_Name(doc,"array2")
   call XML_Array_Read       (xmlElement,"datum",array1,array2)
   call Assert("Read 2D allocatable array from element",[array1,array2],[0.0d0,1.0d0,2.0d0,3.0d0,4.0d0,5.0d0,6.0d0,7.0d0,8.0d0,9.0d0,9.0d0,8.0d0,7.0d0,6.0d0,5.0d0,4.0d0,3.0d0,2.0d0,1.0d0,0.0d0],absTol=1.0d-6)
-  xmlElement => XML_Get_First_Element_By_Tag_Name(doc,"level1/level2/level3")
+  xmlElement => XML_Get_First_Element_By_Tag_Name(doc,"test/level1/level2/level3",directChildrenOnly=.true.)
   call extractDataContent(xmlElement,iValue)
   call Assert("Get first element at end of path",iValue,[1234])
+  xmlElement => XML_Get_First_Element_By_Tag_Name(doc,"test/some/path/to[@value='scoobydoo']/find",directChildrenOnly=.true.)
+  call extractDataContent(xmlElement,iValue)
+  call Assert("Process XPath expression",iValue,[9275932])
 
   ! Test array length functions.
   xmlElement => XML_Get_First_Element_By_Tag_Name(doc,"array1")

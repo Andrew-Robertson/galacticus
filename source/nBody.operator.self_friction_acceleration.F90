@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,10 +18,10 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an N-body data operator which determines the acceleration of self-bound particles from unbound ones. The interaction between particles is computed using a tree method following \cite{barnes_hierarchical_1986}.
+Implements an N-body data operator which determines the acceleration of self-bound particles from unbound ones. The interaction between particles is computed using a tree method following \cite{barnes_hierarchical_1986}.
 !!}
 
-  use, intrinsic :: ISO_C_Binding           , only : c_size_t
+  use, intrinsic :: ISO_C_Binding, only : c_size_t
 
   !![
   <nbodyOperator name="nbodyOperatorSelfFrictionAcceleration">
@@ -42,7 +42,7 @@ Contains a module which implements an N-body data operator which determines the 
 
   interface nbodyOperatorSelfFrictionAcceleration
      !!{
-     Constructors for the ``selfFrictionAcceleration'' N-body operator class.
+     Constructors for the {\normalfont \ttfamily selfFrictionAcceleration} N-body operator class.
      !!}
      module procedure selfFrictionAccelerationConstructorParameters
      module procedure selfFrictionAccelerationConstructorInternal
@@ -52,7 +52,7 @@ contains
 
   function selfFrictionAccelerationConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``selfFrictionAcceleration'' N-body operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily selfFrictionAcceleration} N-body operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -84,7 +84,7 @@ contains
 
   function selfFrictionAccelerationConstructorInternal(bootstrapSampleCount,thetaTolerance) result (self)
     !!{
-    Internal constructor for the ``selfFrictionAcceleration'' N-body operator class
+    Internal constructor for the {\normalfont \ttfamily selfFrictionAcceleration} N-body operator class
     !!}
     implicit none
     type            (nbodyOperatorSelfFrictionAcceleration)                :: self
@@ -99,7 +99,7 @@ contains
 
   subroutine selfFrictionAccelerationDestructor(self)
     !!{
-    Destructor for the ``selfFrictionAcceleration'' N-body operator class.
+    Destructor for the {\normalfont \ttfamily selfFrictionAcceleration} N-body operator class.
     !!}
     implicit none
     type(nbodyOperatorSelfFrictionAcceleration), intent(inout) :: self
@@ -112,11 +112,11 @@ contains
     !!{
     Determine the acceleration of bound particles from unbound ones.
     !!}
-    use :: Display                         , only : displayIndent                  , displayUnindent
+    use :: Display                         , only : displayIndent                 , displayUnindent
     use :: Error                           , only : Error_Report
     use :: ISO_Varying_String              , only : var_str
     use :: String_Handling                 , only : operator(//)
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus, gigaYear       , megaParsec
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal, gigaYear       , megaParsec
     use :: Numerical_Constants_Prefixes    , only : kilo
     use :: Octree_Data_Structure           , only : octreeData
     implicit none
@@ -188,7 +188,7 @@ contains
              !$omp end parallel
              accelerationSelfFriction(:,i)=+accelerationAccumulate          &
                   &                        /sum(dble(selfBoundStatus(:,i))) &
-                  &                        *gravitationalConstantGalacticus &
+                  &                        *gravitationalConstant_internal  &
                   &                        *massParticle                    &
                   &                        /sampleRate(1)                   &
                   &                        /lengthSoftening**2              &

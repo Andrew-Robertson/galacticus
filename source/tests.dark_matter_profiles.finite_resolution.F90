@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -30,6 +30,7 @@ program Test_Dark_Matter_Profiles_Finite_Resolution
   use :: Cosmology_Functions       , only : cosmologyFunctionsMatterLambda
   use :: Cosmology_Parameters      , only : cosmologyParametersSimple
   use :: Dark_Matter_Halo_Scales   , only : darkMatterHaloScaleVirialDensityContrastDefinition
+  use :: Error                     , only : Error_Handler_Register
   use :: Virial_Density_Contrast   , only : virialDensityContrastSphericalCollapseClsnlssMttrCsmlgclCnstnt
   use :: Dark_Matter_Profiles_DMO  , only : darkMatterProfileDMOFiniteResolution                          , darkMatterProfileDMOFiniteResolutionNFW, darkMatterProfileDMONFW
   use :: Mass_Distributions        , only : nonAnalyticSolversNumerical                                   , massDistributionClass                  , kinematicsDistributionClass
@@ -72,12 +73,13 @@ program Test_Dark_Matter_Profiles_Finite_Resolution
        &                                                                                                     energyNumerical                                  , energy
   type            (coordinateSpherical                                           )                        :: coordinates                                      , coordinatesScale                               , &
        &                                                                                                     coordinatesVirial
-  
+
   call displayVerbositySet(verbosityLevelStandard)
   call Unit_Tests_Begin_Group("Finite resolution dark matter profiles")
   parameters=inputParameters('testSuite/parameters/darkMatterProfilesFiniteResolution.xml')
-  call eventsHooksInitialize()
+  call eventsHooksInitialize            (          )
   call Functions_Global_Set             (          )
+  call Error_Handler_Register           (          )
   call nodeClassHierarchyInitialize     (parameters)
   call Node_Components_Initialize       (parameters)
   call Node_Components_Thread_Initialize(parameters)
@@ -171,14 +173,14 @@ program Test_Dark_Matter_Profiles_Finite_Resolution
   radii=Make_Range(radiiMinimum,radiiMaximum,countRadii,rangeTypeLogarithmic)*radiusScale
   do i=1,countRadii
      coordinates                   =[radii(i),0.0d0,0.0d0]
-     mass                       (i)=+massDistributionFiniteResolutionNFW_      %massEnclosedBySphere    (radius     =                       radii(i)                                                                  )
-     massNumerical              (i)=+massDistributionFiniteResolution_         %massEnclosedBySphere    (radius     =                       radii(i)                                                                  )
-     density                    (i)=+massDistributionFiniteResolutionNFW_      %density                 (coordinates=                       coordinates                                                               )
-     densityNumerical           (i)=+massDistributionFiniteResolution_         %density                 (coordinates=                       coordinates                                                               )
-     velocityDispersion         (i)=+kinematicsDistributionFiniteResolutionNFW_%velocityDispersion1D    (coordinates=                       coordinates,massDistributionEmbedding=massDistributionFiniteResolutionNFW_)
-     velocityDispersionNumerical(i)=+kinematicsDistributionFiniteResolution_   %velocityDispersion1D    (coordinates=                       coordinates,massDistributionEmbedding=massDistributionFiniteResolution_   )
-     radiusEnclosingDensity     (i)=+massDistributionFiniteResolutionNFW_      %radiusEnclosingDensity  (density    =3.0d0*mass(i)/4.0d0/Pi/radii(i)**3                                                               )
-     radiusEnclosingMass        (i)=+massDistributionFiniteResolutionNFW_      %radiusEnclosingMass     (mass       =      mass(i)                                                                                    )
+     mass                       (i)=+massDistributionFiniteResolutionNFW_      %massEnclosedBySphere    (radius     =                       radii(i)                                                                                                                         )
+     massNumerical              (i)=+massDistributionFiniteResolution_         %massEnclosedBySphere    (radius     =                       radii(i)                                                                                                                         )
+     density                    (i)=+massDistributionFiniteResolutionNFW_      %density                 (coordinates=                       coordinates                                                                                                                      )
+     densityNumerical           (i)=+massDistributionFiniteResolution_         %density                 (coordinates=                       coordinates                                                                                                                      )
+     velocityDispersion         (i)=+kinematicsDistributionFiniteResolutionNFW_%velocityDispersion1D    (coordinates=                       coordinates,massDistribution_=massDistributionFiniteResolutionNFW_,massDistributionEmbedding=massDistributionFiniteResolutionNFW_)
+     velocityDispersionNumerical(i)=+kinematicsDistributionFiniteResolution_   %velocityDispersion1D    (coordinates=                       coordinates,massDistribution_=massDistributionFiniteResolution_   ,massDistributionEmbedding=massDistributionFiniteResolution_   )
+     radiusEnclosingDensity     (i)=+massDistributionFiniteResolutionNFW_      %radiusEnclosingDensity  (density    =3.0d0*mass(i)/4.0d0/Pi/radii(i)**3                                                                                                                      )
+     radiusEnclosingMass        (i)=+massDistributionFiniteResolutionNFW_      %radiusEnclosingMass     (mass       =      mass(i)                                                                                                                                           )
   end do
   call Assert(                                    &
        &             "Density"                  , &
@@ -218,7 +220,7 @@ program Test_Dark_Matter_Profiles_Finite_Resolution
   potential         =+massDistributionFiniteResolutionNFW_%potential(coordinates=coordinatesScale ) &
        &             -massDistributionFiniteResolutionNFW_%potential(coordinates=coordinatesVirial)
   potentialNumerical=+massDistributionFiniteResolution_   %potential(coordinates=coordinatesScale ) &
-       &             +massDistributionFiniteResolution_   %potential(coordinates=coordinatesVirial)
+       &             -massDistributionFiniteResolution_   %potential(coordinates=coordinatesVirial)
   call Assert(                           &
        &             "Potential"       , &
        &             potential         , &

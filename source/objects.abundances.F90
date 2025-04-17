@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -293,26 +293,27 @@ contains
     return
   end subroutine Abundances_Builder
 
-  subroutine Abundances_Dump(self)
+  subroutine Abundances_Dump(self,verbosityLevel)
     !!{
-    Reset an abundances object.
+    Dump properties of an abundances object.
     !!}
-    use :: Display           , only : displayMessage
-    use :: ISO_Varying_String, only : assignment(=) , operator(//), varying_string
+    use :: Display           , only : displayMessage, enumerationVerbosityLevelType
+    use :: ISO_Varying_String, only : assignment(=) , operator(//)                 , varying_string
     implicit none
-    class    (abundances    ), intent(in   ) :: self
-    integer                                  :: i
-    character(len=22        )                :: label
-    type     (varying_string)                :: message
+    class    (abundances                   ), intent(in   ) :: self
+    type     (enumerationVerbosityLevelType), intent(in   ) :: verbosityLevel
+    integer                                                 :: i
+    character(len=22                       )                :: label
+    type     (varying_string               )                :: message
 
     write (label,'(e22.16)') self%metallicityValue
     message='metallicity: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     if (elementsCount > 0) then
        do i=1,elementsCount
           write (label,'(e22.16)') self%elementalValue(i)
           message=elementsToTrack(i)//':          '//label
-          call displayMessage(message)
+          call displayMessage(message,verbosityLevel)
        end do
     end if
     return

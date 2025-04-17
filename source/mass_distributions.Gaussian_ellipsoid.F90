@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -158,7 +158,7 @@ contains
   
   function gaussianEllipsoidConstructorInternal(scaleLength,axes,rotation,mass,dimensionless,componentType,massType) result(self)
     !!{
-    Constructor for ``gaussianEllipsoid'' convergence class.
+    Constructor for {\normalfont \ttfamily gaussianEllipsoid} convergence class.
     !!}
     use :: Error               , only : Error_Report
     use :: Linear_Algebra      , only : vector       , assignment(=)
@@ -317,9 +317,9 @@ contains
     !!{
     Computes the gravitational acceleration at {\normalfont \ttfamily coordinates} for Gaussian ellipsoid mass distributions.
     !!}
-    use :: Coordinates                     , only : assignment(=)                  , coordinateCartesian
-    use :: Linear_Algebra                  , only : assignment(=)                  , operator(*)        , vector
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Coordinates                     , only : assignment(=)                 , coordinateCartesian
+    use :: Linear_Algebra                  , only : assignment(=)                 , operator(*)        , vector
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     double precision                                   , dimension(3)  :: gaussianEllipsoidAcceleration
     class           (massDistributionGaussianEllipsoid), intent(inout) :: self
@@ -355,10 +355,10 @@ contains
     accelerationVectorUnrotated  = self%rotationOut              &
          &                        *accelerationVector
     gaussianEllipsoidAcceleration= accelerationVectorUnrotated
-    if (.not.self%isDimensionless())                                      &
-         & gaussianEllipsoidAcceleration=+gaussianEllipsoidAcceleration   &
-         &                               *gravitationalConstantGalacticus &
-         &                               *self%mass                       &
+    if (.not.self%isDimensionless())                                     &
+         & gaussianEllipsoidAcceleration=+gaussianEllipsoidAcceleration  &
+         &                               *gravitationalConstant_internal &
+         &                               *self%mass                      &
          &                               /self%scaleLengthMaximum**2
     return
   end function gaussianEllipsoidAcceleration
@@ -530,7 +530,7 @@ contains
       call File_Lock(char(fileName),fileLock,lockIsShared=.true.)
       if (File_Exists(fileName)) then
          !$ call hdf5Access%set()
-         call file%openFile    (char(fileName      )                             )
+         call file%openFile    (char(fileName      ),readOnly=.true.             )
          call file%readDataset(      'x'            ,self%accelerationX          )
          call file%readDataset(      'scaleLength'  ,self%accelerationScaleLength)
          call file%readDataset(      'acceleration' ,self%accelerationVector     )

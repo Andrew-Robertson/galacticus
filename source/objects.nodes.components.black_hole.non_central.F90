@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -28,6 +28,7 @@ module Node_Component_Black_Hole_Noncentral
   use :: Black_Hole_Binary_Mergers          , only : blackHoleBinaryMergerClass
   use :: Black_Hole_Binary_Recoil_Velocities, only : blackHoleBinaryRecoilClass
   use :: Black_Hole_Binary_Separations      , only : blackHoleBinarySeparationGrowthRateClass
+  use :: Black_Hole_Seeds                   , only : blackHoleSeedsClass
   use :: Dark_Matter_Halo_Scales            , only : darkMatterHaloScaleClass
   implicit none
   private
@@ -62,7 +63,8 @@ module Node_Component_Black_Hole_Noncentral
   class(blackHoleBinaryRecoilClass              ), pointer :: blackHoleBinaryRecoil_
   class(blackHoleBinaryMergerClass              ), pointer :: blackHoleBinaryMerger_
   class(blackHoleBinarySeparationGrowthRateClass), pointer :: blackHoleBinarySeparationGrowthRate_
-  !$omp threadprivate(darkMatterHaloScale_,blackHoleBinaryRecoil_,blackHoleBinaryMerger_,blackHoleBinarySeparationGrowthRate_)
+  class(blackHoleSeedsClass                     ), pointer :: blackHoleSeeds_
+  !$omp threadprivate(darkMatterHaloScale_,blackHoleBinaryRecoil_,blackHoleBinaryMerger_,blackHoleBinarySeparationGrowthRate_,blackHoleSeeds_)
 
   ! Option specifying whether the triple black hole interaction should be used.
   logical :: tripleInteraction
@@ -127,6 +129,7 @@ contains
        <objectBuilder class="blackHoleBinaryRecoil"               name="blackHoleBinaryRecoil_"               source="subParameters"/>
        <objectBuilder class="blackHoleBinaryMerger"               name="blackHoleBinaryMerger_"               source="subParameters"/>
        <objectBuilder class="blackHoleBinarySeparationGrowthRate" name="blackHoleBinarySeparationGrowthRate_" source="subParameters"/>
+       <objectBuilder class="blackHoleSeeds"                      name="blackHoleSeeds_"                      source="subParameters"/>
        !!]
     end if
     return
@@ -150,6 +153,7 @@ contains
        <objectDestructor name="blackHoleBinaryRecoil_"              />
        <objectDestructor name="blackHoleBinaryMerger_"              />
        <objectDestructor name="blackHoleBinarySeparationGrowthRate_"/>
+       <objectDestructor name="blackHoleSeeds_"                     />
        !!]
     end if
     return
@@ -164,9 +168,9 @@ contains
     !!{
     Compute the black hole node mass rate of change.
     !!}
-    use :: Galacticus_Nodes                , only : defaultBlackHoleComponent      , interruptTask, nodeComponentBlackHole, propertyInactive, &
+    use :: Galacticus_Nodes                , only : defaultBlackHoleComponent     , interruptTask, nodeComponentBlackHole, propertyInactive, &
           &                                         treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     type            (treeNode              ), intent(inout)          :: node
     logical                                 , intent(inout)          :: interrupt
@@ -192,7 +196,7 @@ contains
           blackHole => node%blackHole(instance=iInstance)
           ! Compute the hard binary radius.
           radiusHardBinary= (                                                &
-               &              gravitationalConstantGalacticus                &
+               &              gravitationalConstant_internal                 &
                &             *(                                              &
                &               +blackHoleCentral%mass()                      &
                &               +blackHole       %mass()                      &
@@ -251,7 +255,7 @@ contains
                 blackHoleBinary => node%blackHole(instance=binaryInstance)
                 ! Compute the hard binary radius.
                 radiusHardBinary= (                                              &
-                     &              gravitationalConstantGalacticus              &
+                     &              gravitationalConstant_internal               &
                      &             *(                                            &
                      &                blackHoleCentral%mass()                    &
                      &               + blackHoleBinary%mass()                    &
@@ -329,7 +333,8 @@ contains
     !!{
     Merge two black holes.
     !!}
-    use :: Galacticus_Nodes, only : nodeComponentBlackHole, treeNode
+    use :: Galacticus_Nodes        , only : nodeComponentBlackHole , treeNode
+    use :: Events_Black_Hole_Merger, only : Event_Black_Hole_Merger
     implicit none
     type            (treeNode              ), intent(inout), target   :: node
     double precision                        , intent(in   ), optional :: timeEnd
@@ -364,12 +369,14 @@ contains
     massBlackHole2=blackHoleSecondary%mass()
     spinBlackHole1=blackHolePrimary  %spin()
     spinBlackHole2=blackHoleSecondary%spin()
+    ! Process the black hole merger.
+    call Event_Black_Hole_Merger(blackHolePrimary,blackHoleSecondary,blackHole1)
     ! Calculate the recoil velocity of the binary black hole and check whether it escapes the galaxy
     velocityRecoil=blackHoleBinaryRecoil_%velocity(blackHolePrimary,blackHoleSecondary)
     ! Compare the recoil velocity to the potential and determine whether the binary is ejected or stays in the galaxy.
     if (Node_Component_Black_Hole_Noncentral_Recoil_Escapes(node,velocityRecoil,radius=0.0d0,ignoreCentralBlackHole=.true.)) then
-       massBlackHoleNew=blackHole1%massSeed()
-       spinBlackHoleNew=blackHole1%spinSeed()
+       massBlackHoleNew=blackHoleSeeds_%mass(node)
+       spinBlackHoleNew=blackHoleSeeds_%spin(node)
     end if
     ! Set the mass and spin of the central black hole.
     call blackHole1%massSet(massBlackHoleNew)
@@ -383,8 +390,8 @@ contains
     !!{
     Handles triple black holes interactions, using conditions similar to those of \cite{volonteri_assembly_2003}.
     !!}
-    use :: Galacticus_Nodes            , only : nodeComponentBasic             , nodeComponentBlackHole, treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Galacticus_Nodes                , only : nodeComponentBasic            , nodeComponentBlackHole, treeNode
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     type            (treeNode              ), intent(inout), target   :: node
     double precision                        , intent(in   ), optional :: timeEnd
@@ -419,7 +426,7 @@ contains
        if (tripleBlackHoleComponent%mass() <= blackHoleBinary%mass()) then
           newRadius           = blackHoleBinary%radialPosition()/(1.0d0+0.4d0*massRatioIntruder)
           call blackHoleBinary%radialPositionSet(newRadius)
-          bindingEnergy       =+gravitationalConstantGalacticus             &
+          bindingEnergy       =+gravitationalConstant_internal              &
                &               *(                                           &
                &                 +tripleBlackHoleComponent%mass          () &
                &                 *blackHoleCentral        %mass          () &
@@ -433,7 +440,7 @@ contains
        else
           newRadius          = tripleBlackHoleComponent%radialPosition()/(1.0d0+0.4d0*massRatioIntruder )
           call tripleBlackHoleComponent%radialPositionSet(newRadius)
-          bindingEnergy      =+gravitationalConstantGalacticus     &
+          bindingEnergy      =+gravitationalConstant_internal      &
                &              *(                                   &
                &                +blackHoleBinary %mass          () &
                &                *blackHoleCentral%mass          () &
@@ -449,7 +456,7 @@ contains
        ! This latter case can be referred to as head-on collision.
        newRadius             =0.53d0*tripleBlackHoleComponent%radialPosition()
        call tripleBlackHoleComponent%radialPositionSet(newRadius)
-       bindingEnergy         =+gravitationalConstantGalacticus     &
+       bindingEnergy         =+gravitationalConstant_internal      &
             &                 *(                                   &
             &                   +blackHoleBinary %mass          () &
             &                   *blackHoleCentral%mass          () &
@@ -548,7 +555,7 @@ contains
 
     call displayMessage('Storing state for: componentBlackHole -> nonCentral',verbosity=verbosityLevelInfo)
     !![
-    <stateStore variables="darkMatterHaloScale_ blackHoleBinaryRecoil_ blackHoleBinaryMerger_ blackHoleBinarySeparationGrowthRate_"/>
+    <stateStore variables="darkMatterHaloScale_ blackHoleBinaryRecoil_ blackHoleBinaryMerger_ blackHoleBinarySeparationGrowthRate_ blackHoleSeeds_"/>
     !!]
     return
   end subroutine Node_Component_Black_Hole_NonCentral_State_Store
@@ -571,7 +578,7 @@ contains
 
     call displayMessage('Retrieving state for: componentBlackHole -> nonCentral',verbosity=verbosityLevelInfo)
     !![
-    <stateRestore variables="darkMatterHaloScale_ blackHoleBinaryRecoil_ blackHoleBinaryMerger_ blackHoleBinarySeparationGrowthRate_"/>
+    <stateRestore variables="darkMatterHaloScale_ blackHoleBinaryRecoil_ blackHoleBinaryMerger_ blackHoleBinarySeparationGrowthRate_ blackHoleSeeds_"/>
     !!]
     return
   end subroutine Node_Component_Black_Hole_NonCentral_State_Restore

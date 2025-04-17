@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -492,7 +492,7 @@ contains
     !!{
     Return the mid-plane rotation curve for an exponential disk.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionExponentialDisk), intent(inout) :: self
     double precision                                 , intent(in   ) :: radius
@@ -527,7 +527,7 @@ contains
     end if
     ! Make dimensionful if necessary.
     if (.not.self%dimensionless) exponentialDiskRotationCurve= &
-         & +sqrt(gravitationalConstantGalacticus)              &
+         & +sqrt(gravitationalConstant_internal)               &
          & *exponentialDiskRotationCurve
     return
   end function exponentialDiskRotationCurve
@@ -536,7 +536,7 @@ contains
     !!{
     Return the mid-plane rotation curve gradient for an exponential disk.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionExponentialDisk), intent(inout) :: self
     double precision                                 , intent(in   ) :: radius
@@ -560,7 +560,7 @@ contains
     end if
     ! Make dimensionful if necessary.
     if (.not.self%dimensionless) exponentialDiskRotationCurveGradient= &
-         &  +gravitationalConstantGalacticus                           &
+         &  +gravitationalConstant_internal                            &
          &  *exponentialDiskRotationCurveGradient
     return
   end function exponentialDiskRotationCurveGradient
@@ -580,9 +580,9 @@ contains
     !!{
     Return the gravitational potential for an exponential disk.
     !!}
-    use :: Coordinates                     , only : assignment(=)                  , coordinateCylindrical
+    use :: Coordinates                     , only : assignment(=)                 , coordinateCylindrical
     use :: Galactic_Structure_Options      , only : structureErrorCodeSuccess
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionExponentialDisk  ), intent(inout), target   :: self
     class           (coordinate                       ), intent(in   )           :: coordinates
@@ -623,7 +623,7 @@ contains
     end if
     ! Make dimensionful if necessary.
     if (.not.self%dimensionless) exponentialDiskPotential= &
-         &  +gravitationalConstantGalacticus               &
+         &  +gravitationalConstant_internal                &
          &  *exponentialDiskPotential
     return
   end function exponentialDiskPotential
@@ -825,8 +825,8 @@ contains
     !!{
     Computes the gravitational acceleration at {\normalfont \ttfamily coordinates} for exponential disk mass distributions.
     !!}
-    use :: Coordinates                     , only : assignment(=), coordinateCartesian            , coordinateCylindrical
-    use :: Numerical_Constants_Astronomical, only : gigaYear     , gravitationalConstantGalacticus, megaParsec
+    use :: Coordinates                     , only : assignment(=), coordinateCartesian           , coordinateCylindrical
+    use :: Numerical_Constants_Astronomical, only : gigaYear     , gravitationalConstant_internal, megaParsec
     use :: Numerical_Constants_Prefixes    , only : kilo
     implicit none
     double precision                                 , dimension(3)  :: exponentialDiskAcceleration
@@ -856,13 +856,13 @@ contains
     exponentialDiskAcceleration   (3  )=+           accelerationVertical           &
          &                              *sign(1.0d0,coordinatesCylindrical%z(   ))
     ! For dimensionful profiles apply the unit conversions and scalings.
-    if (.not.self%isDimensionless())                                    &
-         & exponentialDiskAcceleration=+exponentialDiskAcceleration     &
-         &                             *kilo                            &
-         &                             *gigaYear                        &
-         &                             /megaParsec                      &
-         &                             *gravitationalConstantGalacticus &
-         &                             *self%mass                       &
+    if (.not.self%isDimensionless())                                   &
+         & exponentialDiskAcceleration=+exponentialDiskAcceleration    &
+         &                             *kilo                           &
+         &                             *gigaYear                       &
+         &                             /megaParsec                     &
+         &                             *gravitationalConstant_internal &
+         &                             *self%mass                      &
          &                             /self%scaleRadius**2
     return
   end function exponentialDiskAcceleration
@@ -871,8 +871,8 @@ contains
     !!{
     Computes the gravitational tidal tensor at {\normalfont \ttfamily coordinates} for exponential disk mass distributions.
     !!}
-    use :: Coordinates                     , only : assignment(=)                  , coordinateCartesian, coordinateCylindrical
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Coordinates                     , only : assignment(=)                 , coordinateCartesian, coordinateCylindrical
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     type            (tensorRank2Dimension3Symmetric )                :: exponentialDiskTidalTensor
     class           (massDistributionExponentialDisk), intent(inout) :: self
@@ -920,10 +920,10 @@ contains
             &                                                   )
     end if
     ! For dimensionful profiles apply the unit conversions and scalings.
-    if (.not.self%isDimensionless())                                    &
-         & exponentialDiskTidalTensor=+exponentialDiskTidalTensor       &
-         &                             *gravitationalConstantGalacticus &
-         &                             *self%mass                       &
+    if (.not.self%isDimensionless())                                   &
+         & exponentialDiskTidalTensor=+exponentialDiskTidalTensor      &
+         &                             *gravitationalConstant_internal &
+         &                             *self%mass                      &
          &                             /self%scaleRadius**3
     return
   end function exponentialDiskTidalTensor
@@ -1095,7 +1095,7 @@ contains
       call File_Lock(char(fileName),fileLock,lockIsShared=.true.)
       if (File_Exists(fileName)) then
          !$ call hdf5Access%set()
-         call file%openFile    (char(fileName                     )                                 )
+         call file%openFile    (char(fileName                     ),readOnly=.true.                 )
          call file%readDataset(      'radii'                       ,self%accelerationRadii          )
          call file%readDataset(      'heights'                     ,self%accelerationHeights        )
          call file%readDataset(      'accelerationRadial'          ,self%accelerationRadial         )

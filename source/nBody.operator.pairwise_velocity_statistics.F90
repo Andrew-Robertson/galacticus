@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an N-body data operator which computes pairwise velocity statistics in bins of separation.
+Implements an N-body data operator which computes pairwise velocity statistics in bins of separation.
 !!}
 
   use            :: Cosmology_Functions     , only : cosmologyFunctionsClass
@@ -53,7 +53,7 @@ Contains a module which implements an N-body data operator which computes pairwi
 
   interface nbodyOperatorPairwiseVelocityStatistics
      !!{
-     Constructors for the ``pairwiseVelocityStatistics'' N-body operator class.
+     Constructors for the {\normalfont \ttfamily pairwiseVelocityStatistics} N-body operator class.
      !!}
      module procedure pairwiseVelocityStatisticsConstructorParameters
      module procedure pairwiseVelocityStatisticsConstructorInternal
@@ -63,7 +63,7 @@ contains
 
   function pairwiseVelocityStatisticsConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``pairwiseVelocityStatistics'' N-body operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily pairwiseVelocityStatistics} N-body operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -157,7 +157,7 @@ contains
 
   function pairwiseVelocityStatisticsConstructorInternal(separationMinimum,separationMaximum,separationCount,time,crossCount,addHubbleFlow,includeUnbootstrapped,bootstrapSampleCount,bootstrapSampleRate,randomNumberGenerator_,cosmologyFunctions_,darkMatterHaloScale_,parameters) result (self)
     !!{
-    Internal constructor for the ``pairwiseVelocityStatistics'' N-body operator class.
+    Internal constructor for the {\normalfont \ttfamily pairwiseVelocityStatistics} N-body operator class.
     !!}
     implicit none
     type            (nbodyOperatorPairwiseVelocityStatistics)                        :: self
@@ -181,7 +181,7 @@ contains
 
   subroutine pairwiseVelocityStatisticsDestructor(self)
     !!{
-    Destructor for the ``pairwiseVelocityStatistics'' N-body operator class.
+    Destructor for the {\normalfont \ttfamily pairwiseVelocityStatistics} N-body operator class.
     !!}
     implicit none
     type(nbodyOperatorPairwiseVelocityStatistics), intent(inout) :: self

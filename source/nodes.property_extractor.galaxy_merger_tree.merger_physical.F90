@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -40,7 +40,7 @@
 
   interface nodePropertyExtractorGalaxyMergerTreeMergerPhysical
      !!{
-     Constructors for the ``galaxyMergerTreeMergerPhysical'' output extractor class.
+     Constructors for the {\normalfont \ttfamily galaxyMergerTreeMergerPhysical} output extractor class.
      !!}
      module procedure galaxyMergerTreeMergerPhysicalConstructorParameters
      module procedure galaxyMergerTreeMergerPhysicalConstructorInternal
@@ -50,7 +50,7 @@ contains
 
   function galaxyMergerTreeMergerPhysicalConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``galaxyMergerTreeMergerPhysical'' property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily galaxyMergerTreeMergerPhysical} property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -66,7 +66,7 @@ contains
 
   function galaxyMergerTreeMergerPhysicalConstructorInternal() result(self)
     !!{
-    Internal constructor for the ``galaxyMergerTreeMergerPhysical'' output extractor property extractor class.
+    Internal constructor for the {\normalfont \ttfamily galaxyMergerTreeMergerPhysical} output extractor property extractor class.
     !!}
     implicit none
     type(nodePropertyExtractorGalaxyMergerTreeMergerPhysical) :: self

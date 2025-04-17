@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -102,7 +102,7 @@ contains
   
   function impulsiveOutflowConstructorInternal(energyImpulsiveOutflowDisk,energyImpulsiveOutflowSpheroid,impulsiveEnergyFactor) result(self)
     !!{
-    Constructor for ``impulsiveOutflow'' dark matter profile heating class.
+    Constructor for {\normalfont \ttfamily impulsiveOutflow} dark matter profile heating class.
     !!}
     implicit none
     type             (massDistributionHeatingImpulsiveOutflow)                :: self
@@ -119,8 +119,8 @@ contains
     !!{
     Returns the specific energy of heating in the given {\normalfont \ttfamily node}.
     !!}
-    use :: Galactic_Structure_Options      , only : componentTypeDisk              , componentTypeSpheroid
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Galactic_Structure_Options      , only : componentTypeDisk             , componentTypeSpheroid
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionHeatingImpulsiveOutflow), intent(inout) :: self
     double precision                                         , intent(in   ) :: radius
@@ -148,7 +148,7 @@ contains
        end if
     end if
     energySpecific=+  self%impulsiveEnergyFactor          &
-         &         *gravitationalConstantGalacticus       &
+         &         *gravitationalConstant_internal        &
          &         *(                                     &
          &           +self%energyImpulsiveOutflowDisk     &
          &           *fractionMassDisk                    &
@@ -167,9 +167,9 @@ contains
     !!{
     Returns the gradient of the specific energy of heating.
     !!}
-    use :: Coordinates                     , only : coordinateSpherical            , assignment(=)
-    use :: Galactic_Structure_Options      , only : componentTypeDisk              , componentTypeSpheroid
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Coordinates                     , only : coordinateSpherical           , assignment(=)
+    use :: Galactic_Structure_Options      , only : componentTypeDisk             , componentTypeSpheroid
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     use :: Numerical_Constants_Math        , only : Pi
     implicit none
     class           (massDistributionHeatingImpulsiveOutflow), intent(inout) :: self
@@ -207,7 +207,7 @@ contains
        end if
     end if
     energySpecificGradient=+self%impulsiveEnergyFactor              &
-         &                 *gravitationalConstantGalacticus         &
+         &                 *gravitationalConstant_internal          &
          &                 *(                                       &
          &                   +(                                     &
          &                     +self%energyImpulsiveOutflowDisk     &

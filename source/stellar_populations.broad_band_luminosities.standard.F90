@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -307,7 +307,8 @@ contains
     use            :: Abundances_Structure            , only : logMetallicityZero          , metallicityTypeLogarithmicByMassSolar
     use            :: Display                         , only : displayCounter              , displayCounterClear                  , displayGreen            , displayIndent        , &
           &                                                    displayMagenta              , displayReset                         , displayUnindent         , verbosityLevelWorking
-    use            :: File_Utilities                  , only : File_Exists                 , File_Lock                            , File_Unlock             , lockDescriptor
+    use            :: File_Utilities                  , only : File_Exists                 , File_Lock                            , File_Unlock             , lockDescriptor       , &
+         &                                                     Directory_Make                  , File_Path
     use            :: Error                           , only : Error_Report                , Warn                                 , errorStatusFail         , errorStatusSuccess
     use            :: HDF5_Access                     , only : hdf5Access
     use            :: IO_HDF5                         , only : hdf5Object
@@ -611,7 +612,8 @@ contains
                       descriptorString=descriptor%serializeToString()
                       call descriptor%destroy()
                       ! Always obtain the file lock before the hdf5Access lock to avoid deadlocks between OpenMP threads.
-                      call File_Lock(char(luminositiesFileName),lockFileDescriptor,lockIsShared=.false.)
+                      call Directory_Make(char(File_Path(char(luminositiesFileName)))                                        )
+                      call File_Lock     (               char(luminositiesFileName)  ,lockFileDescriptor,lockIsShared=.false.)
                       !$ call hdf5Access%set()
                       call luminositiesFile%openFile      (char(luminositiesFileName)             )
                       if (.not.luminositiesFile%hasAttribute('parameters')) call luminositiesFile%writeAttribute(char(descriptorString),'parameters')

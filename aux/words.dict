@@ -98,6 +98,7 @@ Dekel
 Diemer
 Dobbs
 Dodds
+Dopita
 Dorta
 Drlica
 Dutton
@@ -223,8 +224,10 @@ Sheth
 Shi
 Shrader
 Shull
+Springer
 Sridhar
 Storey
+Strömgren
 Struve
 Takahashi
 Tegmark
@@ -307,6 +310,7 @@ brightnesses
 burkardt
 bzip2
 calorimeter
+canonicalize
 cardinality
 cartesian
 ccompiler
@@ -358,6 +362,7 @@ declinations
 decrement
 dereference
 dereferenced
+deregister
 descendantless
 deserialization
 deserialize
@@ -378,6 +383,7 @@ dimensionful
 dimensionfull
 discretization
 discretize
+discretized
 discretizing
 dispersions
 dissipational
@@ -399,6 +405,7 @@ evolver
 evolvers
 executables
 exponentiate
+exponentials
 exponentiator
 exponentiators
 expulsive
@@ -427,6 +434,7 @@ gridded
 gsl
 gv
 gyr
+gzip
 h5ls
 h5py
 haider
@@ -490,6 +498,7 @@ kile
 kovacs
 lan
 len
+lensed
 lensing
 libmatheval
 lightcone
@@ -507,6 +516,7 @@ maxima
 maximin
 mcmc
 memoization
+memoize
 memoized
 memorylessness
 merchantability
@@ -658,6 +668,7 @@ resize
 resized
 resizing
 retabulate
+retabulated
 retabulation
 rockstar
 rockstar2galacticus
@@ -676,6 +687,7 @@ sendmail
 sersic
 sexagesimal
 shakura
+shortward
 sidm
 sightline
 sigmoid
@@ -733,7 +745,9 @@ timestepping
 timesteps
 triaxial
 ttfamily
+tuple
 unaccreted
+unallocated
 unapply
 unary
 unbootstrapped
@@ -741,9 +755,11 @@ unbuffered
 unclustered
 uncommented
 uncontracted
+undecorated
 undersampling
 unevaluated
 unevolved
+undepleted
 unfinalized
 unhosted
 unindent

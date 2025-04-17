@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an interval pass filter on any node property.
+Implements an interval pass filter on any node property.
 !!}
 
   use :: Node_Property_Extractors, only : nodePropertyExtractorScalar
@@ -42,7 +42,7 @@ Contains a module which implements an interval pass filter on any node property.
 
   interface galacticFilterIntervalPass
      !!{
-     Constructors for the ``intervalPass'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily intervalPass} galactic filter class.
      !!}
      module procedure intervalPassConstructorParameters
      module procedure intervalPassConstructorInternal
@@ -52,7 +52,7 @@ contains
   
   function intervalPassConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``intervalPass'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily intervalPass} galactic filter class which takes a parameter set as input.
     !!}
     use :: Error                   , only : Error_Report
     use :: Input_Parameters        , only : inputParameter            , inputParameters
@@ -91,7 +91,7 @@ contains
 
   function intervalPassConstructorInternal(thresholdLow,thresholdHigh,nodePropertyExtractor_) result(self)
     !!{
-    Internal constructor for the ``intervalPass'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily intervalPass} galactic filter class.
     !!}
     implicit none
     type            (galacticFilterIntervalPass )                        :: self
@@ -106,7 +106,7 @@ contains
 
   subroutine intervalPassDestructor(self)
     !!{
-    Destructor for the ``intervalPass'' galactic filter class.
+    Destructor for the {\normalfont \ttfamily intervalPass} galactic filter class.
     !!}
     implicit none
     type(galacticFilterIntervalPass), intent(inout) :: self

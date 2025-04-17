@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a generic 1D mean function (i.e. mean value of some property weighted by number density of
+  Implements a generic 1D mean function (i.e. mean value of some property weighted by number density of
   objects binned by some property) output analysis class.
   !!}
 
@@ -85,7 +85,7 @@
 
   interface outputAnalysisMeanFunction1D
      !!{
-     Constructors for the ``meanFunction1D'' output analysis class.
+     Constructors for the {\normalfont \ttfamily meanFunction1D} output analysis class.
      !!}
      module procedure meanFunction1DConstructorParameters
      module procedure meanFunction1DConstructorInternal
@@ -95,7 +95,7 @@ contains
 
   function meanFunction1DConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``meanFunction1D'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily meanFunction1D} output analysis class which takes a parameter set as input.
     !!}
     use :: Error                  , only : Error_Report
     use :: Input_Parameters       , only : inputParameter                                , inputParameters
@@ -389,7 +389,7 @@ contains
 
   function meanFunction1DConstructorInternal(label,comment,propertyLabel,propertyComment,propertyUnits,propertyUnitsInSI,meanLabel,meanComment,meanUnits,meanUnitsInSI,binCenter,bufferCount,outputWeight,nodePropertyExtractor_,outputAnalysisWeightPropertyExtractor_,outputAnalysisPropertyOperator_,outputAnalysisWeightPropertyOperator_,outputAnalysisPropertyUnoperator_,outputAnalysisWeightOperator_,outputAnalysisDistributionOperator_,galacticFilter_,outputTimes_,covarianceModel,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum,likelihoodNormalize,xAxisLabel,yAxisLabel,xAxisIsLog,yAxisIsLog,targetLabel,meanValueTarget,meanCovarianceTarget,binWidth) result (self)
     !!{
-    Constructor for the ``meanFunction1D'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily meanFunction1D} output analysis class for internal use.
     !!}
     use :: Output_Analysis_Distribution_Normalizers, only : outputAnalysisDistributionNormalizerIdentity
     use :: Output_Analysis_Property_Operators      , only : outputAnalysisPropertyOperatorBoolean       , outputAnalysisPropertyOperatorClass , outputAnalysisPropertyOperatorSequence, propertyOperatorList
@@ -841,7 +841,7 @@ contains
        if (status == GSL_Success) then
           if (self%likelihoodNormalize)                                                      &
                & meanFunction1DLogLikelihood=+meanFunction1DLogLikelihood                    &
-               &                             -0.5d0*covariance%determinant()                 &
+               &                             -0.5d0*covariance%logarithmicDeterminant()      &
                &                             -0.5d0*dble(size(self%binCenter))*log(2.0d0*Pi)
        else
           meanFunction1DLogLikelihood       =+logImprobable

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -138,7 +138,7 @@ contains
     use :: Abundances_Structure             , only : abundances
     use :: Chemical_Abundances_Structure    , only : chemicalAbundances                  , Chemicals_Property_Count
     use :: Chemical_Reaction_Rates_Utilities, only : Chemicals_Mass_To_Density_Conversion
-    use :: Mass_Distributions               , only : massDistributionClass               , kinematicsDistributionClass
+    use :: Mass_Distributions               , only : massDistributionClass               , kinematicsDistributionClass, massDistributionZero
     use :: Coordinates                      , only : coordinateSpherical                 , assignment(=)
     use :: Galactic_Structure_Options       , only : componentTypeHotHalo                , massTypeGaseous            , massTypeGalactic
     use :: Numerical_Constants_Astronomical , only : gigaYear                            , massSolar                  , megaParsec
@@ -176,8 +176,18 @@ contains
        return
     end if
     ! Get the mass distribution.
-    massDistribution_       => node             %massDistribution      (componentType=componentTypeHotHalo,massType=massTypeGaseous)      
+    massDistribution_       => node             %massDistribution      (componentType=componentTypeHotHalo,massType=massTypeGaseous)
     kinematicsDistribution_ => massDistribution_%kinematicsDistribution(                                                           )
+    select type (massDistribution_)
+    type is (massDistributionZero)
+       ! No mass distribution exists for the hot halo (most likely it is in an unphysical state).
+       bensonBower2010TimeAvailable=0.0d0
+       !![
+       <objectDestructor name="massDistribution_"      />
+       <objectDestructor name="kinematicsDistribution_"/>
+       !!]
+       return
+    end select
     ! Compute the mean density and temperature of the hot halo.
     density    =+massNotional             &
          &      *3.0d0                    &

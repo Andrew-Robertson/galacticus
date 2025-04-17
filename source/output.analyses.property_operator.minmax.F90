@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a min-max analysis property operator class.
+Implements a min-max analysis property operator class.
 !!}
 
   !![
@@ -38,7 +38,7 @@ Contains a module which implements a min-max analysis property operator class.
 
   interface outputAnalysisPropertyOperatorMinMax
      !!{
-     Constructors for the ``minMax'' output analysis class.
+     Constructors for the {\normalfont \ttfamily minMax} output analysis class.
      !!}
      module procedure minMaxConstructorParameters
      module procedure minMaxConstructorInternal
@@ -48,7 +48,7 @@ contains
 
   function minMaxConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``minMax'' output analysis property operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily minMax} output analysis property operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -78,7 +78,7 @@ contains
 
   function minMaxConstructorInternal(thresholdMinimum,thresholdMaximum) result (self)
     !!{
-    Internal constructor for the ``minMax'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily minMax} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisPropertyOperatorMinMax)                :: self

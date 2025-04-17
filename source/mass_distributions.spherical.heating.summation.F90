@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -88,7 +88,7 @@ contains
   
   function summationConstructorInternal(massDistributionHeatings) result(self)
     !!{
-    Constructor for ``summation'' dark matter profile heating class.
+    Constructor for {\normalfont \ttfamily summation} dark matter profile heating class.
     !!}
     implicit none
     type(massDistributionHeatingSummation)                         :: self
@@ -132,7 +132,6 @@ contains
     !!{
     Returns the specific energy of heating in the given {\normalfont \ttfamily node}.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
     implicit none
     class           (massDistributionHeatingSummation), intent(inout) :: self
     double precision                                  , intent(in   ) :: radius

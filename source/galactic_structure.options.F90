@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -51,15 +51,16 @@ module Galactic_Structure_Options
    <encodeFunction>yes</encodeFunction>
    <decodeFunction>yes</decodeFunction>
    <validator>yes</validator>
-   <entry label="all"            description="All components"                 />
-   <entry label="disk"           description="The disk component"             />
-   <entry label="spheroid"       description="The spheroid component"         />
-   <entry label="hotHalo"        description="The hot halo (CGM) component"   />
-   <entry label="coldHalo"       description="The cold halo (CGM) component"  />
-   <entry label="darkHalo"       description="The dark matter halo component" />
-   <entry label="blackHole"      description="The black hole component"       />
-   <entry label="darkMatterOnly" description="The dark matter only component."/>
-   <entry label="unknown"        description="Unknown components"             />
+   <entry label="all"                description="All components"                />
+   <entry label="disk"               description="The disk component"            />
+   <entry label="spheroid"           description="The spheroid component"        />
+   <entry label="hotHalo"            description="The hot halo (CGM) component"  />
+   <entry label="nuclearStarCluster" description="The \gls{nsc} component"       />
+   <entry label="coldHalo"           description="The cold halo (CGM) component" />
+   <entry label="darkHalo"           description="The dark matter halo component"/>
+   <entry label="blackHole"          description="The black hole component"      />
+   <entry label="darkMatterOnly"     description="The dark matter only component"/>
+   <entry label="unknown"            description="Unknown components"            />
   </enumeration>
   !!]
 

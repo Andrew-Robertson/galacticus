@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galactic filter class which is the ``all'' combination of a set of other filters.
+Implements a galactic filter class which is the ``all'' combination of a set of other filters.
 !!}
 
   !![
@@ -50,7 +50,7 @@ contains
 
   function allConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``all'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily all} galactic filter class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -81,7 +81,7 @@ contains
 
   function allConstructorInternal(filters) result(self)
     !!{
-    Internal constructor for the ``all'' filter class.
+    Internal constructor for the {\normalfont \ttfamily all} filter class.
     !!}
     implicit none
     type(galacticFilterAll)                        :: self
@@ -123,7 +123,7 @@ contains
 
   logical function allPasses(self,node)
     !!{
-    Apply a set of filters to a {\normalfont \ttfamily node} combined with ``all'' operations.
+    Apply a set of filters to a {\normalfont \ttfamily node} combined with {\normalfont \ttfamily all} operations.
     !!}
     implicit none
     class(galacticFilterAll), intent(inout)         :: self

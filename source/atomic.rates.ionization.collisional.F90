@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -34,11 +34,11 @@ module Atomic_Rates_Ionization_Collisional
    <description>Class providing atomic collisional ionization rates.</description>
    <default>verner1996</default>
    <method name="rate" >
-    <description>Returns the radiative recombination rate.</description>
+    <description>Returns the radiative recombination rate in units of cm$^3$ s$^{-1}$.</description>
     <type>double precision</type>
     <pass>yes</pass>
     <argument>integer         , intent(in   ) :: atomicNumber, ionizationState</argument>
-    <argument>double precision, intent(in   ) :: temperature</argument>
+    <argument>double precision, intent(in   ) :: temperature                  </argument>
    </method>
   </functionClass>
   !!]

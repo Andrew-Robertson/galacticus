@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -68,13 +68,13 @@ contains
     !!{
     Suppress the Lyman continuum in a spectrum.
     !!}
-    use :: Numerical_Constants_Atomic, only : lymanSeriesLimitWavelengthHydrogen
+    use :: Numerical_Constants_Atomic, only : lymanSeriesLimitWavelengthHydrogen_atomic
     implicit none
     class           (stellarPopulationSpectraPostprocessorLycSuppress), intent(inout) :: self
     double precision                                                  , intent(in   ) :: age , redshift, wavelength
     !$GLC attributes unused :: self, age, redshift
 
-    if (wavelength < lymanSeriesLimitWavelengthHydrogen) then
+    if (wavelength < lymanSeriesLimitWavelengthHydrogen_atomic) then
        lycSuppressMultiplier=0.0d0
     else
        lycSuppressMultiplier=1.0d0

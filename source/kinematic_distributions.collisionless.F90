@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -116,15 +116,15 @@ contains
     return
   end function collisionlessIsCollisional
 
-  double precision function collisionlessVelocityDispersion1D(self,coordinates,massDistributionEmbedding) result(velocityDispersion)
+  double precision function collisionlessVelocityDispersion1D(self,coordinates,massDistribution_,massDistributionEmbedding) result(velocityDispersion)
     !!{
     Return the 1D velocity dispersion at the specified {\normalfont \ttfamily coordinates} in an collisionless kinematic distribution.
     !!}
     implicit none
-    class(kinematicsDistributionCollisionless), intent(inout), target :: self
-    class(coordinate                         ), intent(in   )         :: coordinates
-    class(massDistributionClass              ), intent(inout)         :: massDistributionEmbedding
+    class(kinematicsDistributionCollisionless), intent(inout)          :: self
+    class(coordinate                         ), intent(in   )          :: coordinates
+    class(massDistributionClass              ), intent(inout), target  :: massDistribution_, massDistributionEmbedding
 
-    velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistributionEmbedding)
+    velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistribution_,massDistributionEmbedding)
     return
   end function collisionlessVelocityDispersion1D

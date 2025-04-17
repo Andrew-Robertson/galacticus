@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -129,7 +129,7 @@ contains
   
   function sphericalTruncatedConstructorInternal(radiusTruncateMinimum,radiusTruncateMaximum,nonAnalyticSolver,massDistribution_,componentType,massType) result(self)
     !!{
-    Constructor for ``sphericalTruncated'' mass distribution class.
+    Constructor for {\normalfont \ttfamily sphericalTruncated} mass distribution class.
     !!}
     implicit none
     type            (massDistributionSphericalTruncated)                          :: self

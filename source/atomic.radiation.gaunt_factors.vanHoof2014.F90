@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -136,7 +136,7 @@ contains
     !!}
     use :: Error                       , only : Error_Report
     use :: Numerical_Constants_Physical, only : boltzmannsConstant
-    use :: Numerical_Constants_Units   , only : rydbergs
+    use :: Numerical_Constants_Units   , only : rydberg
     implicit none
     class           (gauntFactorVanHoof2014), intent(inout) :: self
     integer                                 , intent(in   ) :: atomicNumber, electronNumber
@@ -161,7 +161,7 @@ contains
             &             -electronNumber &
             &             +1              &
             &            )**2             &
-            &       *rydbergs             &
+            &       *rydberg              &
             &       /boltzmannsConstant   &
             &       /temperature
        g           =log10(gammaSquared)

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements an output analysis class that computes the stellar mass-halo mass relation in the Local
+  Implements an output analysis class that computes the stellar mass-halo mass relation in the Local
   Group.
   !!}
 
@@ -50,7 +50,7 @@
 
   interface outputAnalysisLocalGroupOccupationFraction
      !!{
-     Constructors for the ``localGroupOccupationFraction'' output analysis class.
+     Constructors for the {\normalfont \ttfamily localGroupOccupationFraction} output analysis class.
      !!}
      module procedure localGroupOccupationFractionConstructorParameters
      module procedure localGroupOccupationFractionConstructorInternal
@@ -60,7 +60,7 @@ contains
 
   function localGroupOccupationFractionConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``localGroupOccupationFraction'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily localGroupOccupationFraction} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters            , only : inputParameter               , inputParameters
     use :: Output_Times                , only : outputTimes                  , outputTimesClass
@@ -156,7 +156,7 @@ contains
 
   function localGroupOccupationFractionConstructorInternal(outputTimes_,positionType,randomErrorMinimum,randomErrorMaximum,randomErrorPolynomialCoefficient,systematicErrorPolynomialCoefficient,massStellarSystematicErrorPolynomialCoefficient,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum) result (self)
     !!{
-    Constructor for the ``localGroupOccupationFraction'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily localGroupOccupationFraction} output analysis class for internal use.
     !!}
     use :: Galactic_Filters                        , only : filterList                                          , galacticFilterAll                           , galacticFilterHaloNotIsolated         , galacticFilterHostMassRange                    , &
           &                                                 galacticFilterSurveyGeometry                        , enumerationPositionTypeType

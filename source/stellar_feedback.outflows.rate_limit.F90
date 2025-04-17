@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -110,8 +110,8 @@ contains
     fraction of the dynamical time.
     !!}
     use :: Error                           , only : Error_Report
-    use :: Galacticus_Nodes                , only : nodeComponentDisk      , nodeComponentSpheroid
-    use :: Numerical_Constants_Astronomical, only : Mpc_per_km_per_s_To_Gyr
+    use :: Galacticus_Nodes                , only : nodeComponentDisk, nodeComponentSpheroid
+    use :: Numerical_Constants_Astronomical, only : MpcPerKmPerSToGyr
     implicit none
     class           (stellarFeedbackOutflowsRateLimit), intent(inout) :: self
     class           (nodeComponent                   ), intent(inout) :: component
@@ -147,8 +147,8 @@ contains
        timescaleDynamical=1.0d0
        if (rateOutflowTotal > 0.0d0) call Error_Report('outflow in unphysical component'//{introspection:location})
     else
-       timescaleDynamical=+Mpc_per_km_per_s_To_Gyr &
-            &             *radius                  &
+       timescaleDynamical=+MpcPerKmPerSToGyr &
+            &             *radius            &
             &             /velocity
     end if
     ! Compute the maximum outflow rate and current total outflow rate.

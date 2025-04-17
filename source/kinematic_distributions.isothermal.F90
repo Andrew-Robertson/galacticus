@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -170,21 +170,23 @@ contains
     return
   end function isothermalTemperatureGradientLogarithmic
 
-  double precision function isothermalVelocityDispersion1D(self,coordinates,massDistributionEmbedding) result(velocityDispersion)
+  double precision function isothermalVelocityDispersion1D(self,coordinates,massDistribution_,massDistributionEmbedding) result(velocityDispersion)
     !!{
     Return the 1D velocity dispersion at the specified {\normalfont \ttfamily coordinates} in an isothermal kinematic distribution.
     !!}
     implicit none
-    class(kinematicsDistributionIsothermal), intent(inout), target :: self
-    class(coordinate                      ), intent(in   )         :: coordinates
-    class(massDistributionClass           ), intent(inout)         :: massDistributionEmbedding
-    
-    if (associated(massDistributionEmbedding%kinematicsDistribution_,self)) then
+    class(kinematicsDistributionIsothermal), intent(inout)          :: self
+    class(coordinate                      ), intent(in   )          :: coordinates
+    class(massDistributionClass           ), intent(inout), target  :: massDistribution_ , massDistributionEmbedding
+    class(massDistributionClass           )               , pointer :: massDistribution__
+     
+    massDistribution__ => massDistribution_
+    if (associated(massDistribution__,massDistributionEmbedding)) then
        ! For the case of a self-gravitating isothermal distribution we have an analytic solution for the velocity dispersion.
        velocityDispersion=self%velocityDispersion_
     else
        ! Our isothermal distribution is embedded in another distribution. We must compute the velocity dispersion numerically.
-       velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistributionEmbedding)
+       velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistribution_,massDistributionEmbedding)
     end if
     return
   end function isothermalVelocityDispersion1D

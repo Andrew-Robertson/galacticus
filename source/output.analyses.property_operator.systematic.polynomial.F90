@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a polynomial systematic shift output analysis property operator class.
+Implements a polynomial systematic shift output analysis property operator class.
 !!}
 
   !![
@@ -45,7 +45,7 @@ Contains a module which implements a polynomial systematic shift output analysis
 
   interface outputAnalysisPropertyOperatorSystmtcPolynomial
      !!{
-     Constructors for the ``systmtcPolynomial'' output analysis class.
+     Constructors for the {\normalfont \ttfamily systmtcPolynomial} output analysis class.
      !!}
      module procedure systmtcPolynomialConstructorParameters
      module procedure systmtcPolynomialConstructorInternal
@@ -55,7 +55,7 @@ contains
 
   function systmtcPolynomialConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``systmtcPolynomial'' output analysis property operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily systmtcPolynomial} output analysis property operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -90,7 +90,7 @@ contains
 
   function systmtcPolynomialConstructorInternal(zeroPoint,coefficient) result(self)
     !!{
-    Internal constructor for the ``randomErrorPolynomial'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily randomErrorPolynomial} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisPropertyOperatorSystmtcPolynomial)                              :: self

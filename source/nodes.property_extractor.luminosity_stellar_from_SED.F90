@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a stellar mass output analysis property extractor class.
+Implements a stellar mass output analysis property extractor class.
 !!}
 
   use :: ISO_Varying_String     , only : varying_string
@@ -65,7 +65,7 @@ Contains a module which implements a stellar mass output analysis property extra
 
   interface nodePropertyExtractorLuminosityStellarFromSED
      !!{
-     Constructors for the ``luminosityStellarFromSED'' output analysis class.
+     Constructors for the {\normalfont \ttfamily luminosityStellarFromSED} output analysis class.
      !!}
      module procedure luminosityStellarFromSEDConstructorParameters
      module procedure luminosityStellarFromSEDConstructorInternal
@@ -75,7 +75,7 @@ contains
 
   function luminosityStellarFromSEDConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``luminosityStellarFromSED'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily luminosityStellarFromSED} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Error           , only : Error_Report
     use :: Input_Parameters, only : inputParameter, inputParameters
@@ -132,7 +132,7 @@ contains
   
   subroutine luminosityStellarFromSEDDestructor(self)
     !!{
-    Destructor for the ``luminosityStellarFromSED'' output analysis property extractor class.
+    Destructor for the {\normalfont \ttfamily luminosityStellarFromSED} output analysis property extractor class.
     !!}
     implicit none
     type(nodePropertyExtractorLuminosityStellarFromSED), intent(inout) :: self

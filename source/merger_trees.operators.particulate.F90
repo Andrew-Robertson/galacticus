@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -20,7 +20,7 @@
   !+    Contributions to this file made by: Xiaolong Du, Andrew Benson.
 
   !!{
-  Contains a module which implements a merger tree operator which creates particle representations of \glc\ halos.
+  Implements a merger tree operator which creates particle representations of \glc\ halos.
   !!}
 
   use :: Cosmology_Functions     , only : cosmologyFunctionsClass
@@ -1160,13 +1160,13 @@ contains
     The integrand used to find the gravitational potential in the smoothed density profile defined by
     \cite{barnes_gravitational_2012} to account for gravitational softening.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     double precision, intent(in   ) :: radius
 
     ! Evaluate the integrand for gravitational potential. No minus sign here as we actually want the relative potential which will
     ! be positive.
-    particulatePotentialIntegrand=+gravitationalConstantGalacticus                                          &
+    particulatePotentialIntegrand=+gravitationalConstant_internal                                           &
          &                        *energyDistribution%interpolate(radius,table=energyDistributionTableMass) &
          &                        /radius**2
     return

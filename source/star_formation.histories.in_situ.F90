@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -52,7 +52,7 @@ Implements a star formation histories class which records \emph{in situ} star fo
 
   interface starFormationHistoryInSitu
      !!{
-     Constructors for the ``inSitu'' star formation history class.
+     Constructors for the {\normalfont \ttfamily inSitu} star formation history class.
      !!}
      module procedure inSituConstructorParameters
      module procedure inSituConstructorInternal
@@ -62,7 +62,7 @@ contains
 
   function inSituConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``inSitu'' star formation history class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily inSitu} star formation history class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -83,7 +83,7 @@ contains
 
   function inSituConstructorInternal(starFormationHistory_) result(self)
     !!{
-    Internal constructor for the ``inSitu'' star formation history class.
+    Internal constructor for the {\normalfont \ttfamily inSitu} star formation history class.
     !!}
     implicit none
     type (starFormationHistoryInSitu)                        :: self

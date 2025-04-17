@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -21,11 +21,11 @@ program Tests_Kepler_Orbits
   !!{
   Tests for orbital parameter conversions.
   !!}
-  use :: Display                         , only : displayVerbositySet            , verbosityLevelStandard
+  use :: Display                         , only : displayVerbositySet           , verbosityLevelStandard
   use :: Kepler_Orbits                   , only : keplerOrbit
-  use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+  use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
   use :: Numerical_Constants_Math        , only : Pi
-  use :: Unit_Tests                      , only : Assert                         , Unit_Tests_Begin_Group, Unit_Tests_End_Group, Unit_Tests_Finish, &
+  use :: Unit_Tests                      , only : Assert                        , Unit_Tests_Begin_Group, Unit_Tests_End_Group, Unit_Tests_Finish, &
           &                                       compareEquals
   implicit none
   type            (keplerOrbit) :: orbit
@@ -37,7 +37,7 @@ program Tests_Kepler_Orbits
   call Unit_Tests_Begin_Group("Orbital parameter conversions")
 
   ! Compute velocity scale for unit mass and radius.
-  velocityScale=sqrt(gravitationalConstantGalacticus)
+  velocityScale=sqrt(gravitationalConstant_internal)
 
   ! Create a circular orbit.
   call orbit%reset()

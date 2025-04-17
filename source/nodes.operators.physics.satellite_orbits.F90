@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -109,9 +109,9 @@ contains
     !!{
     Estimate the position of nodes relative to their hosts prior to infall.
     !!}
-    use :: Galacticus_Nodes                , only : nodeComponentBasic     , nodeComponentSatellite
+    use :: Galacticus_Nodes                , only : nodeComponentBasic, nodeComponentSatellite
     use :: Kepler_Orbits                   , only : keplerOrbit
-    use :: Numerical_Constants_Astronomical, only : Mpc_per_km_per_s_To_Gyr  
+    use :: Numerical_Constants_Astronomical, only : MpcPerKmPerSToGyr  
     use :: Numerical_ODE_Solvers           , only : odeSolver
     implicit none
     class           (nodeOperatorSatelliteOrbit), intent(inout), target  :: self
@@ -164,7 +164,7 @@ contains
        ! Compute the constant velocity required to reproduce the position evolution) for this progenitor.
        velocityEffective=+(+positionDescendent-positionProgenitor) &
             &            /(+    timeDescendent-    timeProgenitor) &
-            &            *Mpc_per_km_per_s_To_Gyr
+            &            *MpcPerKmPerSToGyr
        ! Compute the bound mass growth rate.
        massBound=satelliteProgenitor%boundMass()
        if (nodeProgenitor%isPrimaryProgenitor()) then
@@ -193,7 +193,7 @@ contains
     use :: Galacticus_Nodes                , only : nodeComponentBasic
     use :: Galactic_Structure_Options      , only : componentTypeDarkMatterOnly, massTypeDark
     use :: Interface_GSL                   , only : GSL_Success
-    use :: Numerical_Constants_Astronomical, only : gigaYear                   , megaParsec, gravitationalConstantGalacticus, Mpc_per_km_per_s_To_Gyr  
+    use :: Numerical_Constants_Astronomical, only : gigaYear                   , megaParsec, gravitationalConstant_internal, MpcPerKmPerSToGyr  
     use :: Numerical_Constants_Prefixes    , only : kilo
     use :: Mass_Distributions              , only : massDistributionClass
     use :: Vectors                         , only : Vector_Magnitude
@@ -256,11 +256,11 @@ contains
             &                                /massHost          &
             &                               )                   &
             &                           )
-       acceleration               =  -gravitationalConstantGalacticus    &
-            &                        *massHost                           &
-            &                        *position                           &
-            &                        /radius                         **3 &
-            &                        /Mpc_per_km_per_s_To_Gyr
+       acceleration               =  -gravitationalConstant_internal    &
+            &                        *massHost                          &
+            &                        *position                          &
+            &                        /radius                        **3 &
+            &                        /MpcPerKmPerSToGyr
        !![
        <objectDestructor name="massDistributionHost"      />
        <objectDestructor name="massDistributionDescendent"/>
@@ -273,7 +273,7 @@ contains
     ! Find the mass ratio.
     ! Set evolution rates.
     phaseSpaceCoordinatesRateOfChange(1:3)=+velocity                &
-         &                                 /Mpc_per_km_per_s_To_Gyr
+         &                                 /MpcPerKmPerSToGyr
     phaseSpaceCoordinatesRateOfChange(4:6)=+acceleration            &
          &                                 *(                       &
          &                                   +1.0d0                 &
@@ -334,6 +334,7 @@ contains
     !!{
     Perform evolution of a satellite orbit due to its velocity and the acceleration of its host's potential.
     !!}
+    use :: Error                           , only : Error_Report
     use :: Galacticus_Nodes                , only : nodeComponentSatellite
     use :: Numerical_Constants_Astronomical, only : gigaYear              , megaParsec
     use :: Numerical_Constants_Prefixes    , only : kilo
@@ -403,21 +404,26 @@ contains
     ! Include a factor (1+m_{sat}/m_{host})=m_{sat}/µ (where µ is the reduced mass) to convert from the two-body problem of
     ! satellite and host orbiting their common center of mass to the equivalent one-body problem (since we're solving for the
     ! motion of the satellite relative to the center of the host which is held fixed).
-    massRatio=min(                            &
-         &            +massRatioMaximum     , &
-         &        max(                        &
-         &            +massRatioMinimum     , &
-         &            +massEnclosedSatellite  &
-         &            /massEnclosedHost       &
-         &           )                        &
-         &       )
-    call satellite%velocityRate(              &
-         &                      +acceleration &
-         &                      *(            &
-         &                        +1.0d0      &
-         &                        +massRatio  &
-         &                      )             &
-         &                     )
+    if (massEnclosedHost > 0.0d0) then
+       massRatio=min(                            &
+            &            +massRatioMaximum     , &
+            &        max(                        &
+            &            +massRatioMinimum     , &
+            &            +massEnclosedSatellite  &
+            &            /massEnclosedHost       &
+            &           )                        &
+            &       )
+       call satellite%velocityRate(              &
+            &                      +acceleration &
+            &                      *(            &
+            &                        +1.0d0      &
+            &                        +massRatio  &
+            &                      )             &
+            &                     )
+    else
+       ! Enclosed mass is zero - this is acceptable only if the acceleration is zero.
+       if (any(acceleration /= 0.0d0)) call Error_Report('zero host mass but non-zero acceleration'//{introspection:location})          
+    end if
     return
   end subroutine satelliteOrbitDifferentialEvolution
   

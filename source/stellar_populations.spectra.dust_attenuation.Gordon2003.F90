@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -37,7 +37,7 @@
 
   interface stellarSpectraDustAttenuationGordon2003
      !!{
-     Constructors for the ``gordon2003'' stellar spectra dust attenuation class.
+     Constructors for the {\normalfont \ttfamily gordon2003} stellar spectra dust attenuation class.
      !!}
      module procedure gordon2003ConstructorParameters
      module procedure gordon2003ConstructorInternal
@@ -59,7 +59,7 @@ contains
 
   function gordon2003ConstructorParameters(parameters) result(self)
     !!{
-    Default constructor for the ``gordon2003'' stellar spectra dust attenuation class.
+    Default constructor for the {\normalfont \ttfamily gordon2003} stellar spectra dust attenuation class.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -84,7 +84,7 @@ contains
 
   function gordon2003ConstructorInternal(sample) result(self)
     !!{
-    Constructor for the ``gordon2003'' stellar spectra dust attenuation class.
+    Constructor for the {\normalfont \ttfamily gordon2003} stellar spectra dust attenuation class.
     !!}
     use :: Error       , only : Error_Report
     use :: Table_Labels, only : extrapolationTypeExtrapolate

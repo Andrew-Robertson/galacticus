@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -131,18 +131,18 @@ contains
     Process an escaping photon packet.
     !!}
     use :: Numerical_Constants_Astronomical, only : luminositySolar
-    use :: Numerical_Constants_Atomic      , only : lymanSeriesLimitWavelengthHydrogen
-    use :: Numerical_Constants_Physical    , only : plancksConstant                   , speedLight
-    use :: Numerical_Constants_Units       , only : angstromsPerMeter
+    use :: Numerical_Constants_Atomic      , only : lymanSeriesLimitWavelengthHydrogen_atomic
+    use :: Numerical_Constants_Physical    , only : plancksConstant                          , speedLight
+    use :: Numerical_Constants_Units       , only : metersToAngstroms
     implicit none
     class           (radiativeTransferConvergenceLycEscape), intent(inout) :: self
     class           (radiativeTransferPhotonPacketClass   ), intent(inout) :: photonPacket
     double precision                                                       :: energyPhoton
 
-    if (photonPacket%wavelength() < lymanSeriesLimitWavelengthHydrogen) then
+    if (photonPacket%wavelength() < lymanSeriesLimitWavelengthHydrogen_atomic) then
        energyPhoton        =+plancksConstant                           &
             &               *speedLight                                &
-            &               *angstromsPerMeter                         &
+            &               *metersToAngstroms                         &
             &               /photonPacket%wavelength                ()
        self%escapeRateTotal=+self%escapeRateTotal                      &
             &               +photonPacket%luminosity                () &

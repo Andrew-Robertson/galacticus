@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -44,7 +44,7 @@ Implements a filter that passes nodes only if they exist at an output time.
 
   interface galacticFilterOutputTimes
      !!{
-     Constructors for the ``outputTimes'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily outputTimes} galactic filter class.
      !!}
      module procedure outputTimesConstructorParameters
      module procedure outputTimesConstructorInternal
@@ -54,7 +54,7 @@ contains
 
   function outputTimesConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``outputTimes'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily outputTimes} galactic filter class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -82,7 +82,7 @@ contains
 
   function outputTimesConstructorInternal(toleranceRelative,outputTimes_) result(self)
     !!{
-    Internal constructor for the ``outputTimes'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily outputTimes} galactic filter class.
     !!}
     implicit none
     type            (galacticFilterOutputTimes)                        :: self

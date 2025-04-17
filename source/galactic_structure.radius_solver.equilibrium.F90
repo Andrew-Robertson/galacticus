@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -289,12 +289,12 @@ contains
       !!{
       Solve for the equilibrium radius of the given component.
       !!}
-      use :: Display                         , only : displayVerbosity               , displayVerbositySet, verbosityLevelStandard
-      use :: Galactic_Structure_Options      , only : massTypeBaryonic               , radiusLarge        , massTypeDark          , componentTypeDarkHalo
+      use :: Display                         , only : displayVerbosity              , displayVerbositySet, verbosityLevelStandard
+      use :: Galactic_Structure_Options      , only : massTypeBaryonic              , radiusLarge        , massTypeDark          , componentTypeDarkHalo
       use :: Mass_Distributions              , only : massDistributionClass
       use :: Error                           , only : Error_Report
       use :: ISO_Varying_String              , only : varying_string
-      use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+      use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
       use :: String_Handling                 , only : operator(//)
       implicit none
       type            (treeNode             ), intent(inout)                     :: node
@@ -386,7 +386,7 @@ contains
 	 <objectDestructor name="massDistribution_"/>
          !!]
          ! Compute dark matter contribution to rotation curve.
-         darkMatterVelocitySquared=gravitationalConstantGalacticus*darkMatterMassFinal/radius
+         darkMatterVelocitySquared=gravitationalConstant_internal*darkMatterMassFinal/radius
          ! Compute baryonic contribution to rotation curve.
          if (self%includeBaryonGravity) then
             massDistribution_       => node             %massDistribution(massType=massTypeBaryonic)

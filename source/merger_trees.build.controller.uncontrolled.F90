@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a merger tree build controller class which provides no control.
+Implements a merger tree build controller class which provides no control.
 !!}
 
   !![
@@ -41,7 +41,7 @@ Contains a module which implements a merger tree build controller class which pr
 
   interface mergerTreeBuildControllerUncontrolled
      !!{
-     Constructors for the ``uncontrolled'' merger tree build controller class.
+     Constructors for the {\normalfont \ttfamily uncontrolled} merger tree build controller class.
      !!}
      module procedure uncontrolledConstructorParameters
      module procedure uncontrolledConstructorInternal
@@ -51,7 +51,7 @@ contains
 
   function uncontrolledConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``uncontrolled'' merger tree build controller class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily uncontrolled} merger tree build controller class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -72,7 +72,7 @@ contains
 
   function uncontrolledConstructorInternal(mergerTreeBranchingProbability_) result(self)
     !!{
-    Internal constructor for the ``uncontrolled'' merger tree build controller class .
+    Internal constructor for the {\normalfont \ttfamily uncontrolled} merger tree build controller class .
     !!}
     implicit none
     type (mergerTreeBuildControllerUncontrolled)                     :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a cosmological volume corrector analysis weight operator class.
+Implements a cosmological volume corrector analysis weight operator class.
 !!}
 
   use :: Cosmology_Functions, only : cosmologyFunctionsClass
@@ -51,7 +51,7 @@ Contains a module which implements a cosmological volume corrector analysis weig
 
   interface outputAnalysisWeightOperatorCsmlgyVolume
      !!{
-     Constructors for the ``csmlgyVolume'' output analysis class.
+     Constructors for the {\normalfont \ttfamily csmlgyVolume} output analysis class.
      !!}
      module procedure csmlgyVolumeConstructorParameters
      module procedure csmlgyVolumeConstructorInternal
@@ -61,7 +61,7 @@ contains
 
   function csmlgyVolumeConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``csmlgyVolume'' output analysis weight operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily csmlgyVolume} output analysis weight operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -91,7 +91,7 @@ contains
 
   function csmlgyVolumeConstructorInternal(cosmologyFunctionsModel,cosmologyFunctionsData,surveyGeometry_) result(self)
     !!{
-    Internal constructor for the ``csmlgyVolume'' output analysis weight operator class.
+    Internal constructor for the {\normalfont \ttfamily csmlgyVolume} output analysis weight operator class.
     !!}
     implicit none
     type   (outputAnalysisWeightOperatorCsmlgyVolume)                        :: self
@@ -106,7 +106,7 @@ contains
 
   subroutine csmlgyVolumeDestructor(self)
     !!{
-    Destructor for the ``csmlgyVolume'' output analysis weight operator class.
+    Destructor for the {\normalfont \ttfamily csmlgyVolume} output analysis weight operator class.
     !!}
     implicit none
     type(outputAnalysisWeightOperatorCsmlgyVolume), intent(inout) :: self

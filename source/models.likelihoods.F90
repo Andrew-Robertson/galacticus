@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -39,6 +39,7 @@ module Models_Likelihoods
     <description>Evaluate the likelihood.</description>
     <type>double precision</type>
     <pass>yes</pass>
+    <selfTarget>yes</selfTarget>
     <argument>class           (posteriorSampleStateClass      ), intent(inout)               :: simulationState</argument>
     <argument>type            (modelParameterList             ), intent(inout), dimension(:) :: modelParametersActive_, modelParametersInactive_</argument>
     <argument>class           (posteriorSampleConvergenceClass), intent(inout)               :: simulationConvergence</argument>

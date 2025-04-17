@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -117,7 +117,7 @@ contains
 
   function multivariateNormalStochasticConstructorInternal(means,covariance,realizationCount,realizationCountMinimum,randomNumberGenerator_) result(self)
     !!{
-    Constructor for ``multivariateNormalStochastic'' convergence class.
+    Constructor for {\normalfont \ttfamily multivariateNormalStochastic} convergence class.
     !!}
     type            (posteriorSampleLikelihoodMltiVrtNormalStochastic)                                :: self
     double precision                                                  , intent(in   ), dimension(:  ) :: means
@@ -154,7 +154,7 @@ contains
     use :: Posterior_Sampling_Convergence, only : posteriorSampleConvergenceClass
     use :: Posterior_Sampling_State      , only : posteriorSampleStateClass
     implicit none
-    class           (posteriorSampleLikelihoodMltiVrtNormalStochastic), intent(inout)                 :: self
+    class           (posteriorSampleLikelihoodMltiVrtNormalStochastic), intent(inout), target         :: self
     class           (posteriorSampleStateClass                       ), intent(inout)                 :: simulationState
     type            (modelParameterList                              ), intent(inout), dimension(:)   :: modelParametersActive_, modelParametersInactive_
     class           (posteriorSampleConvergenceClass                 ), intent(inout)                 :: simulationConvergence

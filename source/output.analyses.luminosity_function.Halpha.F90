@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a luminosity function output analysis class.
+Implements a luminosity function output analysis class.
 !!}
 
   use :: Cosmology_Functions              , only : cosmologyFunctionsClass
@@ -49,7 +49,7 @@ Contains a module which implements a luminosity function output analysis class.
 
   interface outputAnalysisLuminosityFunctionHalpha
      !!{
-     Constructors for the ``luminosityFunctionHalpha'' output analysis class.
+     Constructors for the {\normalfont \ttfamily luminosityFunctionHalpha} output analysis class.
      !!}
      module procedure luminosityFunctionHalphaConstructorParameters
      module procedure luminosityFunctionHalphaConstructorInternal
@@ -60,7 +60,7 @@ contains
 
   function luminosityFunctionHalphaConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``luminosityFunctionHalpha'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily luminosityFunctionHalpha} output analysis class which takes a parameter set as input.
     !!}
     use :: Error                         , only : Error_Report
     use :: Input_Parameters              , only : inputParameter                 , inputParameters
@@ -209,7 +209,7 @@ contains
 
   function luminosityFunctionHalphaConstructorFile(label,comment,fileName,includeNitrogenII,depthOpticalISMCoefficient,galacticFilter_,surveyGeometry_,stellarSpectraDustAttenuation_,cosmologyFunctions_,cosmologyFunctionsData,outputAnalysisPropertyOperator_,outputAnalysisDistributionOperator_,outputTimes_,starFormationRateDisks_,starFormationRateSpheroids_,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum) result (self)
     !!{
-    Constructor for the ``luminosityFunctionHalpha'' output analysis class which reads bin information from a standard format file.
+    Constructor for the {\normalfont \ttfamily luminosityFunctionHalpha} output analysis class which reads bin information from a standard format file.
     !!}
     use :: HDF5_Access                   , only : hdf5Access
     use :: IO_HDF5                       , only : hdf5Object
@@ -272,7 +272,7 @@ contains
 
   function luminosityFunctionHalphaConstructorInternal(label,comment,luminosities,includeNitrogenII,depthOpticalISMCoefficient,galacticFilter_,surveyGeometry_,stellarSpectraDustAttenuation_,cosmologyFunctions_,cosmologyFunctionsData,outputAnalysisPropertyOperator_,outputAnalysisDistributionOperator_,outputTimes_,starFormationRateDisks_,starFormationRateSpheroids_,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum,targetLabel,functionValueTarget,functionCovarianceTarget) result(self)
     !!{
-    Constructor for the ``luminosityFunctionHalpha'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily luminosityFunctionHalpha} output analysis class which takes a parameter set as input.
     !!}
     use :: Cosmology_Functions                     , only : cosmologyFunctionsClass
     use :: Galactic_Filters                        , only : galacticFilterClass
@@ -467,7 +467,7 @@ contains
 
   subroutine luminosityFunctionHalphaDestructor(self)
     !!{
-    Destructor for  the ``luminosityFunctionHalpha'' output analysis class.
+    Destructor for  the {\normalfont \ttfamily luminosityFunctionHalpha} output analysis class.
     !!}
     type(outputAnalysisLuminosityFunctionHalpha), intent(inout) :: self
 

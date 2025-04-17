@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -37,7 +37,7 @@
 
   interface stellarSpectraDustAttenuationCalzetti2000
      !!{
-     Constructors for the ``calzetti2000'' stellar spectra dust attenuation class.
+     Constructors for the {\normalfont \ttfamily calzetti2000} stellar spectra dust attenuation class.
      !!}
      module procedure calzetti2000ConstructorParameters
   end interface stellarSpectraDustAttenuationCalzetti2000
@@ -65,17 +65,17 @@ contains
     !!{
     Return attenuation of stellar spectra according to the model of \cite{calzetti_dust_2000}.
     !!}
-    use :: Numerical_Constants_Units, only : angstromsPerMicron
+    use :: Numerical_Constants_Units, only : micronsToAngstroms
     implicit none
     class           (stellarSpectraDustAttenuationCalzetti2000), intent(inout) :: self
-    double precision                                           , intent(in   ) :: wavelength      , age, &
+    double precision                                           , intent(in   ) :: wavelength              , age  , &
          &                                                                        vBandAttenuation
-    double precision                                           , parameter     :: Rv=4.05d0                          ! Eqn. (5) of Calzetti et al.
-    double precision                                                           :: wavelengthMicrons, kappa
+    double precision                                           , parameter     :: Rv               =4.05d0           ! Eqn. (5) of Calzetti et al.
+    double precision                                                           :: wavelengthMicrons       , kappa
     !$GLC attributes unused :: self, age
 
     ! Eqn. (4) of Calzetti et al.
-    wavelengthMicrons=wavelength/angstromsPerMicron
+    wavelengthMicrons=wavelength/micronsToAngstroms
     if      (wavelengthMicrons > 0.12d0 .and. wavelengthMicrons <= 0.63d0) then
        kappa=2.659d0*(-2.156d0+1.509d0/wavelengthMicrons-0.198d0/wavelengthMicrons**2+0.011d0/wavelengthMicrons**3)+Rv
     else if (wavelengthMicrons > 0.63d0 .and. wavelengthMicrons <= 2.20d0) then

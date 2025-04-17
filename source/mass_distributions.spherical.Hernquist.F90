@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -311,9 +311,9 @@ contains
     !!{
     Return the potential at the specified {\normalfont \ttfamily coordinates} in a Hernquist mass distribution.
     !!}
-    use :: Coordinates                     , only : assignment(=)                  , coordinateSpherical
+    use :: Coordinates                     , only : assignment(=)                 , coordinateSpherical
     use :: Galactic_Structure_Options      , only : structureErrorCodeSuccess
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class(massDistributionHernquist        ), intent(inout), target   :: self
     class(coordinate                       ), intent(in   )           :: coordinates
@@ -325,7 +325,7 @@ contains
     position=coordinates
     ! Compute the potential at this position.
     hernquistPotential=-self%mass/(self%scaleLength+position%r())
-    if (.not.self%isDimensionless()) hernquistPotential=+gravitationalConstantGalacticus &
+    if (.not.self%isDimensionless()) hernquistPotential=+gravitationalConstant_internal &
          &                                              *hernquistPotential
     return
   end function hernquistPotential

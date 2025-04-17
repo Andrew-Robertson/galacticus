@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -29,7 +29,7 @@ module Output_HDF5_Open
   use :: Error             , only : errorStatusSuccess
   implicit none
   private
-  public :: Output_HDF5_Open_File, Output_HDF5_Close_File, Output_HDF5_Completion_Status
+  public :: Output_HDF5_Open_File, Output_HDF5_Close_File, Output_HDF5_Completion_Status, Output_HDF5_Set_Group
 
   ! Output file name.
   type   (varying_string) :: outputFileName                     , outputScratchFileName
@@ -43,25 +43,19 @@ contains
     !!{
     Open the file for \glc\ output.
     !!}
-    use :: Output_HDF5       , only : hdf5SieveBufferSize , hdf5UseLatestFormat , hdf5CompressionLevel, hdf5CacheElementsCount, &
-         &                            outputFileIsOpen    , outputFile, hdf5CacheSizeBytes  , hdf5ChunkSize
+    use :: Output_HDF5       , only : hdf5SieveBufferSize , hdf5UseLatestFormat, hdf5CompressionLevel, hdf5CacheElementsCount, &
+         &                            outputFileIsOpen    , outputFile         , hdf5CacheSizeBytes  , hdf5ChunkSize         , &
+         &                            outputGroup
     use :: HDF5              , only : hsize_t             , size_t
     use :: HDF5_Access       , only : hdf5Access
     use :: IO_HDF5           , only : IO_HDF5_Set_Defaults
-    use :: ISO_Varying_String, only : var_str             , char                , operator(//)        , extract               , &
-         &                            len                 , operator(==)        , adjustl             , trim
+    use :: ISO_Varying_String, only : var_str             , char               , operator(//)        , extract               , &
+         &                            len                 , operator(==)       , adjustl             , trim
     use :: Input_Parameters  , only : inputParameters     , inputParameter
 #ifdef USEMPI
     use :: MPI_Utilities     , only : mpiSelf
 #endif
     use :: String_Handling   , only : operator(//)
-    !![
-    <include directive="outputFileOpenTask" type="moduleUse">
-    !!]
-    include 'output.open.modules.inc'
-    !![
-    </include>
-    !!]
     implicit none
     type   (inputParameters), intent(inout) :: parameters
     integer(hsize_t        )                :: chunkSize
@@ -123,7 +117,7 @@ contains
        </inputParameter>
        !!]
        hdf5CacheSizeBytes=cacheSizeBytes
-       ! Remove leadimg and trailing spaces.
+       ! Remove leading and trailing spaces.
        outputFileName       =trim(adjustl(outputFileName_       ))
        outputScratchFileName=trim(adjustl(outputScratchFileName_))
        ! Modify the file name on a per-process basis if running under MPI.
@@ -154,6 +148,7 @@ contains
             &                   cacheElementsCount =hdf5CacheElementsCount     , &
             &                   cacheSizeBytes     =hdf5CacheSizeBytes           &
             &                  )
+       call outputFile%deepCopy(outputGroup)
        !$ call hdf5Access%unset()
        ! Now that the parameter file is open, we can open an output group in it for parameters.
        call parameters%parametersGroupOpen(outputFile)
@@ -180,15 +175,11 @@ contains
        ! Set default chunking and compression levels.
        call IO_HDF5_Set_Defaults(hdf5ChunkSize,hdf5CompressionLevel)
 
-       ! Call all routines that requested to output to the file on start up.
+       ! Call all functions that requested to output to the file on start up.
        !![
-       <include directive="outputFileOpenTask" type="functionCall" functionType="void">
+       <eventHookStatic name="outputFileOpen"/>
        !!]
-       include 'output.open.inc'
-       !![
-       </include>
-       !!]
-
+       
        ! Flag that the file is now open.
        outputFileIsOpen=.true.
     end if
@@ -199,17 +190,10 @@ contains
     !!{
     Close the \glc\ output file.
     !!}
-    use :: Output_HDF5       , only : outputFileIsOpen, outputFile
+    use :: Output_HDF5       , only : outputFileIsOpen, outputFile, outputGroup
     use :: File_Utilities    , only : File_Rename
     use :: HDF5_Access       , only : hdf5Access
     use :: ISO_Varying_String, only : operator(/=)
-    !![
-    <include directive="hdfPreCloseTask" type="moduleUse">
-    !!]
-    include 'output.HDF5.pre_close_tasks.moduleUse.inc'
-    !![
-    </include>
-    !!]
     implicit none
 
     ! Perform any final tasks prior to shutdown.
@@ -217,17 +201,14 @@ contains
        !$omp critical (Output_HDF5_Close_File)
        if (outputFileIsOpen) then
           !![
-          <include directive="hdfPreCloseTask" type="functionCall" functionType="void">
-          !!]
-          include 'output.HDF5.pre_close_tasks.inc'
-          !![
-          </include>
-          <eventHook name="hdf5PreClose"/>
+	  <eventHookStatic name="outputFileClose"/>
+          <eventHook       name="outputFileClose"/>
           !!]
           ! Close the file.
           !$ call hdf5Access%set()
-          call outputFile%writeAttribute(statusCompletion,"statusCompletion")
-          call outputFile%close()
+          call outputFile %writeAttribute(statusCompletion,"statusCompletion")
+          call outputGroup%close()
+          call outputFile %close()
           !$ call hdf5Access%unset()
           ! Move the scratch file to the final file if necessary.
           if (outputFileName /= outputScratchFileName) call File_Rename(outputScratchFileName,outputFileName,overwrite=.true.)
@@ -249,5 +230,24 @@ contains
     statusCompletion=status
     return
   end subroutine Output_HDF5_Completion_Status
+  
+  subroutine Output_HDF5_Set_Group(nameGroup)
+    !!{
+    Set the name of the current output group.
+    !!}
+    use :: Error             , only : Error_Report
+    use :: HDF5_Access       , only : hdf5Access
+    use :: ISO_Varying_String, only : varying_string  , char
+    use :: Output_HDF5       , only : outputFileIsOpen, outputFile, outputGroup
+    implicit none
+    type(varying_string), intent(in   ) :: nameGroup
+
+    if (.not.outputFileIsOpen) call Error_Report('can not set the output group - file is not open'//{introspection:location})
+    !$ call hdf5Access%set()
+    call outputGroup%close()
+    outputGroup=outputFile%openGroup(char(nameGroup))
+    !$ call hdf5Access%unset()
+    return
+  end subroutine Output_HDF5_Set_Group
   
 end module Output_HDF5_Open

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -162,7 +162,7 @@ contains
 
   function spinDistributionConstructorInternal(fileName,distributionType,redshift,logNormalRange,massHaloMinimum,massParticle,particleCountMinimum,energyEstimateParticleCountMaximum,cosmologyFunctions_,haloMassFunction_,nbodyHaloMassError_,darkMatterHaloScale_,darkMatterProfileScaleRadius_) result(self)
     !!{
-    Constructor for ``spinDistribution'' posterior sampling likelihood class.
+    Constructor for {\normalfont \ttfamily spinDistribution} posterior sampling likelihood class.
     !!}
     use :: HDF5_Access      , only : hdf5Access
     use :: IO_HDF5          , only : hdf5Object
@@ -220,7 +220,7 @@ contains
 
   subroutine spinDistributionDestructor(self)
     !!{
-    Destructor for ``spinDistribution'' posterior sampling likelihood class.
+    Destructor for {\normalfont \ttfamily spinDistribution} posterior sampling likelihood class.
     !!}
     implicit none
     type(posteriorSampleLikelihoodSpinDistribution), intent(inout) :: self
@@ -247,7 +247,7 @@ contains
     use :: Posterior_Sampling_Convergence, only : posteriorSampleConvergenceClass
     use :: Posterior_Sampling_State      , only : posteriorSampleStateClass
     implicit none
-    class           (posteriorSampleLikelihoodSpinDistribution), intent(inout)               :: self
+    class           (posteriorSampleLikelihoodSpinDistribution), intent(inout), target       :: self
     class           (posteriorSampleStateClass                ), intent(inout)               :: simulationState
     type            (modelParameterList                       ), intent(inout), dimension(:) :: modelParametersActive_, modelParametersInactive_
     class           (posteriorSampleConvergenceClass          ), intent(inout)               :: simulationConvergence

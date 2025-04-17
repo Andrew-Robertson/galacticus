@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -158,14 +158,14 @@ contains
     Return the spectrum of the accretion disk.
     !!}
     use :: Numerical_Constants_Physical, only : speedLight
-    use :: Numerical_Constants_Units   , only : angstromsPerMeter
+    use :: Numerical_Constants_Units   , only : metersToAngstroms
     implicit none
     class           (radiativeTransferSpectrumAccretionDisk), intent(inout) :: self
     double precision                                        , intent(in   ) :: wavelength
 
     accretionDiskSpectrum=+self%accretionDiskSpectra_%spectrum(self%accretionRate,1.0d0,wavelength) &
          &                *speedLight                                                               &
-         &                *angstromsPerMeter                                                        &
+         &                *metersToAngstroms                                                        &
          &                /wavelength**2
     return
   end function accretionDiskSpectrum

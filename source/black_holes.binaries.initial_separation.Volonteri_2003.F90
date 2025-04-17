@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -116,8 +116,8 @@ contains
     Returns an initial separation for binary black holes using the method of \cite{volonteri_assembly_2003}, with the
     assumption that the local velocity dispersion is approximately the dark matter halo virial velocity.
     !!}
-    use :: Galacticus_Nodes            , only : nodeComponentBlackHole         , treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Galacticus_Nodes                , only : nodeComponentBlackHole        , treeNode
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class(blackHoleBinaryInitialSeparationVolonteri2003), intent(inout), target :: self
     type (treeNode                                     ), intent(inout), target :: nodeHost     , node
@@ -125,7 +125,7 @@ contains
 
     blackHole                      =>  node    %blackHole()
     blackHoleHost                  =>  nodeHost%blackHole()
-    volonteri2003SeparationInitial =  +gravitationalConstantGalacticus                       &
+    volonteri2003SeparationInitial =  +gravitationalConstant_internal                        &
          &                            *(                                                     &
          &                              +blackHole    %mass()                                &
          &                              +blackHoleHost%mass()                                &

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -74,7 +74,7 @@ contains
 
   function fakhouri2010ConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``fakhouri2010'' merger tree branching probability class which reads parameters from a provided
+    Constructor for the {\normalfont \ttfamily fakhouri2010} merger tree branching probability class which reads parameters from a provided
     parameter list.
     !!}
     implicit none
@@ -172,7 +172,7 @@ contains
 
   function fakhouri2010ConstructorInternal(alpha,beta,gamma,eta,A,xiBar,B,mu,nu,cosmologyFunctions_,cosmologicalMassVariance_,criticalOverdensity_,haloEnvironment_) result(self)
     !!{
-    Internal constructor for the ``fakhouri2010'' merger tree branching probability class.
+    Internal constructor for the {\normalfont \ttfamily fakhouri2010} merger tree branching probability class.
     !!}
     implicit none
     type            (mergerTreeBranchingProbabilityFakhouri2010)                        :: self

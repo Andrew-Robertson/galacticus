@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -207,7 +207,7 @@ contains
     type            (lockDescriptor                                  )                             :: fileLock
 
     if (tableStore) then
-       call Directory_Make(char(File_Path(char(self%fileNameVirialDensityContrast)))                             )
+       call Directory_Make(char(File_Path(char(self%fileNameVirialDensityContrast)))                              )
        call File_Lock     (               char(self%fileNameVirialDensityContrast)  ,fileLock,lockIsShared=.false.)
     end if
     call    self%restoreTable(time,virialDensityContrast_,self%fileNameVirialDensityContrast                 ,tableStore,status)

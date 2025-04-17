@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -27,7 +27,7 @@
    <description>
     A cooling function class that computes the cooling function using the {\normalfont \scshape Cloudy} code and under the
     assumption of collisional ionization equilibrium with no molecular contribution. Abundances are Solar, except for zero
-    metallicity calculations which use {\normalfont \scshape Cloudy}'s ``primordial'' metallicity. The helium abundance for
+    metallicity calculations which use {\normalfont \scshape Cloudy}'s {\normalfont \ttfamily primordial} metallicity. The helium abundance for
     non-zero metallicity is scaled between primordial and Solar values linearly with metallicity. The {\normalfont \scshape
     Cloudy} code will be downloaded and run to compute the cooling function as needed, which will then be stored for future
     use. As this process is slow, a precomputed table is provided with \glc. If metallicities outside the range tabulated in

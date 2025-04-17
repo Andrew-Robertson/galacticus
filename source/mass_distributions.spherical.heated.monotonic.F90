@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -144,7 +144,7 @@ contains
   
   function sphericalHeatedMonotonicConstructorInternal(radiusVirial,nonAnalyticSolver,massDistribution_,massDistributionHeating_,componentType,massType) result(self)
     !!{
-    Constructor for ``sphericalHeatedMonotonic'' mass distribution class.
+    Constructor for {\normalfont \ttfamily sphericalHeatedMonotonic} mass distribution class.
     !!}
     implicit none
     type            (massDistributionSphericalHeatedMonotonic)                          :: self
@@ -170,7 +170,7 @@ contains
 
   subroutine sphericalHeatedMonotonicDestructor(self)
     !!{
-    Destructor for the ``sphericalHeatedMonotonic'' mass distribution class.
+    Destructor for the {\normalfont \ttfamily sphericalHeatedMonotonic} mass distribution class.
     !!}
     implicit none
     type(massDistributionSphericalHeatedMonotonic), intent(inout) :: self
@@ -254,7 +254,7 @@ contains
             &  *exp(self%massProfile%interpolate(log(radius_))) &
             &  /4.0d0                                           &
             &  /Pi                                              &
-            &  /radius**3
+            &  /radius_**3
     else
        density=+0.0d0
     end if
@@ -265,9 +265,9 @@ contains
     !!{
     Compute the solution for the heated density profile.
     !!}
-    use :: Numerical_Ranges                , only : Make_Range                     , rangeTypeLogarithmic
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
-    use :: Table_Labels                    , only : extrapolationTypeFix           , extrapolationTypeZero
+    use :: Numerical_Ranges                , only : Make_Range                    , rangeTypeLogarithmic
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
+    use :: Table_Labels                    , only : extrapolationTypeFix          , extrapolationTypeZero
     implicit none
     class           (massDistributionSphericalHeatedMonotonic), intent(inout)             :: self
     double precision                                          , intent(in   )             :: radius
@@ -280,7 +280,7 @@ contains
     integer                                                                               :: i                           , countRadii
 
     ! Nothing to do if profile is already tabulated.
-    if (allocated(self%massProfile)) return
+    if (.not.self%isBound .or. allocated(self%massProfile)) return
     ! Choose extent of radii at which to tabulate the initial profile.
     self%radiusInitialMinimum=radiusFractionMinimum*self%radiusVirial
     self%radiusInitialMaximum=radiusFractionMaximum*self%radiusVirial
@@ -306,7 +306,7 @@ contains
        massEnclosed(i)=+self%massDistribution_         %massEnclosedBySphere(radiusInitial(i)                       )
        perturbation(i)=+2.0d0                                                                                         &
             &          *self%massDistributionHeating_  %specificEnergy      (radiusInitial(i),self%massDistribution_) &
-            &          /gravitationalConstantGalacticus                                                               &
+            &          /gravitationalConstant_internal                                                                &
             &          /                                                     massEnclosed (i)                         &
             &          *                                                     radiusInitial(i)
        ! Limit the perturbation to avoid shell-crossing.
@@ -327,12 +327,12 @@ contains
             &                    )
     end do
     ! Compute the final energy of the heated profile.
-    energyFinal=+gravitationalConstantGalacticus &
-         &      *massEnclosed                    &
-         &      /radiusInitial                   &
-         &      *(                               &
-         &        -1.0d0                         &
-         &        +perturbation                  &
+    energyFinal=+gravitationalConstant_internal &
+         &      *massEnclosed                   &
+         &      /radiusInitial                  &
+         &      *(                              &
+         &        -1.0d0                        &
+         &        +perturbation                 &
          &       )    
     ! Find shell masses.
     massShell(1           )=+massEnclosed(1             )
@@ -344,8 +344,8 @@ contains
          &   massShell   > 0.0d0
     ! Find final radii.
     where (isBound)
-       radiusFinal=-gravitationalConstantGalacticus &
-            &      *massEnclosed                    &
+       radiusFinal=-gravitationalConstant_internal &
+            &      *massEnclosed                   &
             &      /energyFinal
     elsewhere
        radiusFinal=+huge(0.0d0)

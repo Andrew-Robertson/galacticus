@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galactic filter which applies another filter to the isolated host node of the given node.
+Implements a galactic filter which applies another filter to the isolated host node of the given node.
 !!}
   
   !![
@@ -39,7 +39,7 @@ Contains a module which implements a galactic filter which applies another filte
 
   interface galacticFilterIsolatedHostNode
      !!{
-     Constructors for the ``isolatedHostNode'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily isolatedHostNode} galactic filter class.
      !!}
      module procedure isolatedHostNodeConstructorParameters
      module procedure isolatedHostNodeConstructorInternal
@@ -49,7 +49,7 @@ contains
 
   function isolatedHostNodeConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``isolatedHostNode'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily isolatedHostNode} galactic filter class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -70,7 +70,7 @@ contains
   
   function isolatedHostNodeConstructorInternal(galacticFilter_) result(self)
     !!{
-    Internal constructor for the ``isolatedHostNode'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily isolatedHostNode} galactic filter class.
     !!}
     implicit none
     type (galacticFilterIsolatedHostNode)                        :: self
@@ -84,7 +84,7 @@ contains
   
   subroutine isolatedHostNodeDestructor(self)
     !!{
-    Destructor for  the ``isolatedHostNode'' galactic filter class.
+    Destructor for  the {\normalfont \ttfamily isolatedHostNode} galactic filter class.
     !!}
     implicit none
     type(galacticFilterIsolatedHostNode), intent(inout) :: self

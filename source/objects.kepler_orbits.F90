@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -62,17 +62,21 @@ module Kepler_Orbits
   !!]
 
   type keplerOrbit
-     !!{
-     The structure used for describing orbits in \glc. This object will automatically convert from one set of orbital
-     parameters to another where possible. The orbiting bodies (a satellite orbiting around its host) are treated as point
-     masses, and the usual ``reduced mass'' framework is used, such that radii and velocities are measured relative to a
-     stationary host. Energy and angular momentum are defined per unit satellite mass (not per unit reduced mass). Note that
-     not all interconversions between elements are implemented. The object works by attempting to get the radial and tangential
-     velocities and the radius. If it can obtain these, any other parameter can be computed. Getting these three parameters
-     relies on having known conversions from other possible combinations of parameters. The position of the object is described
-     by $(r,\theta,\phi)$ in standard spherical coordinates. The direction of the tangential component is velocity is taken to
-     be the direction of the vector $\mathbf{r} \times \mathbf{\hat{e}}_\mathrm{z}$, rotated by an angle $\epsilon$ around the
-     vector $\mathbf{r}$.
+     !!{     
+     The structure used for describing orbits in \glc. This object will automatically convert from one set of orbital parameters
+     to another where possible. The orbiting bodies (a satellite orbiting around its host) are treated as point masses, and the
+     usual ``reduced mass'' framework is used, such that radii and velocities are measured relative to a stationary host. Energy
+     and angular momentum are defined per unit satellite mass (not per unit reduced mass). Note that not all interconversions
+     between elements are implemented. The object works by attempting to get the radial and tangential velocities and the
+     radius. If it can obtain these, any other parameter can be computed. Getting these three parameters relies on having known
+     conversions from other possible combinations of parameters. The position of the object is described by $(r,\theta,\phi)$ in
+     standard spherical coordinates. The direction of the tangential component is velocity is taken to be the direction of the
+     vector $\mathbf{r} \times \mathbf{\hat{e}}_\mathrm{z}$, rotated by an angle $\epsilon$ around the vector $\mathbf{r}$. In
+     cases where $\mathbf{r}$ is parallel to $\mathbf{\hat{e}}_\mathrm{z}$ we set $\epsilon=\pi/2$, since at some infinitesimally
+     later time, $\delta t$ the position vector will become $\mathbf{r} + \mathbf{v}\delta t$ such that the above cross product is
+     $(\mathbf{r} + \mathbf{v}\delta t) \times \mathbf{\hat{e}}_\mathrm{z} \propto \mathbf{v}_\mathrm{t} \times
+     \mathbf{\hat{e}}_\mathrm{z}$ where $\mathbf{v}_\mathrm{t}$ is the tangential component of the velocity vector, and, by
+     definition, we then must have $\epsilon=\pi/2$ as this vector is normal to $\mathbf{v}_\mathrm{t}$.
      !!}
      private
      double precision :: massHostValue        , specificReducedMassValue
@@ -286,69 +290,70 @@ contains
     return
   end subroutine Kepler_Orbits_Builder
 
-  subroutine Kepler_Orbits_Dump(self)
+  subroutine Kepler_Orbits_Dump(self,verbosityLevel)
     !!{
     Reset an orbit to a null state.
     !!}
-    use :: Display           , only : displayMessage
+    use :: Display           , only : displayMessage, enumerationVerbosityLevelType
     use :: ISO_Varying_String, only : assignment(=) , varying_string
     implicit none
-    class    (keplerOrbit   ), intent(in   ) :: self
-    character(len=22        )                :: label
-    type     (varying_string)                :: message
+    class    (keplerOrbit                  ), intent(in   ) :: self
+    type     (enumerationVerbosityLevelType), intent(in   ) :: verbosityLevel
+    character(len=22                       )                :: label
+    type     (varying_string               )                :: message
 
     if (self%massesIsSet             ) then
        write (label,'(e22.16)') self%massHostValue
        message='host mass:             '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
        write (label,'(e22.16)') self%specificReducedMassValue
        message='specific reduced mass: '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%radiusIsSet             ) then
        write (label,'(e22.16)') self%radiusValue
        message='radius:                '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%radiusPericenterIsSet   ) then
        write (label,'(e22.16)') self%radiusPericenterValue
        message='radius pericenter:     '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%radiusApocenterIsSet   ) then
        write (label,'(e22.16)') self%radiusApocenterValue
        message='radius apocenter:      '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%velocityRadialIsSet    ) then
        write (label,'(e22.16)') self%velocityRadialValue
        message='velocity radial:       '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%velocityTangentialIsSet) then
        write (label,'(e22.16)') self%velocityTangentialValue
        message='velocity tangential:   '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%angularMomentumIsSet   ) then
        write (label,'(e22.16)') self%angularMomentumValue
        message='angular momentum:      '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%energyIsSet            ) then
        write (label,'(e22.16)') self%energyValue
        message='energy:                '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%eccentricityIsSet      ) then
        write (label,'(e22.16)') self%eccentricityValue
        message='eccentricity:          '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     if (self%semimajorAxisIsSet     ) then
        write (label,'(e22.16)') self%semimajorAxisValue
        message='semi-major axis:       '//label
-       call displayMessage(message)
+       call displayMessage(message,verbosityLevel)
     end if
     return
   end subroutine Kepler_Orbits_Dump
@@ -805,7 +810,7 @@ contains
     !!{
     Return the energy for this orbit.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class(keplerOrbit), intent(inout) :: orbit
 
@@ -814,7 +819,7 @@ contains
        ! Assert that the orbit is defined.
        call orbit%assertIsDefined()
        ! Compute the energy.
-       orbit%energyValue=-gravitationalConstantGalacticus*orbit%massHost()/orbit%radius()+0.5d0&
+       orbit%energyValue=-gravitationalConstant_internal*orbit%massHost()/orbit%radius()+0.5d0&
             &*(orbit%velocityRadial()**2+orbit%velocityTangential()**2)*orbit%specificReducedMass()
        orbit%energyIsSet=.true.
     end if
@@ -937,14 +942,14 @@ contains
     Return the velocity scale for the orbit.
     !!}
     use :: Error                           , only : Error_Report
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class(keplerOrbit), intent(inout) :: orbit
 
     ! Check that masses and radius have been specified.
     if (.not.(orbit%radiusIsSet.and.orbit%massesIsSet)) call Error_Report('orbit masses and radius must be specified'//{introspection:location})
     ! Compute the velocity scale.
-    Kepler_Orbits_Velocity_Scale=sqrt(gravitationalConstantGalacticus*orbit%massHost()/orbit%radius())
+    Kepler_Orbits_Velocity_Scale=sqrt(gravitationalConstant_internal*orbit%massHost()/orbit%radius())
     return
   end function Kepler_Orbits_Velocity_Scale
 
@@ -953,8 +958,8 @@ contains
     Propagate an orbit along its path.
     !!}
     use :: Error                           , only : Error_Report
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
-    use :: Vectors                         , only : Vector_Magnitude               , Vector_Product
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
+    use :: Vectors                         , only : Vector_Magnitude              , Vector_Product
     implicit none
     class           (keplerOrbit), intent(inout)           :: orbit
     double precision             , intent(in   )           :: newRadius
@@ -985,7 +990,7 @@ contains
     angularMomentum=orbit%angularMomentum()
     ! Compute velocity components.
     newVelocityTangential=angularMomentum/newRadius/orbit%specificReducedMass()
-    newVelocityRadial    =sqrt(2.0d0*(energy+gravitationalConstantGalacticus*orbit%massHost()/newRadius)/orbit%specificReducedMass()-newVelocityTangential**2)
+    newVelocityRadial    =sqrt(2.0d0*(energy+gravitationalConstant_internal*orbit%massHost()/newRadius)/orbit%specificReducedMass()-newVelocityTangential**2)
     ! Move to the infalling phase of the orbit if requested.
     if (present(infalling)) then
        if (infalling) newVelocityRadial=-newVelocityRadial

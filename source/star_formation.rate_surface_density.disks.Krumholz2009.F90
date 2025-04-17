@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -170,9 +170,10 @@ contains
     !!{
     Internal constructor for the {\normalfont \ttfamily krumholz2009} star formation surface density rate from disks class.
     !!}
-    use :: Abundances_Structure, only : unitAbundances
-    use :: Table_Labels        , only : extrapolationTypeFix
-    use :: Root_Finder         , only : rangeExpandMultiplicative, rangeExpandSignExpectNegative, rangeExpandSignExpectPositive
+    use :: Abundances_Structure                      , only : unitAbundances
+    use :: Table_Labels                              , only : extrapolationTypeFix
+    use :: Root_Finder                               , only : rangeExpandMultiplicative        , rangeExpandSignExpectNegative, rangeExpandSignExpectPositive
+    use :: Star_Formation_Rate_Krumholz2009_Utilities, only : krumholz2009MolecularFractionSlow
     implicit none
     type            (starFormationRateSurfaceDensityDisksKrumholz2009)                :: self
     double precision                                                  , intent(in   ) :: frequencyStarFormation      , clumpingFactorMolecularComplex
@@ -414,35 +415,6 @@ contains
          &                         /     surfaceDensityTransition
     return
   end subroutine krumholz2009SurfaceDensityFactors
-
-  double precision function krumholz2009MolecularFractionSlow(s)
-    !!{
-    Slow (but more accurate at low molecular fraction) fitting function from \cite{krumholz_star_2009} for the molecular
-    hydrogen fraction.
-    !!}
-    implicit none
-    double precision, intent(in   ) :: s
-    double precision, parameter     :: sTiny        =1.000000d-06
-    double precision, parameter     :: sHuge        =1.000000d+10
-    double precision, parameter     :: deltaInfinity=0.214008d+00 ! The value of δ for s → ∞.
-    double precision                :: delta
-
-    if      (s <  sTiny   ) then
-       ! Series expansion for very small s.
-       krumholz2009MolecularFractionSlow=1.0d0-0.75d0*s
-    else if (s >= sHuge   ) then
-       ! Truncate to zero for extremely large s.
-       krumholz2009MolecularFractionSlow=0.0d0
-    else if (s >= sMaximum) then
-       ! Simplified form for very large s.
-       krumholz2009MolecularFractionSlow=1.0d0/(0.75d0/(1.0d0+deltaInfinity))**5/5.0d0/s**5
-    else
-       ! Full expression.
-       delta                            =0.0712d0/((0.1d0/s+0.675d0)**2.8d0)
-       krumholz2009MolecularFractionSlow=1.0d0-1.0d0/((1.0d0+(((1.0d0+delta)/0.75d0/s)**5))**0.2d0)
-    end if
-    return
-  end function krumholz2009MolecularFractionSlow
 
   double precision function krumholz2009MolecularFractionFast(s)
     !!{

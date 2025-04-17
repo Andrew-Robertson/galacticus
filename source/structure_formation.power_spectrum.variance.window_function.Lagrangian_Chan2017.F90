@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,8 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which provides a power spectrum window function class that implements the Lagrangian filter of
-  \cite{chan_effective_2017}.
+  Provides a power spectrum window function class that implements the Lagrangian filter of \cite{chan_effective_2017}.
   !!}
 
   use :: Cosmology_Parameters, only : cosmologyParametersClass

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -155,7 +155,7 @@ contains
     use :: ISO_Varying_String              , only : char                   , operator(//)   , trim               , var_str  , &
           &                                         varying_string
     use :: Numerical_Constants_Astronomical, only : gigaYear               , luminositySolar, massSolar
-    use :: Numerical_Constants_Units       , only : angstromsPerMeter
+    use :: Numerical_Constants_Units       , only : metersToAngstroms
     use :: String_Handling                 , only : operator(//)
     use :: System_Command                  , only : System_Command_Do
     use :: Tables                          , only : table1D
@@ -262,7 +262,7 @@ contains
     ! Write datasets.
     call spectraFile%writeDataset  (wavelength ,'wavelengths'        ,datasetReturned=dataset)
     call dataset    %writeAttribute('Å'                  ,'units'                            )
-    call dataset    %writeAttribute(1.0d0/angstromsPerMeter             ,'unitsInSI'         )
+    call dataset    %writeAttribute(1.0d0/metersToAngstroms             ,'unitsInSI'         )
     call dataset    %close         (                                                         )
     call spectraFile%writeDataset  (age        ,'ages'         ,      datasetReturned=dataset)
     call dataset    %writeAttribute('Gyr'                ,'units'                            )

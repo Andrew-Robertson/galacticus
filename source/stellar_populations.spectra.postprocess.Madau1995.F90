@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -68,7 +68,7 @@ contains
     !!{
     Suppress the Lyman continuum in a spectrum.
     !!}
-    use :: Numerical_Constants_Atomic, only : lymanSeriesLimitWavelengthHydrogen
+    use :: Numerical_Constants_Atomic, only : lymanSeriesLimitWavelengthHydrogen_atomic
     implicit none
     class           (stellarPopulationSpectraPostprocessorMadau1995), intent(inout)           :: self
     double precision                                                , intent(in   )           :: age                                                                                                                           , redshift                        , &
@@ -87,7 +87,7 @@ contains
        return
     else
        ! Compute the observed wavelength in units of the Lyman-continuum wavelength.
-       wavelengthObservedLymanContinuum=wavelength*(1.0d0+redshift)/lymanSeriesLimitWavelengthHydrogen
+       wavelengthObservedLymanContinuum=wavelength*(1.0d0+redshift)/lymanSeriesLimitWavelengthHydrogen_atomic
        ! Compute contribution to optical depth from Lyman-series lines.
        forall(iLine=1:9)
           opticalDepthLymanLines(iLine)=opticalDepthLymanLinesCoefficients(iLine)*(wavelengthObservedLymanContinuum*(1.0d0-1.0d0&

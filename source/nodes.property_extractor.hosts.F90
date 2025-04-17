@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a host index output analysis property extractor class.
+Implements a host index output analysis property extractor class.
 !!}
 
   !![
@@ -43,7 +43,7 @@ Contains a module which implements a host index output analysis property extract
 
   interface nodePropertyExtractorIndicesHost
      !!{
-     Constructors for the ``indicesHost'' output analysis class.
+     Constructors for the {\normalfont \ttfamily indicesHost} output analysis class.
      !!}
      module procedure indicesHostConstructorParameters
      module procedure indicesHostConstructorInternal

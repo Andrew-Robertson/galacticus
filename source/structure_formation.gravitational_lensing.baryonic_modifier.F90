@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -56,7 +56,7 @@ Implements the gravitational lensing distribution by modifying another distribut
 
   interface gravitationalLensingBaryonicModifier
      !!{
-     Constructors for the ``baryonic modifier'' gravitational lensing class.
+     Constructors for the {\normalfont \ttfamily baryonicModifier} gravitational lensing class.
      !!}
      module procedure baryonicModifierConstructorParameters
      module procedure baryonicModifierConstructorInternal
@@ -66,7 +66,7 @@ contains
 
   function baryonicModifierConstructorParameters(parameters) result(self)
     !!{
-    Default constructor for the ``baryonic modifier'' gravitational lensing class.
+    Default constructor for the {\normalfont \ttfamily baryonicModifier} gravitational lensing class.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -102,7 +102,7 @@ contains
 
   function baryonicModifierConstructorInternal(gravitationalLensing_,alpha,beta) result(self)
     !!{
-    Generic constructor for the ``baryonic modifier'' gravitational lensing class.
+    Generic constructor for the {\normalfont \ttfamily baryonicModifier} gravitational lensing class.
     !!}
     implicit none
     type            (gravitationalLensingBaryonicModifier)                        :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -126,7 +126,7 @@ contains
 
   module procedure Tensor_R2_D3_Sym_Dump
     !!{
-    Reset a {\normalfont \ttfamily tensorRank2Dimension3Symmetric} symmetric object.
+    Dump properties of a {\normalfont \ttfamily tensorRank2Dimension3Symmetric} symmetric object.
     !!}
     use :: Display           , only : displayMessage
     use :: ISO_Varying_String, only : assignment(=) , varying_string
@@ -136,22 +136,22 @@ contains
 
     write (label,'(e22.16)') self%x00
     message='x00: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     write (label,'(e22.16)') self%x01
     message='x01: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     write (label,'(e22.16)') self%x02
     message='x02: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     write (label,'(e22.16)') self%x11
     message='x11: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     write (label,'(e22.16)') self%x12
     message='x12: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     write (label,'(e22.16)') self%x22
     message='x22: '//label
-    call displayMessage(message)
+    call displayMessage(message,verbosityLevel)
     return
   end procedure Tensor_R2_D3_Sym_Dump
 

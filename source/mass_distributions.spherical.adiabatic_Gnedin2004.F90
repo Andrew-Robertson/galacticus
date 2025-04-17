@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -271,7 +271,7 @@ contains
   
   function sphericalAdiabaticGnedin2004ConstructorInternal(A,omega,radiusVirial,radiusFractionalPivot,darkMatterFraction,darkMatterDistributedFraction,massFractionInitial,toleranceRelative,nonAnalyticSolver,massDistribution_,massDistributionBaryonic,initializationFunction,initializationSelf,initializationArgument,componentType,massType) result(self)
     !!{
-    Constructor for ``sphericalAdiabaticGnedin2004'' mass distribution class.
+    Constructor for {\normalfont \ttfamily sphericalAdiabaticGnedin2004} mass distribution class.
     !!}
     implicit none
     type            (massDistributionSphericalAdiabaticGnedin2004)                          :: self
@@ -603,7 +603,7 @@ contains
     Compute various factors needed when solving for the initial radius in the dark matter halo using the adiabatic contraction
     algorithm of \cite{gnedin_response_2004}.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionSphericalAdiabaticGnedin2004), intent(inout), target  :: self
     double precision                                              , intent(in   )          :: radius
@@ -617,7 +617,7 @@ contains
     self%radiusFinalMean=self%radiusOrbitalMean(radius)
     ! Compute the baryonic contribution to the rotation curve.
     velocityCircularSquared=self%massDistributionBaryonic%rotationCurve(self%radiusFinalMean)**2
-    self%baryonicFinalTerm=velocityCircularSquared*self%radiusFinalMean*self%radiusFinal/gravitationalConstantGalacticus
+    self%baryonicFinalTerm=velocityCircularSquared*self%radiusFinalMean*self%radiusFinal/gravitationalConstant_internal
     ! Compute the baryonic contribution to the rotation curve.
     if (computeGradientFactors) then
        velocityCircularSquaredGradient =+self%massDistributionBaryonic%rotationCurveGradient(self%radiusFinalMean)
@@ -625,7 +625,7 @@ contains
             &                           *self%radiusOrbitalMeanDerivative(self%radiusFinal)                        &
             &                           *self%radiusFinalMean                                                      &
             &                           *self%radiusFinal                                                          &
-            &                           /     gravitationalConstantGalacticus
+            &                           /     gravitationalConstant_internal
     end if
     return
   end subroutine sphericalAdiabaticGnedin2004ComputeFactors

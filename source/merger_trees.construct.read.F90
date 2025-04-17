@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -31,6 +31,7 @@
   use    :: Kind_Numbers                      , only : kind_int8
   use    :: MPI_Utilities                     , only : mpiCounter
   use    :: Merger_Tree_Read_Importers        , only : mergerTreeImporterClass
+  use    :: Merger_Tree_Seeds                 , only : mergerTreeSeedsClass
   use    :: Nodes_Operators                   , only : nodeOperatorClass
   use    :: Numerical_Random_Numbers          , only : randomNumberGeneratorClass
   !$ use :: OMP_Lib                           , only : omp_lock_kind
@@ -229,12 +230,14 @@
      class           (darkMatterProfileScaleRadiusClass         ), pointer                   :: darkMatterProfileScaleRadius_         => null()
      class           (randomNumberGeneratorClass                ), pointer                   :: randomNumberGenerator_                => null()
      class           (nodeOperatorClass                         ), pointer                   :: nodeOperator_                         => null()
+     class           (mergerTreeSeedsClass                      ), pointer                   :: mergerTreeSeeds_                      => null()
      integer                                                                                 :: fileCurrent
      type            (varying_string                            ), allocatable, dimension(:) :: fileNames                                       , presetNamedReals                    , &
           &                                                                                     presetNamedIntegers
      integer                                                     , allocatable, dimension(:) :: indexNamedReals                                 , indexNamedIntegers
      logical                                                                                 :: importerOpen                          =  .false.
      integer         (kind_int8                                 )                            :: beginAt
+     logical                                                                                 :: foundBeginAt                          =  .false.
      double precision                                                                        :: treeWeightCurrent
      logical                                                                                 :: allowBranchJumps
      logical                                                                                 :: allowSubhaloPromotions                          , alwaysPromoteMostMassive
@@ -407,6 +410,7 @@ contains
     class           (darkMatterProfileScaleRadiusClass  ), pointer                   :: darkMatterProfileScaleRadius_
     class           (randomNumberGeneratorClass         ), pointer                   :: randomNumberGenerator_
     class           (nodeOperatorClass                  ), pointer                   :: nodeOperator_
+    class           (mergerTreeSeedsClass               ), pointer                   :: mergerTreeSeeds_
     type            (varying_string                     ), allocatable, dimension(:) :: fileNames                           , presetNamedReals                    , &
          &                                                                              presetNamedIntegers
     integer                                                                          :: fileCount
@@ -622,6 +626,7 @@ contains
     <objectBuilder class="virialOrbit"                    name="virialOrbit_"                    source="parameters"                                                         />
     <objectBuilder class="outputTimes"                    name="outputTimes_"                    source="parameters"                                                         />
     <objectBuilder class="darkMatterProfileScaleRadius"   name="darkMatterProfileScaleRadius_"   source="parameters"                                                         />
+    <objectBuilder class="mergerTreeSeeds"                name="mergerTreeSeeds_"                source="parameters"                                                         />
     <objectBuilder class="nodeOperator"                   name="nodeOperator_"                   source="parameters" parameterName="nodeOperatorTreeInitializor"              >
      <default>
       <nodeOperatorTreeInitializor value="null"/>
@@ -666,6 +671,7 @@ contains
          &                                                                           presetNamedIntegers                                          , &
          &                                                                           cosmologyFunctions_                                          , &
          &                                                                           mergerTreeImporter_                                          , &
+         &                                                                           mergerTreeSeeds_                                             , &
          &                                                                           darkMatterHaloScale_                                         , &
          &                                                                           darkMatterProfileDMO_                                        , &
          &                                                                           darkMatterProfileConcentration_                              , &
@@ -684,6 +690,7 @@ contains
     <objectDestructor name="darkMatterHaloScale_"           />
     <objectDestructor name="darkMatterProfileDMO_"          />
     <objectDestructor name="darkMatterProfileConcentration_"/>
+    <objectDestructor name="mergerTreeSeeds_"               />
     <objectDestructor name="haloSpinDistribution_"          />
     <objectDestructor name="virialOrbit_"                   />
     <objectDestructor name="outputTimes_"                   />
@@ -695,7 +702,7 @@ contains
     return
   end function readConstructorParameters
 
-  function readConstructorInternal(fileNames,outputTimeSnapTolerance,forestSizeMaximum,beginAt,missingHostsAreFatal,treeIndexToRootNodeIndex,subhaloAngularMomentaMethod,allowBranchJumps,allowSubhaloPromotions,alwaysPromoteMostMassive,presetMergerTimes,presetMergerNodes,presetSubhaloMasses,presetSubhaloIndices,presetPositions,presetScaleRadii,presetScaleRadiiConcentrationMinimum,presetScaleRadiiConcentrationMaximum,presetScaleRadiiMinimumMass,scaleRadiiFailureIsFatal,presetUnphysicalAngularMomenta,presetAngularMomenta,presetAngularMomenta3D,presetOrbits,presetOrbitsSetAll,presetOrbitsAssertAllSet,presetOrbitsBoundOnly,presetNamedReals,presetNamedIntegers,cosmologyFunctions_,mergerTreeImporter_,darkMatterHaloScale_,darkMatterProfileDMO_,darkMatterProfileConcentration_,haloSpinDistribution_,satelliteMergingTimescales_,virialOrbit_,outputTimes_,darkMatterProfileScaleRadius_,nodeOperator_,randomNumberGenerator_) result(self)
+  function readConstructorInternal(fileNames,outputTimeSnapTolerance,forestSizeMaximum,beginAt,missingHostsAreFatal,treeIndexToRootNodeIndex,subhaloAngularMomentaMethod,allowBranchJumps,allowSubhaloPromotions,alwaysPromoteMostMassive,presetMergerTimes,presetMergerNodes,presetSubhaloMasses,presetSubhaloIndices,presetPositions,presetScaleRadii,presetScaleRadiiConcentrationMinimum,presetScaleRadiiConcentrationMaximum,presetScaleRadiiMinimumMass,scaleRadiiFailureIsFatal,presetUnphysicalAngularMomenta,presetAngularMomenta,presetAngularMomenta3D,presetOrbits,presetOrbitsSetAll,presetOrbitsAssertAllSet,presetOrbitsBoundOnly,presetNamedReals,presetNamedIntegers,cosmologyFunctions_,mergerTreeImporter_,mergerTreeSeeds_,darkMatterHaloScale_,darkMatterProfileDMO_,darkMatterProfileConcentration_,haloSpinDistribution_,satelliteMergingTimescales_,virialOrbit_,outputTimes_,darkMatterProfileScaleRadius_,nodeOperator_,randomNumberGenerator_) result(self)
     !!{
     Internal constructor for the {\normalfont \ttfamily read} merger tree constructor class.
     !!}
@@ -708,6 +715,7 @@ contains
     type            (mergerTreeConstructorRead                 )                              :: self
     class           (cosmologyFunctionsClass                   ), intent(in   ), target       :: cosmologyFunctions_
     class           (mergerTreeImporterClass                   ), intent(in   ), target       :: mergerTreeImporter_
+    class           (mergerTreeSeedsClass                      ), intent(in   ), target       :: mergerTreeSeeds_
     class           (darkMatterHaloScaleClass                  ), intent(in   ), target       :: darkMatterHaloScale_
     class           (darkMatterProfileDMOClass                 ), intent(in   ), target       :: darkMatterProfileDMO_
     class           (darkMatterProfileConcentrationClass       ), intent(in   ), target       :: darkMatterProfileConcentration_
@@ -738,12 +746,14 @@ contains
     integer         (c_size_t                                  )                              :: iOutput                             , i
     type            (varying_string                            )                              :: message
     !![
-    <constructorAssign variables="fileNames, outputTimeSnapTolerance, forestSizeMaximum, beginAt, missingHostsAreFatal, treeIndexToRootNodeIndex, subhaloAngularMomentaMethod, allowBranchJumps, allowSubhaloPromotions, alwaysPromoteMostMassive, presetMergerTimes, presetMergerNodes, presetSubhaloMasses, presetSubhaloIndices, presetPositions, presetScaleRadii,  presetScaleRadiiConcentrationMinimum, presetScaleRadiiConcentrationMaximum, presetScaleRadiiMinimumMass, scaleRadiiFailureIsFatal, presetUnphysicalAngularMomenta, presetAngularMomenta, presetAngularMomenta3D, presetOrbits, presetOrbitsSetAll, presetOrbitsAssertAllSet, presetOrbitsBoundOnly, presetNamedReals, presetNamedIntegers, *cosmologyFunctions_, *mergerTreeImporter_, *darkMatterHaloScale_, *darkMatterProfileDMO_, *darkMatterProfileConcentration_, *haloSpinDistribution_, *satelliteMergingTimescales_, *virialOrbit_, *outputTimes_, *darkMatterProfileScaleRadius_, *nodeOperator_, *randomNumberGenerator_"/>
+    <constructorAssign variables="fileNames, outputTimeSnapTolerance, forestSizeMaximum, beginAt, missingHostsAreFatal, treeIndexToRootNodeIndex, subhaloAngularMomentaMethod, allowBranchJumps, allowSubhaloPromotions, alwaysPromoteMostMassive, presetMergerTimes, presetMergerNodes, presetSubhaloMasses, presetSubhaloIndices, presetPositions, presetScaleRadii,  presetScaleRadiiConcentrationMinimum, presetScaleRadiiConcentrationMaximum, presetScaleRadiiMinimumMass, scaleRadiiFailureIsFatal, presetUnphysicalAngularMomenta, presetAngularMomenta, presetAngularMomenta3D, presetOrbits, presetOrbitsSetAll, presetOrbitsAssertAllSet, presetOrbitsBoundOnly, presetNamedReals, presetNamedIntegers, *cosmologyFunctions_, *mergerTreeImporter_, *darkMatterHaloScale_, *darkMatterProfileDMO_, *darkMatterProfileConcentration_, *haloSpinDistribution_, *satelliteMergingTimescales_, *virialOrbit_, *outputTimes_, *darkMatterProfileScaleRadius_, *nodeOperator_, *randomNumberGenerator_, *mergerTreeSeeds_"/>
     !!]
 
     ! Initialize statuses.
     self%warningNestedHierarchyIssued           =.false.
     self%warningSplitForestNestedHierarchyIssued=.false.
+    ! Set initial state indicating if the first tree to process has been found.
+    self%foundBeginAt                           =self%beginAt == -1_kind_int8
     ! Initialize split forests counter.
     splitForestUniqueID=mpiCounter()
     ! Get array of output times.
@@ -940,6 +950,7 @@ contains
     <objectDestructor name="self%darkMatterProfileScaleRadius_"  />
     <objectDestructor name="self%nodeOperator_"                  />
     <objectDestructor name="self%randomNumberGenerator_"         />
+    <objectDestructor name="self%mergerTreeSeeds_"               />
     !!]
     return
   end subroutine readDestructor
@@ -995,18 +1006,34 @@ contains
     treeNumberInternal=treeStateStoreSequence
     ! Determine if we have any split forests to return.
     returnSplitForest=allocated(self%splitForestTreeSize)
-    ! Find the maximum tree number in the current file.
-    treeNumberMaximum=int(self%mergerTreeImporter_%treeCount(),kind=c_size_t)
-    ! Check if we need to move to a new file.
-    do while (treeNumber-self%treeNumberOffset > treeNumberMaximum .and. self%fileCurrent < size(self%fileNames))
-       self%fileCurrent     =self%fileCurrent     +1
-       self%treeNumberOffset=self%treeNumberOffset+treeNumberMaximum
-       call self%mergerTreeImporter_%close(                                                        )
-       call self%mergerTreeImporter_%open (File_Name_Expand(char(self%fileNames(self%fileCurrent))))
+    ! Scan trees until we find one to process. This allows us to skip trees until the tree index specified by `beginAt` is found.
+    do while (.true.)
+       ! Find the maximum tree number in the current file.
        treeNumberMaximum=int(self%mergerTreeImporter_%treeCount(),kind=c_size_t)
-    end do
-    treeNumberOffset=treeNumber-self%treeNumberOffset
-    if (treeNumberOffset <= treeNumberMaximum) then
+       ! Check if we need to move to a new file.
+       do while (treeNumber-self%treeNumberOffset > treeNumberMaximum .and. self%fileCurrent < size(self%fileNames))
+          self%fileCurrent     =self%fileCurrent     +1
+          self%treeNumberOffset=self%treeNumberOffset+treeNumberMaximum
+          call self%mergerTreeImporter_%close(                                                        )
+          call self%mergerTreeImporter_%open (File_Name_Expand(char(self%fileNames(self%fileCurrent))))
+          treeNumberMaximum=int(self%mergerTreeImporter_%treeCount(),kind=c_size_t)
+       end do
+       treeNumberOffset=treeNumber-self%treeNumberOffset
+       ! If all trees are used up, we're done.
+       if (treeNumberOffset > treeNumberMaximum) then
+          nullify(tree)
+          finished=.true.
+          exit
+       end if
+       ! Test if this is the first forest that we are to process, or if we have already found that forest.
+       if (.not.self%foundBeginAt .and. self%mergerTreeImporter_%treeIndex (int(treeNumberOffset)) /= self%beginAt) then
+          ! Decrement our internal offset, and try again - this will move us to trying the next forest in the file.
+          self%treeNumberOffset=self%treeNumberOffset-1_c_size_t
+          cycle
+       else
+          ! The first forest to process is found - record this.
+          self%foundBeginAt=.true.
+       end if
        ! Set tree properties.
        allocate(tree)
        ! treeIndex
@@ -1028,8 +1055,8 @@ contains
        <deepCopyFinalize variables="tree%randomNumberGenerator_"/>
        !!]
        !$omp end critical(mergerTreeConstructReadDeepCopyReset)
-       call self%randomSequenceNonDeterministicWarn(tree)
-       call tree%randomNumberGenerator_%seedSet(seed=tree%index,offset=.true.)
+       call self                 %randomSequenceNonDeterministicWarn(tree)
+       call self%mergerTreeSeeds_%set                               (tree)
        ! Store internal state.
        message='Storing state for tree #'
        message=message//treeStateStoreSequence
@@ -1392,9 +1419,9 @@ contains
        end select
        ! Deallocate nodes.
        deallocate(nodes)
-    else
-       nullify(tree)
-    end if
+       ! Indicate that we are not finished.
+       exit
+    end do
     finished=.not.associated(tree)
     return
   end function readConstruct
@@ -2272,9 +2299,9 @@ contains
       !!{
       Normalization for conversion of spin to angular momentum.
       !!}
-      use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+      use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
       implicit none
-      spinNormalization=+gravitationalConstantGalacticus                                     &
+      spinNormalization=+gravitationalConstant_internal                                      &
            &            *basic%mass()**2.5d0                                                 &
            &            /sqrt(abs(massDistribution_%energy(radiusVirial,massDistribution_)))
       return
@@ -3529,31 +3556,39 @@ contains
     !!{
     Construct a Keplerian orbit given body masses, positions, and relative velocities.
     !!}
-    use :: Kepler_Orbits, only : keplerOrbit
-    use :: Vectors      , only : Vector_Magnitude, Vector_Product
+    use :: Kepler_Orbits           , only : keplerOrbit
+    use :: Numerical_Constants_Math, only : Pi
+    use :: Vectors                 , only : Vector_Magnitude, Vector_Product
     implicit none
     type            (keplerOrbit)                              :: orbit
     double precision                           , intent(in   ) :: mass1             , mass2
     double precision             , dimension(3), intent(in   ) :: position          , velocity
-    double precision             , dimension(3)                :: velocityTangential, velocityRadial  , &
-         &                                                        vectorEpsilon1    , vectorEpsilon2  , &
-         &                                                        vectorRadial 
-    double precision                                           :: positionMagnitude , velocityEpsilon1, &
-         &                                                        velocityEpsilon2
+    double precision             , dimension(3)                :: velocityTangential, velocityRadial   , &
+         &                                                        vectorEpsilon1    , vectorEpsilon2   , &
+         &                                                        vectorRadial
+    double precision                                           :: positionMagnitude , velocityEpsilon1 , &
+         &                                                        velocityEpsilon2  , epsilon1Magnitude, &
+         &                                                        epsilon
 
-    positionMagnitude =Vector_Magnitude(position)
-    vectorRadial      =+position          &
-         &             /positionMagnitude
-    velocityRadial    =+Dot_Product(velocity,position) &
-         &             *vectorRadial
-    velocityTangential=+velocity       &
-         &             -velocityRadial
-    vectorEpsilon1    =Vector_Product(vectorRadial  ,[0.0d0,0.0d0,1.0d0])
-    vectorEpsilon2    =Vector_Product(vectorEpsilon1,vectorRadial       )
-    vectorEpsilon1    =vectorEpsilon1/Vector_Magnitude(vectorEpsilon1)
-    vectorEpsilon2    =vectorEpsilon2/Vector_Magnitude(vectorEpsilon2)
-    velocityEpsilon1  =Dot_Product(velocityTangential,vectorEpsilon1)
-    velocityEpsilon2  =Dot_Product(velocityTangential,vectorEpsilon2)
+    positionMagnitude  =Vector_Magnitude(position)
+    vectorRadial       =+position          &
+         &              /positionMagnitude
+    velocityRadial     =+Dot_Product(velocity,position) &
+         &              *vectorRadial
+    velocityTangential =+velocity       &
+         &              -velocityRadial
+    vectorEpsilon1     =Vector_Product(vectorRadial  ,[0.0d0,0.0d0,1.0d0])
+    epsilon1Magnitude=Vector_Magnitude(vectorEpsilon1)
+    if (epsilon1Magnitude > 0.0d0) then
+       vectorEpsilon2  =Vector_Product(vectorEpsilon1,vectorRadial       )
+       vectorEpsilon1  =vectorEpsilon1/Vector_Magnitude(vectorEpsilon1)
+       vectorEpsilon2  =vectorEpsilon2/Vector_Magnitude(vectorEpsilon2)
+       velocityEpsilon1=Dot_Product(velocityTangential,vectorEpsilon1  )
+       velocityEpsilon2=Dot_Product(velocityTangential,vectorEpsilon2  )
+       epsilon         =atan2      (velocityEpsilon2  ,velocityEpsilon1)
+    else
+       epsilon         =Pi/2.0d0
+    end if
     call orbit%reset()
     call orbit%massesSet            (       &
          &                           mass1, &
@@ -3564,7 +3599,7 @@ contains
     call orbit%velocityTangentialSet(Vector_Magnitude(velocityTangential)                  )
     call orbit%thetaSet             (acos (position        (3)/positionMagnitude                    ))
     call orbit%phiSet               (atan2(position        (2)                  ,position        (1)))
-    call orbit%epsilonSet           (atan2(velocityEpsilon2                     ,velocityEpsilon1   ))
+    call orbit%epsilonSet           (epsilon                                                         )
     return
   end function readOrbitConstruct
 

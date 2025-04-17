@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -41,8 +41,8 @@ module Black_Hole_Accretion_Rates
     <description>Computes the mass accretion rate onto a black hole.</description>
     <type>void</type>
     <pass>yes</pass>
-    <argument>class           (nodeComponentBlackHole), intent(inout) :: blackHole                                          </argument>
-    <argument>double precision                        , intent(  out) :: rateMassAccretionSpheroid, rateMassAccretionHotHalo</argument>
+    <argument>class           (nodeComponentBlackHole), intent(inout) :: blackHole                                                                               </argument>
+    <argument>double precision                        , intent(  out) :: rateMassAccretionSpheroid, rateMassAccretionHotHalo, rateMassAccretionNuclearStarCluster</argument>
    </method>
   </functionClass>
   !!]

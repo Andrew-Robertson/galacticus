@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a square output analysis property operator class.
+Implements a square output analysis property operator class.
 !!}
 
   !![
@@ -37,7 +37,7 @@ Contains a module which implements a square output analysis property operator cl
 
   interface outputAnalysisPropertyOperatorSquare
      !!{
-     Constructors for the ``square'' output analysis class.
+     Constructors for the {\normalfont \ttfamily square} output analysis class.
      !!}
      module procedure squareConstructorParameters
   end interface outputAnalysisPropertyOperatorSquare
@@ -46,7 +46,7 @@ contains
 
   function squareConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``square'' output analysis property operateor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily square} output analysis property operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none

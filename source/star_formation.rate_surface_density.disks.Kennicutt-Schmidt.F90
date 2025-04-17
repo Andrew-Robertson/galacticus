@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -227,12 +227,12 @@ contains
     assumed to have a flat rotation curve such that $\kappa = \sqrt{2} V/R$.
     !!}
     use :: Abundances_Structure            , only : abundances
-    use :: Coordinates                     , only : coordinateCylindrical          , assignment(=)
-    use :: Galactic_Structure_Options      , only : componentTypeDisk              , massTypeGaseous
+    use :: Coordinates                     , only : coordinateCylindrical         , assignment(=)
+    use :: Galactic_Structure_Options      , only : componentTypeDisk             , massTypeGaseous
     use :: Galacticus_Nodes                , only : nodeComponentDisk
     use :: Mass_Distributions              , only : massDistributionClass
     use :: Numerical_Constants_Math        , only : Pi
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (starFormationRateSurfaceDensityDisksKennicuttSchmidt), intent(inout) :: self
     type            (treeNode                                            ), intent(inout) :: node
@@ -257,12 +257,12 @@ contains
        call abundancesFuel%massToMassFraction(massGas)
        self%hydrogenMassFraction=abundancesFuel%hydrogenMassFraction()
        ! Compute the constant factor appearing in the critical density.
-       self%surfaceDensityCriticalFactor=+self%toomreParameterCritical      &
-            &                            *sqrt(2.0d0)                       &
-            &                            *self%velocityDispersionDiskGas    &
-            &                            *disk%velocity                  () &
-            &                            /Pi                                &
-            &                            /gravitationalConstantGalacticus
+       self%surfaceDensityCriticalFactor=+self%toomreParameterCritical     &
+            &                            *sqrt(2.0d0)                      &
+            &                            *self%velocityDispersionDiskGas   &
+            &                            *disk%velocity                 () &
+            &                            /Pi                               &
+            &                            /gravitationalConstant_internal
        ! Record that factors have now been computed.
        self%factorsComputed=.true.
     end if

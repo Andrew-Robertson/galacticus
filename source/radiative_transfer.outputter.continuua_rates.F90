@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -99,7 +99,7 @@ contains
     !!}
     use :: Atomic_Data                 , only : Atomic_Number, Atomic_Short_Label
     use :: Numerical_Constants_Physical, only : speedLight   , plancksConstant
-    use :: Numerical_Constants_Units   , only : electronVolt , angstromsPerMeter
+    use :: Numerical_Constants_Units   , only : electronVolt , metersToAngstroms
     implicit none
     type   (radiativeTransferOutputterContinuuaRates)                              :: self
     integer                                          , intent(in   ), dimension(:) :: elementIndices
@@ -128,7 +128,7 @@ contains
           self%continuumLimitWavelength(i,j)=+plancksConstant                                                                                &
                &                             *speedLight                                                                                     &
                &                             /electronVolt                                                                                   &
-               &                             *angstromsPerMeter                                                                              &
+               &                             *metersToAngstroms                                                                              &
                &                             /self%atomicIonizationPotential_%potential(                                                     &
                &                                                                        atomicNumber  =Atomic_Number(elementIndices(i))    , &
                &                                                                        electronNumber=Atomic_Number(elementIndices(i))+1-j  &
@@ -228,7 +228,7 @@ contains
       Integrand over the source spectrum.
       !!}
       use :: Numerical_Constants_Physical    , only : plancksConstant  , speedLight
-      use :: Numerical_Constants_Units       , only : angstromsPerMeter
+      use :: Numerical_Constants_Units       , only : metersToAngstroms
       use :: Numerical_Constants_Astronomical, only : luminositySolar
       implicit none
       double precision, intent(in   ) :: wavelength
@@ -236,7 +236,7 @@ contains
       
       energyPhoton=+plancksConstant                                           &
            &       *speedLight                                                &
-           &       *angstromsPerMeter                                         &
+           &       *metersToAngstroms                                         &
            &       /wavelength
       integrand   =+radiativeTransferSource_%spectrum(wavelength,sourceIndex) &
            &       *luminositySolar                                           &
@@ -252,7 +252,7 @@ contains
     !!}
     use :: Atomic_Data                     , only : Atomic_Number    , Atomic_Short_Label
     use :: Numerical_Constants_Physical    , only : plancksConstant  , speedLight
-    use :: Numerical_Constants_Units       , only : angstromsPerMeter
+    use :: Numerical_Constants_Units       , only : metersToAngstroms
     use :: Numerical_Constants_Astronomical, only : luminositySolar
     implicit none
     class           (radiativeTransferOutputterContinuuaRates), intent(inout) :: self
@@ -266,7 +266,7 @@ contains
           if (photonPacket%wavelength() < self%continuumLimitWavelength(i,j)) then
              energyPhoton                                      =+plancksConstant                                                 &
                   &                                             *speedLight                                                      &
-                  &                                             *angstromsPerMeter                                               &
+                  &                                             *metersToAngstroms                                               &
                   &                                             /photonPacket     %wavelength                  (               )
              rateEscape                                        =+photonPacket     %luminosity                  (               ) &
                   &                                             *luminositySolar                                                 &

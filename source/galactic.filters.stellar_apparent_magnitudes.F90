@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galactic low-pass (i.e. bright-pass) filter for stellar apparent magnitudes.
+Implements a galactic low-pass (i.e. bright-pass) filter for stellar apparent magnitudes.
 !!}
 
   use :: Cosmology_Functions, only : cosmologyFunctionsClass
@@ -45,7 +45,7 @@ Contains a module which implements a galactic low-pass (i.e. bright-pass) filter
 
   interface galacticFilterStellarApparentMagnitudes
      !!{
-     Constructors for the ``stellarApparentMagnitudes'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily stellarApparentMagnitudes} galactic filter class.
      !!}
      module procedure stellarApparentMagnitudesConstructorParameters
      module procedure stellarApparentMagnitudesConstructorInternal
@@ -55,7 +55,7 @@ contains
 
   function stellarApparentMagnitudesConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``stellarApparentMagnitudes'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily stellarApparentMagnitudes} galactic filter class which takes a parameter set as input.
     !!}
     use :: Error                         , only : Error_Report
     use :: Input_Parameters              , only : inputParameter         , inputParameters
@@ -91,7 +91,7 @@ contains
 
   function stellarApparentMagnitudesConstructorInternal(apparentMagnitudeThreshold,cosmologyFunctions_) result(self)
     !!{
-    Internal constructor for the ``stellarApparentMagnitudes'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily stellarApparentMagnitudes} galactic filter class.
     !!}
     use :: Error                         , only : Error_Report
     use :: Stellar_Luminosities_Structure, only : Stellar_Luminosities_Parameter_Map, unitStellarLuminosities
@@ -115,7 +115,7 @@ contains
 
   subroutine stellarApparentMagnitudesDestructor(self)
     !!{
-    Destructor for the ``stellarApparentMagnitudes'' galactic filter class.
+    Destructor for the {\normalfont \ttfamily stellarApparentMagnitudes} galactic filter class.
     !!}
     implicit none
     type(galacticFilterStellarApparentMagnitudes), intent(inout) :: self

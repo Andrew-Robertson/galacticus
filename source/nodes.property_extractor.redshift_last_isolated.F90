@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,14 +18,14 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a redshiftLastIsolated property extractor class.
+Implements a property extractor class that extracts the redshift at which a \gls{node} was last isolated.
 !!}
 
   use :: Cosmology_Functions, only : cosmologyFunctions, cosmologyFunctionsClass
 
   !![
   <nodePropertyExtractor name="nodePropertyExtractorRedshiftLastIsolated">
-   <description>A node property extractor class which extracts the redshift at which a \gls{node} was last isolated---named ``{\normalfont \ttfamily redshiftLastIsolated}.</description>
+   <description>A node property extractor class which extracts the redshift at which a \gls{node} was last isolated---named ``{\normalfont \ttfamily redshiftLastIsolated}''.</description>
   </nodePropertyExtractor>
   !!]
   type, extends(nodePropertyExtractorScalar) :: nodePropertyExtractorRedshiftLastIsolated
@@ -44,7 +44,7 @@ Contains a module which implements a redshiftLastIsolated property extractor cla
 
   interface nodePropertyExtractorRedshiftLastIsolated
      !!{
-     Constructors for the ``redshiftLastIsolated'' output analysis class.
+     Constructors for the {\normalfont \ttfamily redshiftLastIsolated} output analysis class.
      !!}
      module procedure redshiftLastIsolatedConstructorParameters
      module procedure redshiftLastIsolatedConstructorInternal

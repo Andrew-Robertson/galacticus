@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a node property extractor class for parameters of the \cite{hearin_differentiable_2021} mass accretion history model.
+Implements a node property extractor class for parameters of the \cite{hearin_differentiable_2021} mass accretion history model.
 !!}!
 
   !![
@@ -41,7 +41,7 @@ Contains a module which implements a node property extractor class for parameter
 
   interface nodePropertyExtractorMassAccretionHistoryHearin2021
      !!{
-     Constructors for the ``massAccretionHistoryHearin2021'' output analysis class.
+     Constructors for the {\normalfont \ttfamily massAccretionHistoryHearin2021} output analysis class.
      !!}
      module procedure massAccretionHistoryHearin2021ConstructorParameters
   end interface nodePropertyExtractorMassAccretionHistoryHearin2021

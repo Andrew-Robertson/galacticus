@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -35,7 +35,8 @@ module Error
        &    Component_List             , GSL_Error_Handler_Abort_On, &
        &    GSL_Error_Handler_Abort_Off, GSL_Error_Status          , &
        &    Warn                       , Error_Wait_Set            , &
-       &    GSL_Error_Details
+       &    GSL_Error_Details          , signalHandlerDeregister   , &
+       &    signalHandlerRegister      , signalHandlerInterface
   interface Error_Report
      module procedure Error_Report_Char
      module procedure Error_Report_VarStr
@@ -70,9 +71,9 @@ module Error
   integer                    :: errorWaitTime          =86400
 
   ! GSL error status.
-  logical                 :: abortOnErrorGSL=.true.
-  integer(c_int         ) :: errorStatusGSL        , lineGSL
-  type   (varying_string) :: reasonGSL             , fileGSL
+  integer                 :: abortOnErrorGSL=0
+  integer(c_int         ) :: errorStatusGSL   , lineGSL
+  type   (varying_string) :: reasonGSL        , fileGSL
   !$omp threadprivate(abortOnErrorGSL,errorStatusGSL,lineGSL,reasonGSL,fileGSL)
 
   ! Type used to accumulate warning messages.
@@ -84,7 +85,24 @@ module Error
   ! Record of warnings.
   type   (warning), pointer :: warningList
   logical                   :: warningsFound=.false.
-
+  
+  ! Linked-list of functions to call on error.
+  abstract interface
+     subroutine signalHandlerInterface(signal)
+       integer, intent(in   ) :: signal
+     end subroutine signalHandlerInterface
+  end  interface
+  type :: signalHandler
+     !!{
+     Type used to maintain a linked-list of functions to call on error handling.
+     !!}
+     procedure(signalHandlerInterface), pointer, nopass :: handler
+     type     (signalHandler         ), pointer         :: next   => null()
+  end type signalHandler
+  type   (signalHandler), pointer :: signalHandlers  => null() , signalHandlerLast => null()
+  logical                         :: inErrorHandling =  .false.
+  !$omp threadprivate(signalHandlers,signalHandlerLast,inErrorHandling)
+  
 contains
 
   subroutine Error_Report_VarStr(message)
@@ -195,10 +213,10 @@ contains
           allocate(newWarning%next)
           newWarning => newWarning%next
        end if
-       newWarning%next    => null   ()
-       newWarning%message =  message
+       newWarning   %next    => null   ()
+       newWarning   %message =  message
+       warningsFound         =  .true.
     end if
-    warningsFound=.true.
     !$omp end critical (Warn)
     return
   end subroutine Warn_Char
@@ -323,6 +341,7 @@ contains
     logical            :: flag
 #endif
 
+    call signalHandlersCall(11)
     if (stdOutIsATTY()) then
        write (error_unit,*) displayRed()//displayBold()//'Galacticus experienced a segfault - will try to flush data before exiting.'//displayReset()
     else
@@ -380,6 +399,7 @@ contains
     logical            :: flag
 #endif
 
+    call signalHandlersCall(8)
     if (stdOutIsATTY()) then
        write (error_unit,*) displayRed()//displayBold()//'Galacticus experienced a floating point exception - will try to flush data before exiting.'//displayReset()
     else
@@ -437,6 +457,7 @@ contains
     logical            :: flag
 #endif
 
+    call signalHandlersCall(7)
     if (stdOutIsATTY()) then
        write (error_unit,*) displayRed()//displayBold()//'Galacticus experienced a bus error - will try to flush data before exiting.'//displayReset()
     else
@@ -494,6 +515,7 @@ contains
     logical            :: flag
 #endif
 
+    call signalHandlersCall(4)
     if (stdOutIsATTY()) then
        write (error_unit,*) displayRed()//displayBold()//'Galacticus experienced an illegal instruction - will try to flush data before exiting.'//displayReset()
     else
@@ -541,6 +563,7 @@ contains
     use            :: System_Output  , only : stdOutIsATTY
     implicit none
 
+    call signalHandlersCall(24)
     if (stdOutIsATTY()) then
        write (error_unit,*) displayRed()//displayBold()//'Galacticus exceeded available CPU time - will try to flush data before exiting.'//displayReset()
     else
@@ -577,7 +600,7 @@ contains
     logical                         :: flag
 #endif
 
-    if (abortOnErrorGSL) then
+    if (abortOnErrorGSL == 0) then
        if (stdOutIsATTY()) then
           write (error_unit,*) displayRed()//displayBold()//'Galacticus experienced an error in the GSL library - will try to flush data before exiting.'//displayReset()
        else
@@ -630,7 +653,7 @@ contains
     !!}
     implicit none
 
-    abortOnErrorGSL=.true.
+    abortOnErrorGSL=abortOnErrorGSL+1
     return
   end subroutine GSL_Error_Handler_Abort_On
 
@@ -640,7 +663,7 @@ contains
     !!}
     implicit none
 
-    abortOnErrorGSL=.false.
+    abortOnErrorGSL=abortOnErrorGSL-1
     return
   end subroutine GSL_Error_Handler_Abort_Off
 
@@ -757,5 +780,73 @@ contains
     call Get_Command_Argument(number,value=argument,status=status)
     return
   end function commandLineArgumentUnlimited
+
+  subroutine signalHandlerRegister(handler)
+    !!{
+    Register an error handler to the list.
+    !!}
+    implicit none
+    procedure(signalHandlerInterface), intent(in   ), pointer :: handler
+    type     (signalHandler         )               , pointer :: signalHandlerCurrent
+
+    if (associated(signalHandlers)) then
+       allocate(signalHandlerLast%next)
+       signalHandlerCurrent => signalHandlerLast%next
+    else
+       allocate(signalHandlers)
+       signalHandlerCurrent => signalHandlers
+    end if
+    signalHandlerLast            => signalHandlerCurrent
+    signalHandlerCurrent%handler => handler
+    return
+  end subroutine signalHandlerRegister
+  
+  subroutine signalHandlerDeregister(handler)
+    !!{
+    Deregister an error handler to the list.
+    !!}
+    implicit none
+    procedure(signalHandlerInterface), intent(in   ), pointer :: handler
+    type     (signalHandler         )               , pointer :: signalHandlerCurrent , signalHandlerNext, &
+         &                                                       signalHandlerPrevious
+
+    signalHandlerCurrent  => signalHandlers
+    signalHandlerPrevious => null()
+    do while (associated(signalHandlerCurrent))
+       signalHandlerNext => signalHandlerCurrent%next
+       if (associated(signalHandlerCurrent%handler,handler)) then
+          deallocate(signalHandlerCurrent)
+          if (associated(signalHandlerPrevious)) then
+             signalHandlerPrevious%next => signalHandlerNext
+          else
+             signalHandlers             => signalHandlerNext
+          end if
+       else
+          signalHandlerPrevious => signalHandlerCurrent
+       end if
+       signalHandlerCurrent => signalHandlerNext
+    end do
+    return
+  end subroutine signalHandlerDeregister
+
+  subroutine signalHandlersCall(signal)
+    !!{
+    Call all registered signal handlers.
+    !!}
+    implicit none
+    integer               , intent(in   ) :: signal
+    type   (signalHandler), pointer       :: signalHandlerCurrent
+
+    ! If a signal was caught during signal handling, do not recursively call handlers.
+    if (inErrorHandling) return
+    inErrorHandling      =  .true.
+    signalHandlerCurrent => signalHandlers
+    do while (associated(signalHandlerCurrent))
+       call signalHandlerCurrent%handler(signal)
+       signalHandlerCurrent => signalHandlerCurrent%next
+    end do
+    inErrorHandling=.false.
+    return
+  end subroutine signalHandlersCall
   
 end module Error

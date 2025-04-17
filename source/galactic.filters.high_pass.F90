@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a high-pass filter on any node property.
+Implements a high-pass filter on any node property.
 !!}
 
   use :: Node_Property_Extractors, only : nodePropertyExtractorScalar
@@ -42,7 +42,7 @@ Contains a module which implements a high-pass filter on any node property.
 
   interface galacticFilterHighPass
      !!{
-     Constructors for the ``highPass'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily highPass} galactic filter class.
      !!}
      module procedure highPassConstructorParameters
      module procedure highPassConstructorInternal
@@ -52,7 +52,7 @@ contains
   
   function highPassConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``highPass'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily highPass} galactic filter class which takes a parameter set as input.
     !!}
     use :: Error                   , only : Error_Report
     use :: Input_Parameters        , only : inputParameter            , inputParameters
@@ -86,7 +86,7 @@ contains
 
   function highPassConstructorInternal(threshold,nodePropertyExtractor_) result(self)
     !!{
-    Internal constructor for the ``highPass'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily highPass} galactic filter class.
     !!}
     implicit none
     type            (galacticFilterHighPass     )                        :: self
@@ -101,7 +101,7 @@ contains
 
   subroutine highPassDestructor(self)
     !!{
-    Destructor for the ``highPass'' galactic filter class.
+    Destructor for the {\normalfont \ttfamily highPass} galactic filter class.
     !!}
     implicit none
     type(galacticFilterHighPass), intent(inout) :: self

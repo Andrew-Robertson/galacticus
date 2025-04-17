@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -324,7 +324,7 @@ contains
     matter distribution, and we have assumed that $(r^\prime/r_\mathrm{s})^{-1/\Gamma} M^\prime(r^\prime) \rightarrow 0$ as
     $r^\prime \rightarrow \infty$.    
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     use :: Numerical_Constants_Math        , only : Pi
     use :: Galactic_Structure_Options      , only : structureErrorCodeSuccess
     implicit none
@@ -347,8 +347,8 @@ contains
             &               coordinates%rSpherical (), &
             &               self       %radiusOuter    &
             &              )
-       potential       =-     gravitationalConstantGalacticus              &
-            &           *self%massEnclosedBySphere           (radiusOuter) &
+       potential       =-     gravitationalConstant_internal              &
+            &           *self%massEnclosedBySphere          (radiusOuter) &
             &           /     radiusOuter
        computePotential=radiusOuter < self%radiusOuter
     else
@@ -383,7 +383,7 @@ contains
          &                    )**(-1.0d0/self%gamma)                                                                                          &
          &                   *self%massDistribution_%massEnclosedBySphere(radiusDarkMatterInner)
     potential               =+     potential                                                                                                  &
-         &                   +     gravitationalConstantGalacticus                                                                            &
+         &                   +     gravitationalConstant_internal                                                                             &
          &                   *self%densityNormalization                                                                                       &
          &                   /self%radiusShock                                                                                                &
          &                   *(                                                                                                               &

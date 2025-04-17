@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galaxy size output analysis class for SDSS data.
+Implements a galaxy size output analysis class for SDSS data.
 !!}
 
   use :: Cosmology_Functions, only : cosmologyFunctionsClass
@@ -52,7 +52,7 @@ Contains a module which implements a galaxy size output analysis class for SDSS 
 
   interface outputAnalysisGalaxySizesSDSS
      !!{
-     Constructors for the ``galaxySizesSDSS'' output analysis class.
+     Constructors for the {\normalfont \ttfamily galaxySizesSDSS} output analysis class.
      !!}
      module procedure galaxySizesSDSSConstructorParameters
      module procedure galaxySizesSDSSConstructorInternal
@@ -62,7 +62,7 @@ contains
 
   function galaxySizesSDSSConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``galaxySizesSDSS'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily galaxySizesSDSS} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -109,7 +109,7 @@ contains
 
   function galaxySizesSDSSConstructorInternal(distributionNumber,massStellarRatio,sizeSourceLensing,cosmologyFunctions_,outputTimes_,gravitationalLensing_) result(self)
     !!{
-    Internal constructor for the ``galaxySizesSDSS'' output analysis class.
+    Internal constructor for the {\normalfont \ttfamily galaxySizesSDSS} output analysis class.
     !!}
     use :: Cosmology_Functions                     , only : cosmologyFunctionsClass                      , cosmologyFunctionsMatterLambda
     use :: Cosmology_Parameters                    , only : cosmologyParametersSimple
@@ -492,7 +492,7 @@ contains
 
   subroutine galaxySizesSDSSDestructor(self)
     !!{
-    Destructor for the ``galaxySizesSDSS'' output analysis class.
+    Destructor for the {\normalfont \ttfamily galaxySizesSDSS} output analysis class.
     !!}
     implicit none
     type(outputAnalysisGalaxySizesSDSS), intent(inout) :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -20,8 +20,7 @@
   !+    Contributions to this file made by: Omid Sameie.
 
   !!{
-  Contains a module which provides a power spectrum window function class that implements the smooth-$k$ space filter of
-  \cite{leo_new_2018}.
+  Provides a power spectrum window function class that implements the smooth-$k$ space filter of \cite{leo_new_2018}.
   !!}
 
   use :: Cosmology_Parameters, only : cosmologyParametersClass

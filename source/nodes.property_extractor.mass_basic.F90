@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an output analysis property extractor class that extracts the basic mass.
+Implements an output analysis property extractor class that extracts the basic mass.
 !!}
 
   !![
@@ -40,7 +40,7 @@ Contains a module which implements an output analysis property extractor class t
 
   interface nodePropertyExtractorMassBasic
      !!{
-     Constructors for the ``massBasic'' output analysis class.
+     Constructors for the {\normalfont \ttfamily massBasic} output analysis class.
      !!}
      module procedure massBasicConstructorParameters
   end interface nodePropertyExtractorMassBasic
@@ -49,7 +49,7 @@ contains
 
   function massBasicConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``massBasic'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily massBasic} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none

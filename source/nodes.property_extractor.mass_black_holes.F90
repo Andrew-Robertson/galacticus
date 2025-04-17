@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -39,7 +39,7 @@
 
   interface nodePropertyExtractorMassBlackHoles
      !!{
-     Constructors for the ``massBlackHoles'' output extractor class.
+     Constructors for the {\normalfont \ttfamily massBlackHoles} output extractor class.
      !!}
      module procedure massBlackHolesConstructorParameters
   end interface nodePropertyExtractorMassBlackHoles
@@ -48,7 +48,7 @@ contains
 
   function massBlackHolesConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``massBlackHoles'' property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily massBlackHoles} property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -95,7 +95,7 @@ contains
     end do
     return
   end function massBlackHolesExtract
-  
+
   subroutine massBlackHolesNames(self,names)
     !!{
     Return the names of the {\normalfont \ttfamily massBlackHoles} properties.

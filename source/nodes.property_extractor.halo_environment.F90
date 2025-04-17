@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a node property extractor class for halo environment.
+Implements a node property extractor class for halo environment.
 !!}
 
   use :: Cosmological_Density_Field, only : haloEnvironment, haloEnvironmentClass
@@ -45,7 +45,7 @@ Contains a module which implements a node property extractor class for halo envi
 
   interface nodePropertyExtractorHaloEnvironment
      !!{
-     Constructors for the ``haloEnvironment'' output analysis class.
+     Constructors for the {\normalfont \ttfamily haloEnvironment} output analysis class.
      !!}
      module procedure haloEnvironmentConstructorParameters
      module procedure haloEnvironmentConstructorInternal

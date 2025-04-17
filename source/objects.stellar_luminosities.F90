@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -503,17 +503,18 @@ contains
     return
   end subroutine Stellar_Luminosities_Builder
 
-  subroutine Stellar_Luminosities_Dump(self)
+  subroutine Stellar_Luminosities_Dump(self,verbosityLevel)
     !!{
     Dump a stellar luminosities object.
     !!}
-    use :: Display           , only : displayMessage
+    use :: Display           , only : displayMessage, enumerationVerbosityLevelType
     use :: ISO_Varying_String, only : operator(//)
     implicit none
-    class    (stellarLuminosities), intent(in   ) :: self
-    integer                                       :: i
-    character(len=22             )                :: label
-    type     (varying_string     )                :: message
+    class    (stellarLuminosities          ), intent(in   ) :: self
+    type     (enumerationVerbosityLevelType), intent(in   ) :: verbosityLevel
+    integer                                                 :: i
+    character(len=22                       )                :: label
+    type     (varying_string               )                :: message
 
     ! Dump the contents.
     if (luminosityCount > 0) then
@@ -524,7 +525,7 @@ contains
              label="pruned"
           end if
           message=luminosityName(i)//':          '//label
-          call displayMessage(message)
+          call displayMessage(message,verbosityLevel)
        end do
     end if
     return

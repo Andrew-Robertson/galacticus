@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -22,9 +22,10 @@
   the primary halo below its ``\gls{dmou}'' value.
   !!}
 
-  use :: Cosmology_Parameters   , only : cosmologyParametersClass
-  use :: Cosmology_Functions    , only : cosmologyFunctionsClass
-  use :: Virial_Density_Contrast, only : virialDensityContrastClass
+  use :: Cosmology_Parameters    , only : cosmologyParametersClass
+  use :: Cosmology_Functions     , only : cosmologyFunctionsClass
+  use :: Virial_Density_Contrast , only : virialDensityContrastClass
+  use :: Dark_Matter_Profiles_DMO, only : darkMatterProfileDMOClass
 
   !![
   <virialOrbit name="virialOrbitMassReduced">
@@ -44,6 +45,7 @@
      class(virialDensityContrastClass), pointer :: virialDensityContrast_ => null()
      class(cosmologyParametersClass  ), pointer :: cosmologyParameters_   => null()
      class(cosmologyFunctionsClass   ), pointer :: cosmologyFunctions_    => null()
+     class(darkMatterProfileDMOClass ), pointer :: darkMatterProfileDMO_  => null()
    contains
      final     ::                                 massReducedDestructor
      procedure :: orbit                        => massReducedOrbit
@@ -74,36 +76,40 @@ contains
     class(cosmologyFunctionsClass   ), pointer       :: cosmologyFunctions_
     class(cosmologyParametersClass  ), pointer       :: cosmologyParameters_
     class(virialDensityContrastClass), pointer       :: virialDensityContrast_
+    class(darkMatterProfileDMOClass ), pointer       :: darkMatterProfileDMO_
 
     !![
     <objectBuilder class="virialOrbit"           name="virialOrbit_"           source="parameters"/>
     <objectBuilder class="cosmologyFunctions"    name="cosmologyFunctions_"    source="parameters"/>
     <objectBuilder class="cosmologyParameters"   name="cosmologyParameters_"   source="parameters"/>
+    <objectBuilder class="darkMatterProfileDMO"  name="darkMatterProfileDMO_"  source="parameters"/>
     <objectBuilder class="virialDensityContrast" name="virialDensityContrast_" source="parameters"/>
     !!]
-    self=virialOrbitMassReduced(virialOrbit_,cosmologyFunctions_,cosmologyParameters_,virialDensityContrast_)
+    self=virialOrbitMassReduced(virialOrbit_,cosmologyFunctions_,cosmologyParameters_,virialDensityContrast_,darkMatterProfileDMO_)
     !![
     <inputParametersValidate source="parameters"/>
     <objectDestructor name="virialOrbit_"          />
     <objectDestructor name="cosmologyFunctions_"   />
     <objectDestructor name="cosmologyParameters_"  />
+    <objectDestructor name="darkMatterProfileDMO_" />
     <objectDestructor name="virialDensityContrast_"/>
     !!]
     return
   end function massReducedConstructorParameters
 
-  function massReducedConstructorInternal(virialOrbit_,cosmologyFunctions_,cosmologyParameters_,virialDensityContrast_) result(self)
+  function massReducedConstructorInternal(virialOrbit_,cosmologyFunctions_,cosmologyParameters_,virialDensityContrast_,darkMatterProfileDMO_) result(self)
     !!{
     Internal constructor for the {\normalfont \ttfamily massReduced} virial orbits class.
     !!}
     implicit none
     type (virialOrbitMassReduced    )                        :: self
     class(virialOrbitClass          ), intent(in   ), target :: virialOrbit_
+    class(darkMatterProfileDMOClass ), intent(in   ), target :: darkMatterProfileDMO_
     class(cosmologyParametersClass  ), intent(in   ), target :: cosmologyParameters_
     class(cosmologyFunctionsClass   ), intent(in   ), target :: cosmologyFunctions_
     class(virialDensityContrastClass), intent(in   ), target :: virialDensityContrast_
     !![
-    <constructorAssign variables="*virialOrbit_, *cosmologyFunctions_, *cosmologyParameters_, *virialDensityContrast_"/>
+    <constructorAssign variables="*virialOrbit_, *cosmologyFunctions_, *cosmologyParameters_, *virialDensityContrast_, *darkMatterProfileDMO_"/>
     !!]
 
     return
@@ -118,6 +124,7 @@ contains
 
     !![
     <objectDestructor name="self%virialOrbit_"          />
+    <objectDestructor name="self%darkMatterProfileDMO_" />
     <objectDestructor name="self%cosmologyFunctions_"   />
     <objectDestructor name="self%virialDensityContrast_"/>
     <objectDestructor name="self%cosmologyParameters_"  />
@@ -134,7 +141,7 @@ contains
     use :: Galacticus_Nodes                    , only : nodeComponentBasic
     use :: Kepler_Orbits                       , only : keplerOrbitPhi                     , keplerOrbitRadius, keplerOrbitTheta, keplerOrbitVelocityTangential
     use :: Mass_Distributions                  , only : massDistributionClass
-    use :: Numerical_Constants_Astronomical    , only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical    , only : gravitationalConstant_internal
     use :: Galactic_Structure_Options          , only : componentTypeAll                   , massTypeAll
     use :: Virial_Density_Contrast             , only : virialDensityContrastClass
     implicit none
@@ -164,7 +171,8 @@ contains
          &                                                                    velocityHost                                                                             , &
          &                                             cosmologyParameters_  =self%cosmologyParameters_                                                                , &
          &                                             cosmologyFunctions_   =self%cosmologyFunctions_                                                                 , &
-         &                                             virialDensityContrast_=self%virialDensityContrast_                                                                &
+         &                                             virialDensityContrast_=self%virialDensityContrast_                                                              , &
+         &                                             darkMatterProfileDMO_ =self%darkMatterProfileDMO_                                                                 &
          &                                            )
     !![
     <objectDestructor name="densityContrastDefinition_"/>
@@ -184,13 +192,13 @@ contains
        ! Get the dark matter-only orbit.
        orbit=self%virialOrbit_%orbit(node,host,acceptUnboundOrbits)
        ! Keeping the angular momentum unchanged, adjust the energy of the orbit.
-       velocityRadialSquared=+orbit%velocityRadial()**2       &
-            &                +2.0d0                           &
-            &                *gravitationalConstantGalacticus &
-            &                *(                               &
-            &                  +massHost                      &
-            &                  -massHostDMO                   &
-            &                 )                               &
+       velocityRadialSquared=+orbit%velocityRadial()**2      &
+            &                +2.0d0                          &
+            &                *gravitationalConstant_internal &
+            &                *(                              &
+            &                  +massHost                     &
+            &                  -massHostDMO                  &
+            &                 )                              &
             &                /radiusHost
        if (velocityRadialSquared < 0.0d0) then
           acceptOrbit=.false.
@@ -238,7 +246,7 @@ contains
     use :: Dark_Matter_Profile_Mass_Definitions, only : Dark_Matter_Profile_Mass_Definition
     use :: Galacticus_Nodes                    , only : nodeComponentBasic
     use :: Mass_Distributions                  , only : massDistributionClass
-    use :: Numerical_Constants_Astronomical    , only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical    , only : gravitationalConstant_internal
     use :: Galactic_Structure_Options          , only : componentTypeAll                   , massTypeAll
     use :: Virial_Density_Contrast             , only : virialDensityContrastClass
     implicit none
@@ -262,7 +270,8 @@ contains
          &                                                                                 velocityHost                                                                             , &
          &                                                          cosmologyParameters_  =self%cosmologyParameters_                                                                , &
          &                                                          cosmologyFunctions_   =self%cosmologyFunctions_                                                                 , &
-         &                                                          virialDensityContrast_=self%virialDensityContrast_                                                                &
+         &                                                          virialDensityContrast_=self%virialDensityContrast_                                                              , &
+         &                                                          darkMatterProfileDMO_ =self%darkMatterProfileDMO_                                                                 &
          &                                                        )
     !![
     <objectDestructor name="densityContrastDefinition_"/>
@@ -275,7 +284,7 @@ contains
     velocityRootMeanSquared =  +sqrt(                                                              &
          &                           +self%virialOrbit_%velocityTotalRootMeanSquared(node,host)**2 &
          &                           +2.0d0                                                        &
-         &                           *gravitationalConstantGalacticus                              &
+         &                           *gravitationalConstant_internal                               &
          &                           *(                                                            &
          &                             +massHost                                                   &
          &                             -massHostDMO                                                &
@@ -291,7 +300,7 @@ contains
     !!}
     use :: Dark_Matter_Profile_Mass_Definitions, only : Dark_Matter_Profile_Mass_Definition
     use :: Galacticus_Nodes                    , only : nodeComponentBasic
-    use :: Numerical_Constants_Astronomical    , only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical    , only : gravitationalConstant_internal
     use :: Galactic_Structure_Options          , only : componentTypeAll                   , massTypeAll
     use :: Mass_Distributions                  , only : massDistributionClass
     use :: Virial_Density_Contrast             , only : virialDensityContrastClass
@@ -315,7 +324,8 @@ contains
          &                                                                     velocityHost                                                                             , &
          &                                              cosmologyParameters_  =self%cosmologyParameters_                                                                , &
          &                                              cosmologyFunctions_   =self%cosmologyFunctions_                                                                 , &
-         &                                              virialDensityContrast_=self%virialDensityContrast_                                                                &
+         &                                              virialDensityContrast_=self%virialDensityContrast_                                                              , &
+         &                                              darkMatterProfileDMO_ =self%darkMatterProfileDMO_                                                                 &
          &                                             )
     !![
     <objectDestructor name="densityContrastDefinition_"/>
@@ -326,7 +336,7 @@ contains
     <objectDestructor name="massDistribution_"/>
     !!]
     energyMean=+self%virialOrbit_%energyMean(node,host) &
-         &     +gravitationalConstantGalacticus         &
+         &     +gravitationalConstant_internal          &
          &     *(                                       &
          &       +massHost                              &
          &       -massHostDMO                           &

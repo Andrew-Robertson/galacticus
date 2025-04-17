@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a stellar mass function output analysis class for the PRIMUS survey of \cite{moustakas_primus:_2013}.
+Implements a stellar mass function output analysis class for the PRIMUS survey of \cite{moustakas_primus:_2013}.
 !!}
 
 
@@ -65,7 +65,7 @@ Contains a module which implements a stellar mass function output analysis class
 
   interface outputAnalysisMassFunctionStellarPRIMUS
      !!{
-     Constructors for the ``massFunctionStellarPRIMUS'' output analysis class.
+     Constructors for the {\normalfont \ttfamily massFunctionStellarPRIMUS} output analysis class.
      !!}
      module procedure massFunctionStellarPRIMUSConstructorParameters
      module procedure massFunctionStellarPRIMUSConstructorInternal
@@ -75,7 +75,7 @@ contains
 
   function massFunctionStellarPRIMUSConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``massFunctionStellarPRIMUS'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily massFunctionStellarPRIMUS} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -181,7 +181,7 @@ contains
 
   function massFunctionStellarPRIMUSConstructorInternal(cosmologyFunctions_,gravitationalLensing_,outputTimes_,redshiftInterval,randomErrorMinimum,randomErrorMaximum,randomErrorPolynomialCoefficient,systematicErrorPolynomialCoefficient,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum,sizeSourceLensing) result (self)
     !!{
-    Constructor for the ``massFunctionStellarPRIMUS'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily massFunctionStellarPRIMUS} output analysis class for internal use.
     !!}
     use :: Cosmology_Functions                   , only : cosmologyFunctionsClass                        , cosmologyFunctionsMatterLambda
     use :: Cosmology_Parameters                  , only : cosmologyParametersSimple

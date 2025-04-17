@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -89,7 +89,7 @@ Implements an emission line luminosity node property extractor class.
 
   interface nodePropertyExtractorLmnstyEmssnLinePanuzzo2003
      !!{
-     Constructors for the ``lmnstyEmssnLinePanuzzo2003'' output analysis class.
+     Constructors for the {\normalfont \ttfamily lmnstyEmssnLinePanuzzo2003} output analysis class.
      !!}
      module procedure lmnstyEmssnLinePanuzzo2003ConstructorParameters
      module procedure lmnstyEmssnLinePanuzzo2003ConstructorInternal
@@ -117,10 +117,10 @@ Implements an emission line luminosity node property extractor class.
    <description>Specifies the different interpolants for emission line calculations.</description>
    <indexing>1</indexing>
    <entry label="metallicity"/>
-   <entry label="density"  />
-   <entry label="hydrogen"  />
-   <entry label="helium"  />
-   <entry label="oxygen"  />
+   <entry label="density"    />
+   <entry label="hydrogen"   />
+   <entry label="helium"     />
+   <entry label="oxygen"     />
   </enumeration>
   !!]
 
@@ -128,7 +128,7 @@ contains
 
   function lmnstyEmssnLinePanuzzo2003ConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``lmnstyEmssnLinePanuzzo2003'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily lmnstyEmssnLinePanuzzo2003} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -172,7 +172,7 @@ contains
 
   function lmnstyEmssnLinePanuzzo2003ConstructorInternal(starFormationRateDisks_,starFormationRateSpheroids_,stellarSpectraDustAttenuation_,outputTimes_,lineNames,depthOpticalISMCoefficient,outputMask) result(self)
     !!{
-    Internal constructor for the ``lmnstyEmssnLinePanuzzo2003'' output analysis property extractor class.
+    Internal constructor for the {\normalfont \ttfamily lmnstyEmssnLinePanuzzo2003} output analysis property extractor class.
     !!}
     use            :: Error                         , only : Error_Report
     use            :: Input_Paths                   , only : inputPath              , pathTypeDataStatic
@@ -277,7 +277,7 @@ contains
 
   subroutine lmnstyEmssnLinePanuzzo2003Destructor(self)
     !!{
-    Destructor for the ``lmnstyEmssnLinePanuzzo2003'' output analysis property extractor class.
+    Destructor for the {\normalfont \ttfamily lmnstyEmssnLinePanuzzo2003} output analysis property extractor class.
     !!}
     implicit none
     type(nodePropertyExtractorLmnstyEmssnLinePanuzzo2003), intent(inout) :: self

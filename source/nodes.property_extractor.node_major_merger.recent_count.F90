@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -46,7 +46,7 @@
 
   interface nodePropertyExtractorNodeMajorMergerRecentCount
      !!{
-     Constructors for the ``nodeMajorMergerRecentCount'' output analysis class.
+     Constructors for the {\normalfont \ttfamily nodeMajorMergerRecentCount} output analysis class.
      !!}
      module procedure nodeMajorMergerRecentCountConstructorParameters
      module procedure nodeMajorMergerRecentCountConstructorInternal

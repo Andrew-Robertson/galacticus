@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -163,8 +163,8 @@ contains
     !!{
     Compute the stability estimator for the \cite{efstathiou_stability_1982} model for galactic disk bar instability.
     !!}
-    use :: Galacticus_Nodes            , only : nodeComponentDisk              , treeNode
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Galacticus_Nodes                , only : nodeComponentDisk             , treeNode
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (galacticDynamicsBarInstabilityEfstathiou1982Tidal), intent(inout) :: self
     type            (treeNode                                         ), intent(inout) :: node
@@ -188,7 +188,7 @@ contains
             &                           +velocityBoostFactor                         &
             &                           *           disk%velocity         (    )     &
             &                           /sqrt(                                       &
-            &                                 +gravitationalConstantGalacticus       &
+            &                                 +gravitationalConstant_internal        &
             &                                 *massDisk                              &
             &                                 /     disk%radius           (    )     &
             &                                 +max(                                  &

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -139,10 +139,10 @@ contains
     !!}
     use :: Coordinates                     , only : coordinateCartesian      , assignment(=)
     use :: Error_Functions                 , only : Error_Function
-    use :: Galactic_Structure_Options      , only : coordinateSystemCartesian, componentTypeDarkHalo          , massTypeDark
-    use :: Galacticus_Nodes                , only : nodeComponentSatellite   , nodeComponentBasic             , treeNode
+    use :: Galactic_Structure_Options      , only : coordinateSystemCartesian, componentTypeDarkHalo         , massTypeDark
+    use :: Galacticus_Nodes                , only : nodeComponentSatellite   , nodeComponentBasic            , treeNode
     use :: Mass_Distributions              , only : massDistributionClass
-    use :: Numerical_Constants_Astronomical, only : gigaYear                 , gravitationalConstantGalacticus, megaParsec
+    use :: Numerical_Constants_Astronomical, only : gigaYear                 , gravitationalConstant_internal, megaParsec
     use :: Numerical_Constants_Math        , only : Pi
     use :: Numerical_Constants_Prefixes    , only : kilo
     use :: Vectors                         , only : Vector_Magnitude
@@ -169,7 +169,7 @@ contains
             &                        *Pi                                                                                                                   &
             &                        *massDistributionHost_%chandrasekharIntegral(massDistributionHost_,massDistribution_,massSatellite,position,velocity) &
             &                        *self                 %coulombLogarithm     (node                                                                   ) &
-            &                        *gravitationalConstantGalacticus**2                                                                                   &
+            &                        *gravitationalConstant_internal**2                                                                                    &
             &                        *massSatellite                                                                                                        &
             &                        *kilo                                                                                                                 &
             &                        *gigaYear                                                                                                             &

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -104,14 +104,15 @@ contains
     return
   end function localIsCollisional
 
-  double precision function localVelocityDispersion1D(self,coordinates,massDistributionEmbedding)
+  double precision function localVelocityDispersion1D(self,coordinates,massDistribution_,massDistributionEmbedding)
     !!{
     Return the 1D velocity dispersion at the specified {\normalfont \ttfamily coordinates} in an local kinematic distribution.
     !!}
     implicit none
-    class(kinematicsDistributionLocal), intent(inout), target :: self
+    class(kinematicsDistributionLocal), intent(inout)         :: self
     class(coordinate                 ), intent(in   )         :: coordinates
-    class(massDistributionClass      ), intent(inout)         :: massDistributionEmbedding
+    class(massDistributionClass      ), intent(inout), target :: massDistribution_, massDistributionEmbedding
+    !$GLC attributes unused :: massDistribution_
     
     localVelocityDispersion1D=+self                     %alpha                                   &
          &                    *massDistributionEmbedding%rotationCurve(coordinates%rSpherical())

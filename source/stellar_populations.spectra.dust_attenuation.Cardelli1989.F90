@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -46,7 +46,7 @@
 
   interface stellarSpectraDustAttenuationCardelli1989
      !!{
-     Constructors for the ``cardelli1989'' stellar spectra dust attenuation class.
+     Constructors for the {\normalfont \ttfamily cardelli1989} stellar spectra dust attenuation class.
      !!}
      module procedure cardelli1989ConstructorParameters
      module procedure cardelli1989ConstructorInternal
@@ -82,7 +82,7 @@ contains
 
   function cardelli1989ConstructorInternal(Rv) result(self)
     !!{
-    Constructor for the ``cardelli1989'' stellar spectra dust attenuation class.
+    Constructor for the {\normalfont \ttfamily cardelli1989} stellar spectra dust attenuation class.
     !!}
     implicit none
     type            (stellarSpectraDustAttenuationCardelli1989)                :: self
@@ -98,7 +98,7 @@ contains
     !!{
     Return attenuation of stellar spectra according to the model of \cite{cardelli_relationship_1989}.
     !!}
-    use :: Numerical_Constants_Units, only : angstromsPerMicron
+    use :: Numerical_Constants_Units, only : micronsToAngstroms
     implicit none
     class           (stellarSpectraDustAttenuationCardelli1989), intent(inout) :: self
     double precision                                           , intent(in   ) :: wavelength      , age, &
@@ -106,7 +106,7 @@ contains
     double precision                                                           :: x
     !$GLC attributes unused :: age
 
-    x                      =1.0d0/(wavelength/angstromsPerMicron)
+    x                      =1.0d0/(wavelength/micronsToAngstroms)
     cardelli1989Attenuation=vBandAttenuation*(self%a(x)+self%b(x)/self%Rv) ! Eqn. (1) of Cardelli et al.
     return
   end function cardelli1989Attenuation

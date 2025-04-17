@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -20,7 +20,7 @@
   !+    Contributions to this file made by: Arya Farahi, Andrew Benson.
 
   !!{
-  Contains a module which implements a excursion set first crossing statistics class utilizing a higher order generalization of
+  Implements a excursion set first crossing statistics class utilizing a higher order generalization of
   the algorithm of \cite{zhang_random_2006}.
   !!}
 

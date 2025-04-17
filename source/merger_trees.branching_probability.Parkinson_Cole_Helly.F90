@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -31,8 +31,8 @@ Implements a merger tree branching probability class using the algorithm of \cit
     A merger tree branching probability class using the algorithm of \cite{parkinson_generating_2008}. The parameters $G_0$,
     $\gamma_1$ and $\gamma_2$ of their algorithm are specified by the input parameters {\normalfont \ttfamily [G0]},
     {\normalfont \ttfamily [gamma]} and {\normalfont \ttfamily [gamma2]} respectively. Additionally, the parameter {\normalfont
-    \ttfamily modifiedPressSchechterFirstOrderAccuracy} limits the step in $\delta_\mathrm{crit}$ so that it never exceeds
-    {\normalfont \ttfamily modifiedPressSchechterFirstOrderAccuracy}$\sqrt{2[\sigma^2(M_2/2)-\sigma^2(M_2)]}$, which ensures
+    \ttfamily accuracyFirstOrder} limits the step in $\delta_\mathrm{crit}$ so that it never exceeds
+    {\normalfont \ttfamily accuracyFirstOrder}$\sqrt{2[\sigma^2(M_2/2)-\sigma^2(M_2)]}$, which ensures
     the the first order expansion of the merging rate that is assumed is accurate. To find bounds on the branching probability,
     we make use of the fact that eqn.~(4) of \cite{parkinson_generating_2008} can be written as
     \begin{equation}
@@ -121,7 +121,7 @@ contains
 
   function parkinsonColeHellyConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``parkinsonColeHelly'' merger tree branching probability class which reads parameters from a provided
+    Constructor for the {\normalfont \ttfamily parkinsonColeHelly} merger tree branching probability class which reads parameters from a provided
     parameter list.
     !!}
     implicit none
@@ -200,7 +200,7 @@ contains
 
   function parkinsonColeHellyConstructorInternal(G0,gamma1,gamma2,accuracyFirstOrder,precisionHypergeometric,hypergeometricTabulate,cdmAssumptions,tolerateRoundOffErrors,cosmologicalMassVariance_,criticalOverdensity_) result(self)
     !!{
-    Internal constructor for the ``parkinsonColeHelly'' merger tree branching probability class.
+    Internal constructor for the {\normalfont \ttfamily parkinsonColeHelly} merger tree branching probability class.
     !!}
     use :: Error                , only : Error_Report
     use :: Numerical_Integration, only : GSL_Integ_Gauss15

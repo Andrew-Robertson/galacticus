@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -99,7 +99,7 @@
 
   interface coolingFunctionMolecularHydrogenGalliPalla
      !!{
-     Constructors for the ``molecular hydrogen (Galli \& Palla)'' cooling function class.
+     Constructors for the {\normalfont \ttfamily molecularHydrogenGalliPalla} cooling function class.
      !!}
      module procedure molecularHydrogenGalliPallaConstructorParameters
      module procedure molecularHydrogenGalliPallaConstructorInternal
@@ -138,7 +138,7 @@ contains
 
   function molecularHydrogenGalliPallaConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``molecular hydrogen (Galli \& Palla)'' cooling function class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily molecularHydrogenGalliPalla} cooling function class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameters
     implicit none
@@ -154,7 +154,7 @@ contains
 
   function molecularHydrogenGalliPallaConstructorInternal() result(self)
     !!{
-    Internal constructor for the ``molecular hydrogen (Galli \& Palla)'' cooling function class.
+    Internal constructor for the {\normalfont \ttfamily molecularHydrogenGalliPalla} cooling function class.
     !!}
     use :: Chemical_Abundances_Structure, only : Chemicals_Index
     implicit none

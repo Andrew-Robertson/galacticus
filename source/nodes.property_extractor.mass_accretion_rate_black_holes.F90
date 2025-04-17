@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -43,7 +43,7 @@
 
   interface nodePropertyExtractorMassAccretionRateBlackHoles
      !!{
-     Constructors for the ``massAccretionRateBlackHoles'' output extractor class.
+     Constructors for the {\normalfont \ttfamily massAccretionRateBlackHoles} output extractor class.
      !!}
      module procedure massAccretionRateBlackHolesConstructorParameters
      module procedure massAccretionRateBlackHolesConstructorInternal
@@ -53,7 +53,7 @@ contains
 
   function massAccretionRateBlackHolesConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``massAccretionRateBlackHoles'' property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily massAccretionRateBlackHoles} property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -82,7 +82,7 @@ contains
     !![
     <constructorAssign variables="*blackHoleAccretionRate_"/>
     !!]
-    
+
     return
   end function massAccretionRateBlackHolesConstructorInternal
 
@@ -92,7 +92,7 @@ contains
     !!}
     implicit none
     type(nodePropertyExtractorMassAccretionRateBlackHoles), intent(inout) :: self
-    
+
     !![
     <objectDestructor name="self%blackHoleAccretionRate_"/>
     !!]                                                                                                                                                                                                               
@@ -121,21 +121,23 @@ contains
     type            (treeNode                                        ), intent(inout)               :: node
     type            (multiCounter                                    ), intent(inout) , optional    :: instance
     class           (nodeComponentBlackHole                          )                , pointer     :: blackHole
-    integer                                                                                         :: i                        , countBlackHoles
-    double precision                                                                                :: rateMassAccretionSpheroid, rateMassAccretionHotHalo
+    integer                                                                                         :: i                                  , countBlackHoles
+    double precision                                                                                :: rateMassAccretionSpheroid          , rateMassAccretionHotHalo, &
+        &                                                                                              rateMassAccretionNuclearStarCluster
     !$GLC attributes unused :: instance
 
     countBlackHoles=node%blackHoleCount()
     allocate(massAccretionRate(countBlackHoles,1))
     do i=1,countBlackHoles
        blackHole                =>  node%blackHole(instance=i)
-       call self%blackHoleAccretionRate_%rateAccretion(blackHole,rateMassAccretionSpheroid, rateMassAccretionHotHalo)
-       massAccretionRate  (i,1) =  +rateMassAccretionSpheroid &
-            &                      +rateMassAccretionHotHalo
+       call self%blackHoleAccretionRate_%rateAccretion(blackHole,rateMassAccretionSpheroid,rateMassAccretionHotHalo,rateMassAccretionNuclearStarCluster)
+       massAccretionRate  (i,1) =  +rateMassAccretionSpheroid           &
+            &                      +rateMassAccretionHotHalo            &
+            &                      +rateMassAccretionNuclearStarCluster  
     end do
     return
   end function massAccretionRateBlackHolesExtract
-  
+
   subroutine massAccretionRateBlackHolesNames(self,names)
     !!{
     Return the names of the {\normalfont \ttfamily massAccretionRateBlackHoles} properties.

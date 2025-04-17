@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -119,16 +119,17 @@ contains
     return
   end function sphericalScalerConstructorParameters
   
-  function sphericalScalerConstructorInternal(factorScalingLength,factorScalingMass,massDistribution_) result(self)
+  function sphericalScalerConstructorInternal(factorScalingLength,factorScalingMass,massDistribution_,chandrasekharIntegralComputeVelocityDispersion) result(self)
     !!{
-    Constructor for ``sphericalScaler'' convergence class.
+    Constructor for {\normalfont \ttfamily sphericalScaler} convergence class.
     !!}
     implicit none
-    type            (massDistributionSphericalScaler)                        :: self
-    class           (massDistributionSpherical      ), intent(in   ), target :: massDistribution_
-    double precision                                 , intent(in   )         :: factorScalingLength, factorScalingMass
+    type            (massDistributionSphericalScaler)                          :: self
+    class           (massDistributionSpherical      ), intent(in   ), target   :: massDistribution_
+    double precision                                 , intent(in   )           :: factorScalingLength                           , factorScalingMass
+    logical                                          , intent(in   ), optional :: chandrasekharIntegralComputeVelocityDispersion
     !![
-    <constructorAssign variables="factorScalingLength, factorScalingMass, *massDistribution_"/>
+    <constructorAssign variables="factorScalingLength, factorScalingMass, *massDistribution_, chandrasekharIntegralComputeVelocityDispersion"/>
     !!]
  
     self%componentType              =self%massDistribution_%componentType
@@ -140,7 +141,7 @@ contains
 
   subroutine sphericalScalerDestructor(self)
     !!{
-    Destructor for the ``sphericalScaler'' mass distribution class.
+    Destructor for the {\normalfont \ttfamily sphericalScaler} mass distribution class.
     !!}
     implicit none
     type(massDistributionSphericalScaler), intent(inout) :: self
@@ -239,7 +240,7 @@ contains
     !!{
     Return the potential at the specified {\normalfont \ttfamily coordinates} in a scaled spherical mass distribution.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class(massDistributionSphericalScaler  ), intent(inout), target      :: self
     class(coordinate                       ), intent(in   )              :: coordinates
@@ -253,9 +254,9 @@ contains
          &                                                                         )                   &
          &                  *self                  %factorScalingMass                                  &
          &                  /self                  %factorScalingLength
-    if (self%massDistribution_%isDimensionless())                    &
-         & sphericalScalerPotential=+sphericalScalerPotential        &
-         &                          *gravitationalConstantGalacticus
+    if (self%massDistribution_%isDimensionless())                   &
+         & sphericalScalerPotential=+sphericalScalerPotential       &
+         &                          *gravitationalConstant_internal
     return
   end function sphericalScalerPotential
 
@@ -300,7 +301,7 @@ contains
     Computes the gravitational acceleration at {\normalfont \ttfamily coordinates} for spherically-symmetric mass
     distributions.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gigaYear, gravitationalConstantGalacticus, megaParsec
+    use :: Numerical_Constants_Astronomical, only : gigaYear, gravitationalConstant_internal, megaParsec
     use :: Numerical_Constants_Prefixes    , only : kilo
     implicit none
     double precision                                 , dimension(3)  :: sphericalScalerAcceleration
@@ -314,12 +315,12 @@ contains
          &                                                                   )                  &
          &                      *self                  %factorScalingMass                       &
          &                      /self                  %factorScalingLength**2
-    if (self%massDistribution_%isDimensionless())                       &
-         & sphericalScalerAcceleration=+sphericalScalerAcceleration     &
-         &                             *kilo                            &
-         &                             *gigaYear                        &
-         &                             /megaParsec                      &
-         &                             *gravitationalConstantGalacticus
+    if (self%massDistribution_%isDimensionless())                      &
+         & sphericalScalerAcceleration=+sphericalScalerAcceleration    &
+         &                             *kilo                           &
+         &                             *gigaYear                       &
+         &                             /megaParsec                     &
+         &                             *gravitationalConstant_internal
     return
   end function sphericalScalerAcceleration
 
@@ -345,7 +346,7 @@ contains
     !!{
     Return the mid-plane rotation curve for a scaled spherical distribution.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionSphericalScaler), intent(inout) :: self
     double precision                                 , intent(in   ) :: radius
@@ -358,9 +359,9 @@ contains
          &                             +self                  %factorScalingMass                             &
          &                             /self                  %factorScalingLength                           &
          &                            )
-    if (self%massDistribution_%isDimensionless())                              &
-         & sphericalScalerRotationCurve=+sphericalScalerRotationCurve          &
-         &                              *sqrt(gravitationalConstantGalacticus)
+    if (self%massDistribution_%isDimensionless())                             &
+         & sphericalScalerRotationCurve=+sphericalScalerRotationCurve         &
+         &                              *sqrt(gravitationalConstant_internal)
     return
   end function sphericalScalerRotationCurve
 
@@ -368,7 +369,7 @@ contains
     !!{
     Return the mid-plane rotation curve gradient (specifically, $\mathrm{d}V^2_\mathrm{c}/\mathrm{d}r$) for a scaled spherical distribution.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
     class           (massDistributionSphericalScaler), intent(inout)  :: self
     double precision                                 , intent(in   )  :: radius
@@ -381,7 +382,7 @@ contains
          &                               /self%factorScalingLength**2
     if (self%massDistribution_%isDimensionless())                                     &
          & sphericalScalerRotationCurveGradient=+sphericalScalerRotationCurveGradient &
-         &                                      *gravitationalConstantGalacticus
+         &                                      *gravitationalConstant_internal
     return
   end function sphericalScalerRotationCurveGradient
 
@@ -389,8 +390,8 @@ contains
     !!{
     Computes the gravitational tidal tensor at {\normalfont \ttfamily coordinates} in a scaled spherical mass distribution.
     !!}
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
-    use :: Coordinates                     , only : coordinateCartesian            , assignment(=)
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
+    use :: Coordinates                     , only : coordinateCartesian           , assignment(=)
     implicit none
     type (tensorRank2Dimension3Symmetric )                :: tidalTensor
     class(massDistributionSphericalScaler), intent(inout) :: self
@@ -406,9 +407,9 @@ contains
             &                                                                 )                  &
             &                   *self                  %factorScalingMass                        &
             &                   /self                  %factorScalingLength**3
-       if (self%massDistribution_%isDimensionless())                    &
-            & self%tidalTensorPrevious=+self%tidalTensorPrevious        &
-            &                          *gravitationalConstantGalacticus
+       if (self%massDistribution_%isDimensionless())                   &
+            & self%tidalTensorPrevious=+self%tidalTensorPrevious       &
+            &                          *gravitationalConstant_internal
        self%positionTidalTensorPrevious=position%position
     end if
     tidalTensor=self%tidalTensorPrevious

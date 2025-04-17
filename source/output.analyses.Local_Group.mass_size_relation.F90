@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements an output analysis class that computes mass-size relations for Local Group satellite
+  Implements an output analysis class that computes mass-size relations for Local Group satellite
   galaxies.
   !!}
 
@@ -50,7 +50,7 @@
 
   interface outputAnalysisLocalGroupMassSizeRelation
      !!{
-     Constructors for the ``localGroupMassSizeRelation'' output analysis class.
+     Constructors for the {\normalfont \ttfamily localGroupMassSizeRelation} output analysis class.
      !!}
      module procedure localGroupMassSizeRelationConstructorParameters
      module procedure localGroupMassSizeRelationConstructorInternal
@@ -60,7 +60,7 @@ contains
 
   function localGroupMassSizeRelationConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``localGroupMassSizeRelation'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily localGroupMassSizeRelation} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters            , only : inputParameter               , inputParameters
     use :: Output_Times                , only : outputTimes                  , outputTimesClass
@@ -156,7 +156,7 @@ contains
 
   function localGroupMassSizeRelationConstructorInternal(outputTimes_,positionType,randomErrorMinimum,randomErrorMaximum,randomErrorPolynomialCoefficient,systematicErrorPolynomialCoefficient,sizeSystematicErrorPolynomialCoefficient,covarianceBinomialBinsPerDecade,covarianceBinomialMassHaloMinimum,covarianceBinomialMassHaloMaximum) result (self)
     !!{
-    Constructor for the ``localGroupMassSizeRelation'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily localGroupMassSizeRelation} output analysis class for internal use.
     !!}
     use :: Galactic_Filters                        , only : filterList                                          , galacticFilterAll                         , galacticFilterHaloNotIsolated         , galacticFilterHostMassRange                    , &
           &                                                 galacticFilterSurveyGeometry                        , galacticFilterHighPass                    , enumerationPositionTypeType

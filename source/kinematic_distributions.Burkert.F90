@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -83,19 +83,21 @@ contains
     return
   end function burkertIsCollisional
 
-  double precision function burkertVelocityDispersion1D(self,coordinates,massDistributionEmbedding) result(velocityDispersion)
+  double precision function burkertVelocityDispersion1D(self,coordinates,massDistribution_,massDistributionEmbedding) result(velocityDispersion)
     !!{
     Return the 1D velocity dispersion at the specified {\normalfont \ttfamily coordinates} in an Burkert kinematic distribution.
     !!}
     use :: Dilogarithms                    , only : Dilogarithm
-    use :: Numerical_Constants_Astronomical, only : gravitationalConstantGalacticus
+    use :: Numerical_Constants_Astronomical, only : gravitationalConstant_internal
     implicit none
-    class           (kinematicsDistributionBurkert), intent(inout), target :: self
-    class           (coordinate                   ), intent(in   )         :: coordinates
-    class           (massDistributionClass        ), intent(inout)         :: massDistributionEmbedding
-    double precision :: radius
+    class           (kinematicsDistributionBurkert), intent(inout)          :: self
+    class           (coordinate                   ), intent(in   )          :: coordinates
+    class           (massDistributionClass        ), intent(inout), target  :: massDistribution_ , massDistributionEmbedding
+    class           (massDistributionClass        )               , pointer :: massDistribution__
+    double precision                                                        :: radius
 
-    if (associated(massDistributionEmbedding%kinematicsDistribution_,self)) then
+    massDistribution__ => massDistribution_
+    if (associated(massDistribution__,massDistributionEmbedding)) then
        ! For the case of a self-gravitating Burkert distribution we have an analytic solution for the velocity dispersion.
        select type (massDistributionEmbedding)
        class is (massDistributionBurkert)
@@ -155,7 +157,7 @@ contains
                &                      /4.0d0                                                                                                                                                                        &
                &                     )                                                                                                                                                                              &
                &                    *sqrt(                                                                                                                                                                          &
-               &                          +gravitationalConstantGalacticus                                                                                                                                          &
+               &                          +gravitationalConstant_internal                                                                                                                                           &
                &                          *massDistributionEmbedding%densityNormalization                                                                                                                           &
                &                         )                                                                                                                                                                          &
                &                    *      massDistributionEmbedding%scaleLength
@@ -165,7 +167,7 @@ contains
           end select
     else
        ! Our Burkert distribution is embedded in another distribution. We must compute the velocity dispersion numerically.
-       velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistributionEmbedding)
+       velocityDispersion=self%velocityDispersion1DNumerical(coordinates,massDistribution_,massDistributionEmbedding)
     end if
     return
   end function burkertVelocityDispersion1D

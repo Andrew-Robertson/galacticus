@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -150,7 +150,7 @@ contains
   
   function sphericalShellOverdensitiesConstructorInternal(halfWidth,densityContrast,volumeFillingFactor,radiusBoundary,massDistribution_,randomNumberGenerator_,dimensionless,componentType,massType) result(self)
     !!{
-    Constructor for ``sphericalShellOverdensities'' mass distribution class.
+    Constructor for {\normalfont \ttfamily sphericalShellOverdensities} mass distribution class.
     !!}
     use :: Sorting      , only : sort
 #ifdef USEMPI

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an N-body data operator which determines the environmental overdensity around particles.
+Implements an N-body data operator which determines the environmental overdensity around particles.
 !!}
 
   use, intrinsic :: ISO_C_Binding, only : c_size_t
@@ -43,7 +43,7 @@ Contains a module which implements an N-body data operator which determines the 
 
   interface nbodyOperatorEnvironmentalOverdensity
      !!{
-     Constructors for the ``environmentalOverdensity'' N-body operator class.
+     Constructors for the {\normalfont \ttfamily environmentalOverdensity} N-body operator class.
      !!}
      module procedure environmentalOverdensityConstructorParameters
      module procedure environmentalOverdensityConstructorInternal
@@ -53,7 +53,7 @@ contains
 
   function environmentalOverdensityConstructorParameters(parameters) result (self)
     !!{
-    Constructor for the ``environmentalOverdensity'' N-body operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily environmentalOverdensity} N-body operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -103,7 +103,7 @@ contains
 
   function environmentalOverdensityConstructorInternal(radiusSphere,densityParticleMean,sampleRate,lengthBox,periodic) result (self)
     !!{
-    Internal constructor for the ``environmentalOverdensity'' N-body operator class.
+    Internal constructor for the {\normalfont \ttfamily environmentalOverdensity} N-body operator class.
     !!}
     use :: Numerical_Constants_Math, only : Pi
     implicit none

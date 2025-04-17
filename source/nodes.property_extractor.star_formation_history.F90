@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -44,7 +44,7 @@
 
   interface nodePropertyExtractorStarFormationHistory
      !!{
-     Constructors for the ``starFormationHistory'' output extractor class.
+     Constructors for the {\normalfont \ttfamily starFormationHistory} output extractor class.
      !!}
      module procedure starFormationHistoryConstructorParameters
      module procedure starFormationHistoryConstructorInternal
@@ -54,7 +54,7 @@ contains
 
   function starFormationHistoryConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``starFormationHistory'' output extractor property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily starFormationHistory} output extractor property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters          , only : inputParameter                , inputParameters
     use :: Galactic_Structure_Options, only : enumerationComponentTypeEncode
@@ -85,11 +85,10 @@ contains
 
   function starFormationHistoryConstructorInternal(component,starFormationHistory_,outputTimes_) result(self)
     !!{
-    Internal constructor for the ``starFormationHistory'' output extractor property extractor class.
+    Internal constructor for the {\normalfont \ttfamily starFormationHistory} output extractor property extractor class.
     !!}
-    use :: Galactic_Structure_Options, only : componentTypeDisk                     , componentTypeSpheroid
-    use :: Star_Formation_Histories  , only : starFormationHistoryAgesFixedPerOutput
-    use :: Error                     , only : Error_Report
+    use :: Star_Formation_Histories, only : starFormationHistoryAgesFixedPerOutput
+    use :: Error                   , only : Error_Report
     implicit none
     type (nodePropertyExtractorStarFormationHistory)                        :: self
     class(starFormationHistoryClass                ), intent(in   ), target :: starFormationHistory_

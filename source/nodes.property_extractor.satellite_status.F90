@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements an ISM mass output analysis property extractor class.
+Implements an ISM mass output analysis property extractor class.
 !!}
 
   !![
@@ -51,7 +51,7 @@ Contains a module which implements an ISM mass output analysis property extracto
 
   interface nodePropertyExtractorSatelliteStatus
      !!{
-     Constructors for the ``satelliteStatus'' output analysis class.
+     Constructors for the {\normalfont \ttfamily satelliteStatus} output analysis class.
      !!}
      module procedure satelliteStatusConstructorParameters
      module procedure satelliteStatusConstructorInternal

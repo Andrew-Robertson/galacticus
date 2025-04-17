@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a galactic high-pass filter for the default ``basic'' halo mass.
+Implements a galactic high-pass filter for the default ``basic'' halo mass.
 !!}
 
   !![
@@ -41,7 +41,7 @@ Contains a module which implements a galactic high-pass filter for the default `
 
   interface galacticFilterBasicMass
      !!{
-     Constructors for the ``basicMass'' galactic filter class.
+     Constructors for the {\normalfont \ttfamily basicMass} galactic filter class.
      !!}
      module procedure basicMassConstructorParameters
      module procedure basicMassConstructorInternal
@@ -51,7 +51,7 @@ contains
 
   function basicMassConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``basicMass'' galactic filter class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily basicMass} galactic filter class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -75,7 +75,7 @@ contains
 
   function basicMassConstructorInternal(massThreshold) result(self)
     !!{
-    Internal constructor for the ``basicMass'' galactic filter class.
+    Internal constructor for the {\normalfont \ttfamily basicMass} galactic filter class.
     !!}
     implicit none
     type            (galacticFilterBasicMass)                :: self

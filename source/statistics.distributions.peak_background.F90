@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -91,7 +91,7 @@ contains
 
   function peakBackgroundConstructorInternal(varianceBackground,thresholdCollapse,randomNumberGenerator_) result(self)
     !!{
-    Constructor for ``peakBackground'' 1D distribution function class.
+    Constructor for {\normalfont \ttfamily peakBackground} 1D distribution function class.
     !!}
     use :: Error_Functions, only : Error_Function
     implicit none
@@ -146,7 +146,7 @@ contains
 
   subroutine peakBackgroundDestructor(self)
     !!{
-    Destructor for ``peakBackground'' 1D distribution function class.
+    Destructor for {\normalfont \ttfamily peakBackground} 1D distribution function class.
     !!}
     implicit none
     type(distributionFunction1DPeakBackground), intent(inout) :: self

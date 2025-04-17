@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a critical overdensity for collapse using the \gls{fdm} modifier of \cite{marsh_warmAndFuzzy_2016}.
+  Implements a critical overdensity for collapse using the \gls{fdm} modifier of \cite{marsh_warmAndFuzzy_2016}.
   !!}
   use :: Cosmology_Parameters   , only : cosmologyParametersClass
   use :: Dark_Matter_Particles  , only : darkMatterParticleClass
@@ -70,7 +70,7 @@
 
   interface criticalOverdensityMarsh2016FDM
      !!{
-     Constructors for the ``{\normalfont \ttfamily marsh2016FDM}'' critical overdensity for collapse class.
+     Constructors for the {\normalfont \ttfamily marsh2016FDM} critical overdensity for collapse class.
      !!}
      module procedure marsh2016FDMConstructorParameters
      module procedure marsh2016FDMConstructorInternal
@@ -88,7 +88,7 @@ contains
 
   function marsh2016FDMConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``{\normalfont \ttfamily marsh2016FDM}'' critical overdensity for collapse class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily marsh2016FDM} critical overdensity for collapse class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -132,7 +132,7 @@ contains
 
   function marsh2016FDMConstructorInternal(criticalOverdensityCDM,cosmologyParameters_,cosmologyFunctions_,cosmologicalMassVariance_,darkMatterParticle_,linearGrowth_,useFittingFunction) result(self)
     !!{
-    Internal constructor for the ``{\normalfont \ttfamily marsh2016FDM}'' critical overdensity for collapse class.
+    Internal constructor for the {\normalfont \ttfamily marsh2016FDM} critical overdensity for collapse class.
     !!}
     use :: Cosmology_Parameters        , only : hubbleUnitsLittleH
     use :: Dark_Matter_Particles       , only : darkMatterParticleFuzzyDarkMatter

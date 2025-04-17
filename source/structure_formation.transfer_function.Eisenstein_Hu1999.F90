@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -20,8 +20,7 @@
 !+    Contributions to this file made by:  Anthony Pullen, Andrew Benson.
 
   !!{
-  Contains a module which implements a transfer function class using the fitting function of
-  \cite{eisenstein_power_1999}.
+  Implements a transfer function class using the fitting function of \cite{eisenstein_power_1999}.
   !!}
 
   use :: Cosmology_Functions  , only : cosmologyFunctionsClass
@@ -39,7 +38,7 @@
   !!]
   type, extends(transferFunctionClass) :: transferFunctionEisensteinHu1999
      !!{
-     The ``{\normalfont \ttfamily eisensteinHu1999}'' transfer function class.
+     The {\normalfont \ttfamily eisensteinHu1999} transfer function class.
      !!}
      private
      class           (cosmologyFunctionsClass ), pointer :: cosmologyFunctions_  => null()
@@ -69,7 +68,7 @@
 
   interface transferFunctionEisensteinHu1999
      !!{
-     Constructors for the ``{\normalfont \ttfamily eisensteinHu1999}'' transfer function class.
+     Constructors for the {\normalfont \ttfamily eisensteinHu1999} transfer function class.
      !!}
      module procedure eisensteinHu1999ConstructorParameters
      module procedure eisensteinHu1999ConstructorInternal
@@ -79,7 +78,7 @@ contains
 
   function eisensteinHu1999ConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``{\normalfont \ttfamily eisensteinHu1999}'' transfer function class
+    Constructor for the {\normalfont \ttfamily eisensteinHu1999} transfer function class
     which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
@@ -123,7 +122,7 @@ contains
 
   function eisensteinHu1999ConstructorInternal(neutrinoNumberEffective,neutrinoMassSummed,darkMatterParticle_,cosmologyParameters_,cosmologyFunctions_) result(self)
     !!{
-    Internal constructor for the ``{\normalfont \ttfamily eisensteinHu1999}'' transfer function class.
+    Internal constructor for the {\normalfont \ttfamily eisensteinHu1999} transfer function class.
     !!}
     use :: Cosmology_Parameters , only : hubbleUnitsLittleH
     use :: Dark_Matter_Particles, only : darkMatterParticleCDM
@@ -324,7 +323,7 @@ contains
 
   subroutine eisensteinHu1999ComputeFactors(self,wavenumber)
     !!{
-    Compute common factors required by ``{\normalfont \ttfamily eisensteinHu1999}'' transfer function class.
+    Compute common factors required by {\normalfont \ttfamily eisensteinHu1999} transfer function class.
     !!}
     use :: Cosmology_Parameters, only : hubbleUnitsLittleH
     implicit none

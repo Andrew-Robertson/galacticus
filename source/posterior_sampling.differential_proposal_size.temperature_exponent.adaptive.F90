@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -124,7 +124,7 @@ contains
 
   function adaptiveConstructorInternal(exponentInitial,exponentMinimum,exponentMaximum,exponentAdjustFactor,gradientMinimum,gradientMaximum,updateCount) result(self)
     !!{
-    Constructor for the ``adaptive'' differential evolution proposal size class.
+    Constructor for the {\normalfont \ttfamily adaptive} differential evolution proposal size class.
     !!}
     implicit none
     type            (posteriorSampleDffrntlEvltnPrpslSzTmpExpAdaptive)                :: self

@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -180,7 +180,7 @@ contains
 
   function sedFitConstructorInternal(magnitude,error,filter,system,burstCount,dustType,startTimeType,cosmologyFunctions_,stellarPopulationSelector_,stellarPopulationSpectraPostprocessorBuilder_,stellarPopulationBroadBandLuminosities_) result(self)
     !!{
-    Constructor for ``sedFit'' posterior sampling likelihood class.
+    Constructor for {\normalfont \ttfamily sedFit} posterior sampling likelihood class.
     !!}
     use :: ISO_Varying_String , only : var_str         , varying_string
     use :: Instruments_Filters, only : Filter_Get_Index, Filter_Vega_Offset, Filter_Wavelength_Effective
@@ -234,7 +234,7 @@ contains
 
   subroutine sedFitDestructor(self)
     !!{
-    Destructor for ``sedFit'' posterior sampling likelihood class.
+    Destructor for {\normalfont \ttfamily sedFit} posterior sampling likelihood class.
     !!}
     implicit none
     type(posteriorSampleLikelihoodSEDFit), intent(inout) :: self
@@ -265,7 +265,7 @@ contains
           &                                                     stellarSpectraDustAttenuationClass  , stellarSpectraDustAttenuationGordon2003  , stellarSpectraDustAttenuationWittGordon2000, stellarSpectraDustAttenuationZero           , &
           &                                                     wittGordon2000ModelMilkyWayShellTau3
     implicit none
-    class           (posteriorSampleLikelihoodSEDFit   ), intent(inout)                 :: self
+    class           (posteriorSampleLikelihoodSEDFit   ), intent(inout), target         :: self
     class           (posteriorSampleStateClass         ), intent(inout)                 :: simulationState
     type            (modelParameterList                ), intent(inout), dimension(:  ) :: modelParametersActive_                          , modelParametersInactive_
     class           (posteriorSampleConvergenceClass   ), intent(inout)                 :: simulationConvergence

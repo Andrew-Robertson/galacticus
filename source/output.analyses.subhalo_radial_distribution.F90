@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements an output analysis class that computes subhalo radial distributions.
+  Implements an output analysis class that computes subhalo radial distributions.
   !!}
   
   use :: Cosmology_Functions     , only : cosmologyFunctionsClass
@@ -73,7 +73,7 @@
 
   interface outputAnalysisSubhaloRadialDistribution
      !!{
-     Constructors for the ``subhaloRadialDistribution'' output analysis class.
+     Constructors for the {\normalfont \ttfamily subhaloRadialDistribution} output analysis class.
      !!}
      module procedure subhaloRadialDistributionConstructorParameters
      module procedure subhaloRadialDistributionConstructorFile
@@ -84,7 +84,7 @@ contains
 
   function subhaloRadialDistributionConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``subhaloRadialDistribution'' output analysis class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily subhaloRadialDistribution} output analysis class which takes a parameter set as input.
     !!}
     use :: Input_Parameters       , only : inputParameter            , inputParameters
     use :: Output_Times           , only : outputTimesClass
@@ -184,7 +184,7 @@ contains
   
   function subhaloRadialDistributionConstructorFile(darkMatterProfileDMO_,outputTimes_,virialDensityContrastDefinition_,cosmologyParameters_,cosmologyFunctions_,virialDensityContrast_,fileName,negativeBinomialScatterFractional,redshift) result (self)
     !!{
-    Constructor for the ``subhaloRadialDistribution'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily subhaloRadialDistribution} output analysis class for internal use.
     !!}
     use :: HDF5_Access            , only : hdf5Access
     use :: IO_HDF5                , only : hdf5Object
@@ -246,7 +246,7 @@ contains
 
   function subhaloRadialDistributionConstructorInternal(darkMatterProfileDMO_,outputTimes_,virialDensityContrastDefinition_,cosmologyParameters_,cosmologyFunctions_,virialDensityContrast_,time,radiusFractionMinimum,radiusFractionMaximum,countRadiiFractional,massRatioThreshold,negativeBinomialScatterFractional,radialDistributionTarget,radialDistributionCovarianceTarget,labelTarget) result (self)
     !!{
-    Constructor for the ``subhaloRadialDistribution'' output analysis class for internal use.
+    Constructor for the {\normalfont \ttfamily subhaloRadialDistribution} output analysis class for internal use.
     !!}
     use :: Galactic_Filters                        , only : filterList                                  , galacticFilterAll                  , galacticFilterHaloIsolated   , galacticFilterHaloNotIsolated     , &
           &                                                 galacticFilterHighPass

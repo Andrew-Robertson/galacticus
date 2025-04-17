@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
   !!{
-  Contains a module which implements a random error output analysis distribution operator class providing errors in HI mass for
+  Implements a random error output analysis distribution operator class providing errors in HI mass for
   the ALFALFA survey.
   !!}
 
@@ -68,7 +68,7 @@
 
   interface outputAnalysisDistributionOperatorRandomErrorALFLF
      !!{
-     Constructors for the ``randomErrorHIALFALFA'' output analysis distribution operator class.
+     Constructors for the {\normalfont \ttfamily randomErrorHIALFALFA} output analysis distribution operator class.
      !!}
      module procedure randomErrorHIALFALFAConstructorParameters
      module procedure randomErrorHIALFALFAConstructorInternal
@@ -78,7 +78,7 @@ contains
 
   function randomErrorHIALFALFAConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``randomErrorHIALFALFA'' output analysis distribution operator class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily randomErrorHIALFALFA} output analysis distribution operator class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -124,7 +124,7 @@ contains
 
   function randomErrorHIALFALFAConstructorInternal(a,b,c,outputAnalysisMolecularRatio_) result(self)
     !!{
-    Internal constructor for the ``randomErrorHIALFALFA'' output analysis distribution operator class.
+    Internal constructor for the {\normalfont \ttfamily randomErrorHIALFALFA} output analysis distribution operator class.
     !!}
     implicit none
     type            (outputAnalysisDistributionOperatorRandomErrorALFLF)                        :: self
@@ -140,7 +140,7 @@ contains
 
   subroutine randomErrorHIALFALFADestructor(self)
     !!{
-    Destructor for the ``randomErrorHIALFALFA'' output analysis distribution operator class.
+    Destructor for the {\normalfont \ttfamily randomErrorHIALFALFA} output analysis distribution operator class.
     !!}
     implicit none
     type(outputAnalysisDistributionOperatorRandomErrorALFLF), intent(inout) :: self

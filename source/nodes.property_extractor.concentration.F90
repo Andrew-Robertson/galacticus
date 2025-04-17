@@ -1,5 +1,5 @@
 !! Copyright 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018,
-!!           2019, 2020, 2021, 2022, 2023, 2024
+!!           2019, 2020, 2021, 2022, 2023, 2024, 2025
 !!    Andrew Benson <abenson@carnegiescience.edu>
 !!
 !! This file is part of Galacticus.
@@ -18,7 +18,7 @@
 !!    along with Galacticus.  If not, see <http://www.gnu.org/licenses/>.
 
 !!{
-Contains a module which implements a concentration output analysis property extractor class.
+Implements a concentration output analysis property extractor class.
 !!}
 
   use :: Cosmology_Functions     , only : cosmologyFunctionsClass
@@ -55,7 +55,7 @@ Contains a module which implements a concentration output analysis property extr
 
   interface nodePropertyExtractorConcentration
      !!{
-     Constructors for the ``concentration'' output analysis class.
+     Constructors for the {\normalfont \ttfamily concentration} output analysis class.
      !!}
      module procedure concentrationConstructorParameters
      module procedure concentrationConstructorInternal
@@ -65,7 +65,7 @@ contains
 
   function concentrationConstructorParameters(parameters) result(self)
     !!{
-    Constructor for the ``concentration'' output analysis property extractor class which takes a parameter set as input.
+    Constructor for the {\normalfont \ttfamily concentration} output analysis property extractor class which takes a parameter set as input.
     !!}
     use :: Input_Parameters, only : inputParameter, inputParameters
     implicit none
@@ -104,7 +104,7 @@ contains
 
   function concentrationConstructorInternal(useLastIsolatedTime,cosmologyParameters_,cosmologyFunctions_,darkMatterProfileDMO_,virialDensityContrast_,virialDensityContrastDefinition_) result(self)
     !!{
-    Internal constructor for the ``concentration'' output analysis property extractor class.
+    Internal constructor for the {\normalfont \ttfamily concentration} output analysis property extractor class.
     !!}
     implicit none
     type   (nodePropertyExtractorConcentration)                        :: self
