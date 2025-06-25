@@ -415,9 +415,8 @@
     <massTreeMaximum value="1.0e15"/> <!-- 1.0e13 -->
     <treesPerDecade value="30"/> <!-- 200 -->
   </mergerTreeBuildMasses>
-  <mergerTreeMassResolution value="scaled">
-    <massResolutionMinimum value="2.0e10"/> <!-- approximate resolution of UNIT halos (1e9 Msun/h particles) -->
-    <massResolutionFractional value="0.001"/> <!-- set resolution to 1/1000th of final halo mass -->
+  <mergerTreeMassResolution value="fixed">
+    <massResolution value="2.0e10"/> <!-- approximate resolution of UNIT halos (1e9 Msun/h particles) -->
   </mergerTreeMassResolution>
   <mergerTreeOperator value="regridTimes">
     <outputTimes value="simulationSnapshots"> <!-- use same time-resolution as UNIT -->
