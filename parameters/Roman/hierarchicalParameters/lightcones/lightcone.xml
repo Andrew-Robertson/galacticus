@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change a parameter file -->
+<changes>
+
+  <!-- Define lightcone geometry -->
+  <change type="append" path="">
+    <geometryLightcone           value="square">
+      <lengthReplication         value="1000"                                           />
+      <lengthHubbleExponent      value="-1"                                             />
+      <lengthUnitsInSI           value="3.08567758e+22"                                 />
+      <timeEvolvesAlongLightcone value="true"                                           />
+      <angularSize               value="4.0"                                            />
+      <origin                    value=" 0.0             0.0             0.0"           />
+      <unitVector1               value="+0.666666666667 +0.333333333333 +0.666666666667"/>
+      <unitVector2               value="+0.000000000000 +0.894427191000 -0.447213595500"/>
+      <unitVector3               value="-0.745355992500 +0.298142397000 +0.596284794000"/>
+    </geometryLightcone>
+  </change>
+
+  <!-- Output only galaxies within the lightcone -->
+  <!-- It seems that applying this breaks things. Is that correct?
+  <change type="append" path="">
+    <galacticFilter value="lightcone"/>
+  </change> -->
+
+  <!-- Output galaxy when it crosses the lightcone -->
+  <change type="append" path="mergerTreeEvolveTimestep">
+    <mergerTreeEvolveTimestep value="lightconeCrossing">
+      <mergerTreeOutputter value="standard">
+        <outputReferences value="false" />
+        <outputsGroupName value="Lightcone" />
+      </mergerTreeOutputter>
+    </mergerTreeEvolveTimestep>
+  </change>
+
+  <!-- Position interpolation -->
+  <change type="append" path="nodeOperator">
+    <nodeOperator value="positionInterpolated">
+      <lengthBox value="=[geometryLightcone::lengthReplication]*(([cosmologyParameters::HubbleConstant]/100.0)^[geometryLightcone::lengthHubbleExponent])*([geometryLightcone::lengthUnitsInSI]/3.08567758e+22)"/>
+      <wrapPeriodic value="false"/>
+    </nodeOperator>
+  </change>
+
+  <!-- Remove "old style" lightcone -->
+  <change type="replace" path="mergerTreeOutputter">
+    <mergerTreeOutputter value="null" />
+  </change>
+
+  <!-- Add quantities relevant for lightcones to the nodeData-->
+  <change type="append" path="nodePropertyExtractor">
+      <nodePropertyExtractor value="redshift"   />
+      <nodePropertyExtractor value="lightcone"   >
+        <atCrossing value="true"/>
+        <includeObservedRedshift value="true"/>
+        <includeAngularCoordinates value="true" />
+      </nodePropertyExtractor>
+  </change>
+
+  <change type="replace" path="mergerTreeOperator">
+    <mergerTreeOperator value="pruneLightcone">
+      <splitTrees          value="true"/>
+      <bufferIsolatedHalos value="true"/>
+    </mergerTreeOperator>
+  </change>
+
+  <change type="update" path="outputTimes/redshifts" value="1.0 0.4 0.0"/>
+  <change type="append" path="mergerTreeEvolver">
+    <allTreesExistAtFinalTime value="false" />
+  </change>
+
+  <change type="update" path="mergerTreeConstructor/fileNames" value="/carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d1.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d2.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d3.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d4.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d5.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d6.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d7.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d8.hdf5
+  /carnegie/nobackup/groups/dmtheory/mergerTrees/UNIT/Tree_UNIT_001_SF10000_d9.hdf5
+  "/>
+
+</changes>
+
+
+
