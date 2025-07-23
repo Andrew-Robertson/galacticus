@@ -63,7 +63,7 @@
     </mergerTreeOperator>
   </change>
 
-  <change type="update" path="outputTimes/redshifts" value="1.0 0.4 0.0"/>
+  <change type="update" path="outputTimes/redshifts" value="2.0 0.0"/>
   <change type="append" path="mergerTreeEvolver">
     <allTreesExistAtFinalTime value="false" />
   </change>
