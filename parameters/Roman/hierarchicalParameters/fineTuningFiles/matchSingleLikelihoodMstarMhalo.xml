@@ -7,12 +7,21 @@
   </change>
   <!-- These will cause most outputAnalysis to fail, so remove all but Mstar-Mhalo -->
   <change type="replace" path="outputAnalysis">
-    <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012">
-      <computeScatter value="false"/>
-      <likelihoodNormalize value="false"/>
-      <redshiftInterval value="1"/>
-      <systematicErrorMassHaloPolynomialCoefficient value="0.0"/>
-        <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
+    <outputAnalysis value="multi">
+      <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012">
+        <computeScatter value="false"/>
+        <likelihoodNormalize value="false"/>
+        <redshiftInterval value="1"/>
+        <systematicErrorMassHaloPolynomialCoefficient value="0.0"/>
+          <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
+      </outputAnalysis>
+      <outputAnalysis value="stellarVsHaloMassRelationLeauthaud2012">
+        <computeScatter value="true"/>
+        <likelihoodNormalize value="false"/>
+        <redshiftInterval value="1"/>
+        <systematicErrorMassHaloPolynomialCoefficient value="0.0"/>
+          <systematicErrorPolynomialCoefficient value="0.0 0.0"/>
+      </outputAnalysis>
     </outputAnalysis>
   </change>
   <!-- lots of trees! -->
