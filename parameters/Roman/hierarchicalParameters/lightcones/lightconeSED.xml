@@ -5,25 +5,33 @@
   <change type="append" path="">
     <starFormationHistory value="fixedAges">
       <ageMinimum value="0.001"/>
-      <countAges value="10"/>
-      <countMetallicities value="5"/>
+      <countAges value="50"/>
+      <countMetallicities value="11"/>
     </starFormationHistory>
   </change>
 
+  <change type="append" path="">
+    <SED>
+      <wavelengthMinimum value="1000.0"/>
+      <wavelengthMaximum value="40000.0"/>
+      <resolution value="10.0"/>
+    </SED>
+  </change>
+  
   <change type="append" path="nodePropertyExtractor">
     <nodePropertyExtractor value="SED">
       <component value="disk"/>
-      <wavelengthMinimum value="20000.0"/>
-      <wavelengthMaximum value="40000.0"/>
-      <resolution value="10.0"/>
+      <wavelengthMinimum value="=[SED::wavelengthMinimum]"/>
+      <wavelengthMaximum value="=[SED::wavelengthMaximum]"/>
+      <resolution value="=[SED::resolution]"/>
       <frame value="rest"/>
       <stellarPopulationSpectraPostprocessor value="identity" />
     </nodePropertyExtractor>
     <nodePropertyExtractor value="SED">
       <component value="spheroid"/>
-      <wavelengthMinimum value="20000.0"/>
-      <wavelengthMaximum value="40000.0"/>
-      <resolution value="10.0"/>
+      <wavelengthMinimum value="=[SED::wavelengthMinimum]"/>
+      <wavelengthMaximum value="=[SED::wavelengthMaximum]"/>
+      <resolution value="=[SED::resolution]"/>
       <frame value="rest"/>
       <stellarPopulationSpectraPostprocessor value="identity" />
     </nodePropertyExtractor>
