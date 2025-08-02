@@ -43,15 +43,7 @@
       <component value="spheroid"/>
     </nodePropertyExtractor>
   </change>
-
-  <change type="insertAfter" path="nodeOperator">
-    <starFormationHistory value="adaptive">
-      <timeStepMinimum value="0.001"/>
-      <countTimeStepsMaximum value="50"/>
-      <countMetallicities value="11"/>
-    </starFormationHistory>
-  </change>
-
+  
 </changes>
 
 
