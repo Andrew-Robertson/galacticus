@@ -1,6 +1,6 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1723876000055,
-  "repoUrl": "https://github.com/galacticusorg/galacticus",
+  "lastUpdate": 1759028050611,
+  "repoUrl": "https://github.com/Andrew-Robertson/galacticus",
   "entries": {
     "Idealized subhalo simulations (rₚ/rₐ=0.2; γ=0.5)": [
       {
@@ -2329,6 +2329,45 @@ window.BENCHMARK_DATA = {
           {
             "name": "Idealized Subhalo Simulation (rₚ/rₐ=0.2; γ=0.5) - Likelihood - satelliteVelocityMaximum",
             "value": "20.390676857968522",
+            "unit": "-logℒ"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "abensonca@gmail.com",
+            "name": "Andrew Benson",
+            "username": "abensonca"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": false,
+          "id": "7362ac5d86461b0509740066764812355dc1cee1",
+          "message": "Merge pull request #929 from galacticusorg/depup/lesgourg/class_public\n\nfix(deps): update lesgourg/class_public to 3.3.3",
+          "timestamp": "2025-09-26T17:20:45Z",
+          "tree_id": "e546fd083ca552709c3f85824a3c634d234104ff",
+          "url": "https://github.com/Andrew-Robertson/galacticus/commit/7362ac5d86461b0509740066764812355dc1cee1"
+        },
+        "date": 1759028049624,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Idealized Subhalo Simulation (rₚ/rₐ=0.2; γ=0.5) - Likelihood - satelliteBoundMass",
+            "value": 40.84982299699363,
+            "unit": "-logℒ"
+          },
+          {
+            "name": "Idealized Subhalo Simulation (rₚ/rₐ=0.2; γ=0.5) - Likelihood - satelliteRadiusVelocityMaximum",
+            "value": 22.39818530984652,
+            "unit": "-logℒ"
+          },
+          {
+            "name": "Idealized Subhalo Simulation (rₚ/rₐ=0.2; γ=0.5) - Likelihood - satelliteVelocityMaximum",
+            "value": 20.39086332217875,
             "unit": "-logℒ"
           }
         ]
