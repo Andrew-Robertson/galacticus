@@ -1,24 +1,24 @@
 window.PONOSV_DATA = {
-   "repoUrl" : "https://github.com/galacticusorg/galacticus",
-   "surfaceDensity" : {
-      "percentageBelow" : 50,
-      "percentageAbove" : 50,
-      "target" : 0.006
-   },
-   "commit" : {
-      "author" : {
-         "email" : "abensonca@gmail.com",
-         "name" : "Andrew Benson"
-      },
-      "url" : "https://github.com/galacticusorg/galacticus/commit/d6740de4a2affcc39ca24dc580f8a5ae40a23fa9",
-      "id" : "d6740de4a2affcc39ca24dc580f8a5ae40a23fa9",
-      "message" : "Merge pull request #668 from galacticusorg/fixLightconeMinimumTime",
-      "timestamp" : "Sat, 17 Aug 2024 00:00:53 +0000"
-   },
-   "parameterFile" : "testSuite/parameters/validate_PonosV.xml",
-   "slope" : {
-      "target" : 0.85,
-      "percentageBelow" : 58.3333333333333,
-      "percentageAbove" : 41.6666666666667
-   }
+    "repoUrl": "https://github.com/galacticusorg/galacticus",
+    "parameterFile": "testSuite/parameters/validate_PonosV.xml",
+    "commit": {
+        "author": {
+            "name": "Andrew Benson",
+            "email": "abensonca@gmail.com"
+        },
+        "id": "7362ac5d86461b0509740066764812355dc1cee1",
+        "message": "Merge pull request #929 from galacticusorg/depup/lesgourg/class_public\n\nfix(deps): update lesgourg/class_public to 3.3.3\n",
+        "timestamp": "2025-09-26 17:20:45+00:00",
+        "url": "https://github.com/galacticusorg/galacticus/commit/7362ac5d86461b0509740066764812355dc1cee1"
+    },
+    "surfaceDensity": {
+        "percentageBelow": 32.14285714285714,
+        "percentageAbove": 67.85714285714286,
+        "target": 0.006
+    },
+    "slope": {
+        "percentageBelow": 50.0,
+        "percentageAbove": 50.0,
+        "target": 0.85
+    }
 }

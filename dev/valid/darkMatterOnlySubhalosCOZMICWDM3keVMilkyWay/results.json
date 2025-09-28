@@ -1,0 +1,269 @@
+window.ANALYSES_DATA = {
+    "repoUrl": "https://github.com/galacticusorg/galacticus",
+    "parameterFile": "testSuite/parameters/validate_darkMatterOnlySubhalos_COZMIC_WDM:3keV.xml",
+    "commit": {
+        "author": {
+            "name": "Andrew Benson",
+            "email": "abensonca@gmail.com"
+        },
+        "id": "7362ac5d86461b0509740066764812355dc1cee1",
+        "message": "Merge pull request #929 from galacticusorg/depup/lesgourg/class_public\n\nfix(deps): update lesgourg/class_public to 3.3.3\n",
+        "timestamp": "2025-09-26 17:20:45+00:00",
+        "url": "https://github.com/galacticusorg/galacticus/commit/7362ac5d86461b0509740066764812355dc1cee1"
+    },
+    "results": [
+        {
+            "attributes": {
+                "name": "subhaloMassFunction",
+                "xAxisLabel": "M_sub/M_host",
+                "yAxisLabel": "N(M_sub/M_host)",
+                "xAxisIsLog": "1",
+                "yAxisIsLog": "1",
+                "targetLabel": "COZMIC (Nadler et al. 2023)",
+                "comment": "Analysis of subhalo mass functions",
+                "description": "Subhalo mass function",
+                "logLikelihood": "-3.6921722527360084",
+                "type": "function1D",
+                "xDataset": "massRatio",
+                "yCovariance": "massFunctionCovariance",
+                "yCovarianceTarget": "massFunctionCovarianceTarget",
+                "yDataset": "massFunction",
+                "yDatasetTarget": "massFunctionTarget"
+            },
+            "data": {
+                "xDataset": [
+                    0.0003548133892335753,
+                    0.0007079457843841374,
+                    0.001412537544622754,
+                    0.002818382931264452,
+                    0.005623413251903491,
+                    0.01122018454301963,
+                    0.022387211385683378,
+                    0.04466835921509626,
+                    0.0891250938133745,
+                    0.1778279410038921,
+                    0.3548133892335753,
+                    0.7079457843841377
+                ],
+                "yDataset": [
+                    23.383333333333333,
+                    11.53888888888889,
+                    5.605555555555555,
+                    2.8722222222222222,
+                    1.7222222222222223,
+                    0.7833333333333333,
+                    0.39444444444444443,
+                    0.22777777777777777,
+                    0.1,
+                    0.03333333333333333,
+                    0.022222222222222223,
+                    0.0
+                ],
+                "yDatasetTarget": [
+                    10.0,
+                    4.333333333333333,
+                    3.3333333333333335,
+                    2.0,
+                    1.0,
+                    1.0,
+                    1.3333333333333333,
+                    0.0,
+                    0.0,
+                    0.3333333333333333,
+                    0.0,
+                    0.0
+                ],
+                "yError": [
+                    0.3604267018513021,
+                    0.25318953033568536,
+                    0.17647089082520656,
+                    0.12632018889891192,
+                    0.09781564923143894,
+                    0.06596856715021066,
+                    0.0468119431843131,
+                    0.03557291243018249,
+                    0.023570226039551584,
+                    0.013608276348795434,
+                    0.011111111111111112,
+                    0.0
+                ],
+                "yErrorTarget": [
+                    1.8257418583505538,
+                    1.2018504251546631,
+                    1.0540925533894598,
+                    0.8164965809277259,
+                    0.5773502691896257,
+                    0.5773502691896257,
+                    0.6666666666666666,
+                    0.0,
+                    0.0,
+                    0.3333333333333333,
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "name": "subhaloRadialDistribution",
+                "xAxisLabel": "R_sub/R_vir,host",
+                "yAxisLabel": "N(R_sub/R_vir,host)",
+                "xAxisIsLog": "1",
+                "yAxisIsLog": "1",
+                "targetLabel": "COZMIC (Nadler et al. 2023)",
+                "comment": "Analysis of subhalo mass functions",
+                "description": "Subhalo radial distribution",
+                "logLikelihood": "-3.8134672700844345",
+                "type": "function1D",
+                "xDataset": "radiusFractional",
+                "yCovariance": "radialDistributionCovariance",
+                "yCovarianceTarget": "radialDistributionCovarianceTarget",
+                "yDataset": "radialDistribution",
+                "yDatasetTarget": "radialDistributionTarget"
+            },
+            "data": {
+                "xDataset": [
+                    0.012589254117941675,
+                    0.0199526231496888,
+                    0.03162277660168379,
+                    0.05011872336272725,
+                    0.07943282347242814,
+                    0.12589254117941676,
+                    0.19952623149688797,
+                    0.3162277660168378,
+                    0.5011872336272722,
+                    0.7943282347242815
+                ],
+                "yDataset": [
+                    0.0,
+                    0.016666666666666666,
+                    0.05555555555555555,
+                    0.17222222222222222,
+                    0.5555555555555556,
+                    1.7222222222222223,
+                    4.555555555555555,
+                    9.077777777777778,
+                    14.077777777777778,
+                    18.572222222222223
+                ],
+                "yDatasetTarget": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.3333333333333333,
+                    2.3333333333333335,
+                    4.0,
+                    5.333333333333333,
+                    12.333333333333334
+                ],
+                "yError": [
+                    0.0,
+                    0.009622504486493762,
+                    0.017568209223157664,
+                    0.030932024237944566,
+                    0.05555555555555555,
+                    0.09781564923143894,
+                    0.1590869007030706,
+                    0.22457092146008598,
+                    0.2796602877478493,
+                    0.32121490056608365
+                ],
+                "yErrorTarget": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.3333333333333333,
+                    0.8819171036881969,
+                    1.1547005383792515,
+                    1.3333333333333333,
+                    2.0275875100994063
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "name": "subhaloVelocityMaximumMean",
+                "xAxisLabel": "M_bound/M_☉",
+                "yAxisLabel": "⟨ V_max ⟩ / km s⁻¹",
+                "xAxisIsLog": "1",
+                "yAxisIsLog": "1",
+                "targetLabel": "COZMIC (Nadler et al. 2023)",
+                "comment": "Subhalo mean maximum velocity vs. bound mass relation",
+                "description": "Subhalo mean maximum velocity vs. bound mass relation",
+                "logLikelihood": "-142.59537972973553",
+                "type": "function1D",
+                "xDataset": "massBound",
+                "yCovariance": "velocityMaximumMeanCovariance",
+                "yCovarianceTarget": "velocityMaximumMeanCovarianceTarget",
+                "yDataset": "velocityMaximumMean",
+                "yDatasetTarget": "velocityMaximumMeanTarget"
+            },
+            "data": {
+                "xDataset": [
+                    421696503.42858225,
+                    749894209.3324559,
+                    1333521432.163324,
+                    2371373705.6616554,
+                    4216965034.2858224,
+                    7498942093.324558,
+                    13335214321.63324,
+                    23713737056.616554,
+                    42169650342.85822,
+                    74989420933.24559
+                ],
+                "yDataset": [
+                    24.308828361010633,
+                    26.297005056356348,
+                    29.861405057938363,
+                    34.443172005496535,
+                    39.24122570650119,
+                    46.396803517183024,
+                    53.054070737400046,
+                    64.22800203326177,
+                    70.94517629322227,
+                    78.258404956269
+                ],
+                "yDatasetTarget": [
+                    15.987391304347826,
+                    20.513846153846153,
+                    20.542857142857144,
+                    26.601111111111113,
+                    34.2475,
+                    33.0,
+                    42.42,
+                    55.15333333333333,
+                    58.24,
+                    0.0
+                ],
+                "yError": [
+                    0.10307953522874876,
+                    0.14751632843033666,
+                    0.2691741434240325,
+                    0.43620271319207066,
+                    0.5620778167797303,
+                    0.8639069441407171,
+                    1.3410174113826017,
+                    2.235509391797764,
+                    1.7520238654560794,
+                    4.719720830831656
+                ],
+                "yErrorTarget": [
+                    3.2990605009662857,
+                    5.645856416395676,
+                    7.681788694765067,
+                    8.738122026111212,
+                    17.05904543783151,
+                    32.49615361854384,
+                    24.214123059808625,
+                    31.553645677727253,
+                    57.73783508237904,
+                    0.0
+                ]
+            }
+        }
+    ]
+}

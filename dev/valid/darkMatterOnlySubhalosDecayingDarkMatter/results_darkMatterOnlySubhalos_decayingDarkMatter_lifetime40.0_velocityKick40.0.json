@@ -1,0 +1,136 @@
+window.ANALYSES_DATA = {
+    "repoUrl": "https://github.com/galacticusorg/galacticus",
+    "parameterFile": "testSuite/parameters/validate_darkMatterOnlySubHalos_decayingDarkMatter.xml",
+    "commit": {
+        "author": {
+            "name": "Andrew Benson",
+            "email": "abensonca@gmail.com"
+        },
+        "id": "7362ac5d86461b0509740066764812355dc1cee1",
+        "message": "Merge pull request #929 from galacticusorg/depup/lesgourg/class_public\n\nfix(deps): update lesgourg/class_public to 3.3.3\n",
+        "timestamp": "2025-09-26 17:20:45+00:00",
+        "url": "https://github.com/galacticusorg/galacticus/commit/7362ac5d86461b0509740066764812355dc1cee1"
+    },
+    "results": [
+        {
+            "attributes": {
+                "name": "massCumulativeDistribution",
+                "xAxisLabel": "M_subhalo [M☉]",
+                "yAxisLabel": "N(<M_subhalo)",
+                "xAxisIsLog": "1",
+                "yAxisIsLog": "1",
+                "targetLabel": "Mau et al. (DES), 2022",
+                "comment": "Analysis of subhalo bound mass cumulative distribution function",
+                "description": "Subhalo bound mass cumulative distribution function (τ=40.0 Gyr; vₖ=40.0 km/s)",
+                "logLikelihood": "10.981432144454713",
+                "type": "function1D"
+            },
+            "data": {
+                "xDataset": [
+                    129154966.50148827,
+                    215443469.00318822,
+                    359381366.3804626,
+                    599484250.3189409,
+                    1000000000.0000001,
+                    1668100537.2000592,
+                    2782559402.2071257,
+                    4641588833.612782,
+                    7742636826.811277
+                ],
+                "yDataset": [
+                    55.68748948507854,
+                    27.95376481652256,
+                    14.605334402984605,
+                    10.347898865455571,
+                    8.013374482765906,
+                    5.772647510379689,
+                    4.49742288999073,
+                    1.7881046471349389,
+                    0.6385401897992059
+                ],
+                "yDatasetTarget": [
+                    31.0,
+                    23.0,
+                    13.0,
+                    11.0,
+                    6.0,
+                    5.0,
+                    5.0,
+                    2.0,
+                    1.0
+                ],
+                "yErrorTarget": [
+                    5.5677643628300215,
+                    4.795831523312719,
+                    3.605551275463989,
+                    3.3166247903554,
+                    2.449489742783178,
+                    2.23606797749979,
+                    2.23606797749979,
+                    1.4142135623730951,
+                    1.0
+                ]
+            }
+        },
+        {
+            "attributes": {
+                "name": "radialCumulativeDistribution",
+                "xAxisLabel": "r_orbit [kpc]",
+                "yAxisLabel": "N(<r_orbit)",
+                "xAxisIsLog": "1",
+                "yAxisIsLog": "1",
+                "targetLabel": "Mau et al. (DES), 2022",
+                "comment": "Analysis of subhalo orbital radius cumulative distribution function",
+                "description": "Subhalo orbital radius cumulative distribution function (τ=40.0 Gyr; vₖ=40.0 km/s)",
+                "logLikelihood": "14.204951357243909",
+                "type": "function1D"
+            },
+            "data": {
+                "xDataset": [
+                    12.915496650148839,
+                    21.54434690031884,
+                    35.93813663804627,
+                    59.94842503189408,
+                    99.99999999999999,
+                    166.8100537200058,
+                    278.2559402207123,
+                    464.15888336127773,
+                    774.263682681127
+                ],
+                "yDataset": [
+                    0.0,
+                    0.14302594582662118,
+                    0.30969261249328783,
+                    0.5596926124932878,
+                    6.041325113549342,
+                    39.390495882120696,
+                    56.83811228512926,
+                    56.83811228512926,
+                    56.83811228512926
+                ],
+                "yDatasetTarget": [
+                    0.0,
+                    0.0,
+                    2.0,
+                    6.0,
+                    24.0,
+                    46.0,
+                    46.0,
+                    46.0,
+                    46.0
+                ],
+                "yErrorTarget": [
+                    0.0,
+                    0.0,
+                    1.4142135623730951,
+                    2.449489742783178,
+                    4.898979485566356,
+                    6.782329983125268,
+                    6.782329983125268,
+                    6.782329983125268,
+                    6.782329983125268
+                ]
+            }
+        }
+    ]
+}
