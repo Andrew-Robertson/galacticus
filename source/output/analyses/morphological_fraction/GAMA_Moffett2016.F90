@@ -208,6 +208,7 @@ contains
     dataFile=hdf5File(inputPath(pathTypeDataStatic)//"observations/morphology/earlyTypeFractionGAMA.hdf5",readOnly=.true.)
     call dataFile%readDataset("mass"      ,masses               )
     call dataFile%readDataset("countEarly",self%countEarlyTarget)
+    call dataFile%readDataset("countAll"  ,self%countAllTarget  )
     !$ call hdf5Access%unset()
     binCount=size(masses,kind=c_size_t)
     ! Compute confidence intervals on data. In each mass bin the quantity of interest is the probability, p, of a galaxy being
